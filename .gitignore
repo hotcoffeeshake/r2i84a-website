@@ -1,0 +1,46 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# npm cache (project-local)
+.npm-cache/
+
+# logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-debug.log*
+
+# env / secrets
+.env
+.env.local
+.env.*.local
+# keep the example template committed
+!.env.example
+
+# build / deploy output
+.vercel/
+dist/
+build/
+out/
+.next/
+.astro/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# scratch / temp (AI intermediate output)
+.scratch/
+tmp/
+test-results/
+
+# editor
+.vscode/
+.idea/
+
+# local export artifacts (not source)
+artifacts/

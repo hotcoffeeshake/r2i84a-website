@@ -1,0 +1,244 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&display=swap");
+@import url("https://font.emtech.cc/css/ChironHeiHK");
+
+:root {
+  --paper: #f7f4ee;
+  --sunken: #ebe7dd;
+  --ink: #1a1a1a;
+  --muted: rgba(26, 26, 26, 0.62);
+  --faint: rgba(26, 26, 26, 0.12);
+  --green: #3dba6a;
+  --red: #cc2200;
+  --max: 1040px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  background: var(--paper);
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  color: var(--ink);
+  background:
+    linear-gradient(rgba(26, 26, 26, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26, 26, 26, 0.035) 1px, transparent 1px),
+    var(--paper);
+  background-size: 24px 24px;
+  font-family:
+    "JetBrains Mono", "ChironHeiHK", "PingFang SC", "Microsoft YaHei",
+    monospace;
+  line-height: 1.55;
+}
+
+a {
+  color: inherit;
+}
+
+.terminal-header {
+  height: 40px;
+  padding: 0 clamp(16px, 4vw, 32px);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+  border-bottom: 1px dashed var(--ink);
+  background: var(--paper);
+}
+
+.brand,
+.terminal-header nav a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.brand {
+  font-weight: 800;
+}
+
+.terminal-header nav {
+  display: flex;
+  gap: 18px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.terminal-header a:hover {
+  color: var(--green);
+}
+
+.credits {
+  justify-self: end;
+  padding: 2px 8px;
+  border: 2px solid var(--green);
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.entry-shell {
+  width: min(100%, var(--max));
+  margin: 0 auto;
+  padding: clamp(42px, 7vw, 82px) clamp(16px, 4vw, 32px) 56px;
+}
+
+.entry-hero {
+  max-width: 780px;
+}
+
+.mode-line {
+  margin: 0 0 10px;
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(44px, 8.2vw, 86px);
+  line-height: 0.98;
+  letter-spacing: 0;
+}
+
+.entry-copy {
+  max-width: 680px;
+  margin: 20px 0 0;
+  color: var(--muted);
+  font-size: clamp(17px, 2vw, 21px);
+}
+
+.entry-grid {
+  margin-top: clamp(34px, 6vw, 62px);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.entry-card {
+  min-height: 300px;
+  padding: clamp(20px, 3vw, 28px);
+  display: grid;
+  align-content: start;
+  gap: 18px;
+  border: 2px dashed var(--ink);
+  background: var(--paper);
+  text-decoration: none;
+}
+
+.entry-card:hover,
+.entry-card:focus-visible {
+  outline: 0;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.entry-card:hover .entry-card-copy,
+.entry-card:focus-visible .entry-card-copy {
+  color: rgba(247, 244, 238, 0.72);
+}
+
+.entry-card:hover .entry-action,
+.entry-card:focus-visible .entry-action {
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.entry-card-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.entry-card:hover .entry-card-top,
+.entry-card:focus-visible .entry-card-top {
+  color: rgba(247, 244, 238, 0.66);
+}
+
+.status-dot {
+  color: var(--green);
+  white-space: nowrap;
+}
+
+.entry-card strong {
+  display: block;
+  font-size: clamp(32px, 5vw, 52px);
+  line-height: 1;
+}
+
+.entry-card-copy {
+  max-width: 33rem;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+.entry-action {
+  align-self: end;
+  justify-self: start;
+  margin-top: 20px;
+  padding: 8px 12px;
+  border: 2px solid var(--ink);
+  font-weight: 800;
+}
+
+.entry-card-ai {
+  border-style: solid;
+}
+
+.terminal-feed {
+  margin-top: 22px;
+  border-top: 2px dashed var(--ink);
+}
+
+.feed-row {
+  display: grid;
+  grid-template-columns: 54px 1fr;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px dashed var(--ink);
+}
+
+.feed-row span {
+  color: var(--green);
+  font-weight: 800;
+}
+
+.feed-row p {
+  margin: 0;
+  color: var(--muted);
+}
+
+@media (max-width: 760px) {
+  .terminal-header {
+    height: auto;
+    min-height: 44px;
+    grid-template-columns: 1fr auto;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .terminal-header nav {
+    display: none;
+  }
+
+  .entry-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .entry-card {
+    min-height: 240px;
+  }
+
+  .feed-row {
+    grid-template-columns: 40px 1fr;
+  }
+}

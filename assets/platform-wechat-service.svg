@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" role="img" aria-labelledby="title desc">
+  <title id="title">服务号</title>
+  <desc id="desc">微信服务号平台入口标识</desc>
+  <rect width="96" height="96" rx="18" fill="#16a34a"/>
+  <circle cx="41" cy="42" r="21" fill="#ffffff"/>
+  <circle cx="59" cy="52" r="20" fill="#dff7e8"/>
+  <circle cx="34" cy="39" r="3" fill="#16a34a"/>
+  <circle cx="47" cy="39" r="3" fill="#16a34a"/>
+  <circle cx="53" cy="50" r="3" fill="#16a34a"/>
+  <circle cx="64" cy="50" r="3" fill="#16a34a"/>
+  <text x="48" y="78" fill="#ffffff" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="14" font-weight="800" text-anchor="middle">服务号</text>
+</svg>

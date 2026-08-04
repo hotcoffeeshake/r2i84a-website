@@ -1,0 +1,25 @@
+User-agent: *
+Content-Signal: search=yes,ai-input=yes,ai-train=no,use=reference
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+Allow: /*
+
+User-agent: GPTBot
+Allow: /
+Allow: /*
+
+User-agent: ClaudeBot
+Allow: /
+Allow: /*
+
+User-agent: PerplexityBot
+Allow: /
+Allow: /*
+
+User-agent: DeepSeekBot
+Allow: /
+Allow: /*
+
+Sitemap: https://r2i84a.chat/sitemap.xml

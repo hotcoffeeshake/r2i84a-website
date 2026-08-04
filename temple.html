@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>鹿子野的项目后室｜AI 项目与实践记录</title>
+  <meta name="description" content="进入鹿子野的后室泳池，探索童锦程 Skill、信息监控、AI 图像后期、交易套利研究，以及从 0 入门 AI 和项目实战记录。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="temple.css?v=jul27-v14" />
+</head>
+<body>
+  <!-- 固定全屏画布 — 无遮罩 -->
+  <div class="stage">
+    <canvas id="video-canvas"></canvas>
+  </div>
+
+  <!-- 滚动轨道 -->
+  <main class="scroll-track">
+
+    <!-- Page 1: Hero — 居中 -->
+    <section class="page page-hero" id="page1">
+      <div class="hero-center">
+        <p class="hero-kicker">POOLROOMS / PERSONAL ARCHIVE</p>
+        <h1 class="hero-title">欢迎进入我的后室</h1>
+        <button class="lg lg-btn" id="enter-btn">
+          <span>入口</span>
+          <span class="lg-btn-arrow">→</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Page 2: 导航 — 游戏加载画面 -->
+    <section class="page page-nav" id="page2">
+
+      <!-- 顶部 zone 条 — 液态玻璃容器 -->
+      <div class="zone-strip lg">
+        <a href="https://r2i84a.chat/" class="zone-strip-item zone-link"><i>01</i>回声长廊</a>
+        <span class="zone-strip-sep">/</span>
+        <span class="zone-strip-item"><i>02</i>监听井</span>
+        <span class="zone-strip-sep">/</span>
+        <span class="zone-strip-item"><i>03</i>显影室</span>
+        <span class="zone-strip-sep">/</span>
+        <span class="zone-strip-item"><i>04</i>深水层</span>
+      </div>
+
+      <!-- 左侧导航面板 — 游戏加载页风格，无玻璃 -->
+      <div class="nav-panel">
+        <div class="nav-brand">后室</div>
+        <div class="nav-entries">
+          <a class="nav-entry" href="#">
+            <span class="nav-entry-id">A</span>
+            <span class="nav-entry-name">项目区</span>
+            <span class="nav-entry-arrow">→</span>
+          </a>
+          <a class="nav-entry" href="#">
+            <span class="nav-entry-id">B</span>
+            <span class="nav-entry-name">记录区</span>
+            <span class="nav-entry-arrow">→</span>
+          </a>
+          <a class="nav-entry" href="#">
+            <span class="nav-entry-id">C</span>
+            <span class="nav-entry-name">联络口</span>
+            <span class="nav-entry-arrow">→</span>
+          </a>
+        </div>
+        <p class="nav-status">SYSTEM ONLINE</p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- 后台加载进度 -->
+  <div class="load-chip" id="load-chip">
+    <span class="load-chip-dot"></span>
+    <span class="load-chip-text" id="load-chip-text">0/300</span>
+  </div>
+
+  <!-- 背景音乐 -->
+  <audio id="bgm" src="audio/poolrooms.mp3" loop preload="auto"></audio>
+  <button class="lg audio-toggle" id="audio-toggle" title="背景音乐开关">
+    <span id="audio-icon">♪</span>
+  </button>
+
+  <!-- 加载层 -->
+  <div class="loader" id="loader">
+    <div class="loader-inner">
+      <p class="loader-stage" id="loader-stage">INITIALIZING</p>
+      <div class="loader-bar"><div class="loader-progress" id="loader-progress"></div></div>
+      <p class="loader-text" id="loader-text">0 / 300</p>
+      <p class="loader-hint" id="loader-hint"></p>
+    </div>
+  </div>
+
+  <script src="temple-scroll.js?v=jul27-v14"></script>
+</body>
+</html>
