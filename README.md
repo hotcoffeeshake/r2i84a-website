@@ -40,3 +40,20 @@ python3 -m http.server 4173
 ## 协作
 
 公开仓库可直接读取、克隆及 Fork。直接推送需要维护者为准确的 GitHub 用户名授予 Write 权限，对方接受邀请后生效。建议从交接分支创建工作分支并提交 PR。不要提交密钥或生产数据。
+
+## SEO 维护
+
+SEO 相关配置和脚本都在 `tools/`：
+
+- `tools/seo-config.mjs`：品牌名 `SITE_BRAND`、小程序名 `MINIPROGRAM_NAME`、不收录的文章名单、文章新标题/URL 映射。品牌或小程序改名只改这里。
+- `tools/answer-pages-data.mjs`：问答页内容，新增问答页就在这里加一项。
+- `tools/build-answer-pages.mjs`：把问答数据渲染成 `answers/<slug>.html`。
+- `tools/apply-seo.mjs`：处理文章页（字符修复、删除内部信息、标题/描述/URL、noindex、CTA）、更新列表页，并重新生成 `sitemap.xml`、`sitemap.txt`、`llms.txt`、`llms-full.txt` 和 `vercel.json` 里的文章 301 跳转。可重复运行。
+
+改完配置或内容后，在仓库根目录运行：
+
+```sh
+node tools/build-answer-pages.mjs && node tools/apply-seo.mjs
+```
+
+注意：`tools/generate-blog.mjs` 和 `tools/generate-qa-pages.mjs` 是旧生成器，读取的是维护者本机路径，而且模板已经落后于线上页面（例如导航仍是「个人中心」）。不要直接运行它们覆盖现有页面；如果重新生成了文章，之后必须再跑一次 `tools/apply-seo.mjs`。
