@@ -2,7 +2,11 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "redirects": [
-    { "source": "/hone", "destination": "/home", "permanent": true }
+    {
+      "source": "/hone",
+      "destination": "/home",
+      "permanent": true
+    }
   ],
   "headers": [
     {
@@ -42,7 +46,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://font.emtech.cc; font-src 'self' https://fonts.gstatic.com https://font.emtech.cc data:; img-src 'self' data: https:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://font.emtech.cc; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://font.emtech.cc; font-src 'self' https://fonts.gstatic.com https://font.emtech.cc data:; img-src 'self' data: https:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://font.emtech.cc https://wx.r2i84a.chat; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
         }
       ]
     },
@@ -63,6 +67,12 @@
           "value": "public, max-age=0, must-revalidate"
         }
       ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/web/:path*",
+      "destination": "/api/web"
     }
   ]
 }
