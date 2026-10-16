@@ -19,6 +19,7 @@ import {
   PREVIOUS_BRANDS,
   DUPLICATE_POSTS,
   POST_OVERRIDES,
+  PRIORITY_POST_IDS,
 } from "./seo-config.mjs";
 import { ANSWER_PAGES } from "./answer-pages-data.mjs";
 
@@ -76,26 +77,58 @@ const siteHtmlFiles = () => [
 
 // ---------- 1. 文章数据 ----------
 
-const slugToId = Object.fromEntries(Object.entries(POST_OVERRIDES).map(([id, item]) => [item.slug, id]));
-
-function locatePost(id) {
-  const override = POST_OVERRIDES[id];
-  const oldDir = path.join(BLOG_DIR, id);
-  if (!override) return oldDir;
-  const newDir = path.join(BLOG_DIR, override.slug);
-  if (fs.existsSync(oldDir) && !fs.existsSync(newDir)) fs.renameSync(oldDir, newDir);
-  return newDir;
+// 先完成全部路径与冲突检查，再移动目录或写页面。redirects 保存历次 slug。
+const deploymentConfig = JSON.parse(read("vercel.json"));
+const destinationsBySource = new Map();
+for (const redirect of deploymentConfig.redirects || []) {
+  if (destinationsBySource.has(redirect.source) && destinationsBySource.get(redirect.source) !== redirect.destination) {
+    throw new Error(`Conflicting redirect source: ${redirect.source}`);
+  }
+  destinationsBySource.set(redirect.source, redirect.destination);
 }
-
-const postIds = [
-  ...fs.readdirSync(BLOG_DIR).filter((name) => /^qinggan-\d{3}$/.test(name)),
-  ...Object.keys(slugToId).filter((slug) => fs.existsSync(path.join(BLOG_DIR, slug))).map((slug) => slugToId[slug]),
-]
-  .filter((id, index, all) => all.indexOf(id) === index)
-  .sort();
+const blogSlug = (url) => /^\/blog\/([a-z0-9-]+)$/.exec(url || "")?.[1];
+const historyEdges = (deploymentConfig.redirects || [])
+  .map((r) => [blogSlug(r.source), blogSlug(r.destination)]).filter(([a, b]) => a && b);
+const directories = fs.readdirSync(BLOG_DIR).filter((name) => fs.statSync(path.join(BLOG_DIR, name)).isDirectory());
+const postIds = [...new Set([
+  ...directories.filter((name) => /^qinggan-\d{3}$/.test(name)),
+  ...Object.keys(POST_OVERRIDES),
+  ...historyEdges.flat().filter((name) => /^qinggan-\d{3}$/.test(name)),
+])].sort();
+const owners = new Map();
+const plans = postIds.map((id) => {
+  const aliases = new Set([id]);
+  let changed = true;
+  while (changed) {
+    changed = false;
+    for (const [a, b] of historyEdges) {
+      if (aliases.has(a) || aliases.has(b)) {
+        if (!aliases.has(a) || !aliases.has(b)) changed = true;
+        aliases.add(a); aliases.add(b);
+      }
+    }
+  }
+  const slug = POST_OVERRIDES[id]?.slug || id;
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) throw new Error(`Invalid slug: ${slug}`);
+  aliases.add(slug);
+  for (const alias of aliases) {
+    if (owners.has(alias) && owners.get(alias) !== id) throw new Error(`Slug conflict: ${alias}`);
+    owners.set(alias, id);
+  }
+  const candidates = directories.filter((name) => aliases.has(name));
+  if (candidates.length !== 1) throw new Error(`Ambiguous or missing article ${id}: ${candidates.join(", ")}. Reconcile regenerated original and semantic directories before applying SEO.`);
+  const source = path.join(BLOG_DIR, candidates[0]);
+  // 验证全部输入可读，避免迁移到一半才发现文章缺失。
+  fs.readFileSync(path.join(source, "index.html"), "utf8");
+  return { id, slug, aliases, source, destination: path.join(BLOG_DIR, slug) };
+});
+for (const plan of plans) {
+  if (plan.source !== plan.destination) fs.renameSync(plan.source, plan.destination);
+}
+const planById = new Map(plans.map((plan) => [plan.id, plan]));
 
 const posts = postIds.map((id) => {
-  const dir = locatePost(id);
+  const dir = planById.get(id).destination;
   const file = path.join(dir, "index.html");
   const html = fixCompatChars(fs.readFileSync(file, "utf8"));
   const originalTitle = stripTags((html.match(/<h1>([\s\S]*?)<\/h1>/) || [])[1] || id);
@@ -231,29 +264,49 @@ for (const post of posts) {
 
 // ---------- 3. 全站：兼容字符、品牌名、旧文章链接 ----------
 
-const renamed = Object.entries(POST_OVERRIDES);
+const renamed = plans.filter((plan) => plan.aliases.size > 1);
+const aliasTargets = new Map(plans.flatMap((plan) => [...plan.aliases].map((alias) => [alias, plan.slug])));
 for (const file of siteHtmlFiles()) {
   let html = fixCompatChars(fs.readFileSync(file, "utf8"));
-  for (const [id, item] of renamed) {
-    html = html.replace(new RegExp(`/blog/${id}(?![0-9])`, "g"), `/blog/${item.slug}`);
-  }
+  html = html.replace(/\/blog\/([a-z0-9-]+)(?=[/"'?#\s<]|$)/g, (match, slug) =>
+    aliasTargets.has(slug) ? `/blog/${aliasTargets.get(slug)}` : match);
   for (const oldBrand of PREVIOUS_BRANDS) html = html.replaceAll(oldBrand, SITE_BRAND);
   html = html.replace(/(<title>[^<]*\| )(?:情商练习)?有事问AI(?:文章库)?(<\/title>)/, `$1${SITE_BRAND}$2`);
   fs.writeFileSync(file, html);
+}
+
+function platformPill(post) {
+  const xhs = post.platform === "小红书";
+  return `<span class="platform-pill ${xhs ? "xhs" : "wx"}"><img src="../assets/platform-${xhs ? "xiaohongshu" : "wechat"}.svg" alt="${escapeHtml(post.platform)}" /> ${escapeHtml(post.platform)}</span>`;
+}
+
+function learnRow(post) {
+  const xhs = post.platform === "小红书";
+  return `          <a class="learn-row" href="/blog/${post.slug}">
+            <span class="source-badge ${xhs ? "xhs" : "wx"}">${xhs ? "XHS" : "WX"}</span>
+            <strong>${escapeHtml(post.title)}</strong>
+            <span class="learn-kind filled">文章</span>
+          </a>`;
 }
 
 // ---------- 4. 文章库列表页 ----------
 
 {
   let html = read("blog/index.html");
-  const byPath = Object.fromEntries(posts.map((p) => [`/blog/${p.slug}`, p]));
-  html = html.replace(/<article class="blog-list-item">\s*<a href="([^"]+)">[\s\S]*?<\/article>\n?/g, (block, href) => {
-    const post = byPath[href];
-    if (!post || !post.indexable) return "";
-    return block
-      .replace(/<h3>[\s\S]*?<\/h3>/, `<h3>${escapeHtml(post.title)}</h3>`)
-      .replace(/<p>[\s\S]*?<\/p>/, `<p>${escapeHtml(post.description)}</p>`);
-  });
+  const cards = indexable.map((post) => `          <article class="blog-list-item">
+            <a href="/blog/${post.slug}">
+              ${platformPill(post)}
+              <h3>${escapeHtml(post.title)}</h3>
+              <p>${escapeHtml(post.description)}</p>
+            </a>
+          </article>`).join("\n");
+  html = html.replace(/(<div class="blog-list">)[\s\S]*?(<\/div>)/, `$1\n${cards}\n        $2`);
+  const featured = PRIORITY_POST_IDS.map((id) => posts.find((p) => p.id === id && p.indexable)).filter(Boolean);
+  html = html.replace(/(<div class="blog-card-grid">)[\s\S]*?(<\/div>)/, `$1\n${featured.map((post) => `          <a class="blog-card" href="/blog/${post.slug}">
+            ${platformPill(post)}
+            <h3>${escapeHtml(post.title)}</h3>
+            <p>${escapeHtml(post.description)}</p>
+          </a>`).join("\n")}\n        $2`);
   const xhs = indexable.filter((p) => p.platform === "小红书").length;
   html = html.replace(/<strong>\d+<\/strong> 篇文章/, `<strong>${indexable.length}</strong> 篇文章`);
   html = html.replace(/<strong>\d+<\/strong> 篇小红书/, `<strong>${xhs}</strong> 篇小红书`);
@@ -293,13 +346,11 @@ function replaceMarked(html, name, content, insertBefore) {
 
 {
   let html = read("learn.html");
-  const hidden = new Set(posts.filter((p) => !p.indexable).map((p) => `/blog/${p.slug}`));
-  const postByPath = Object.fromEntries(posts.map((p) => [`/blog/${p.slug}`, p]));
-  html = html.replace(/\s*<a class="learn-row" href="([^"]+)">[\s\S]*?<\/a>/g, (block, href) => {
-    if (hidden.has(href)) return "";
-    const post = postByPath[href];
-    return post ? block.replace(/<strong>[\s\S]*?<\/strong>/, `<strong>${escapeHtml(post.title)}</strong>`) : block;
-  });
+  const featured = PRIORITY_POST_IDS.map((id) => posts.find((p) => p.id === id && p.indexable)).filter(Boolean);
+  for (const [heading, list] of [["priority-title", featured], ["all-articles-title", indexable]]) {
+    const sectionPattern = new RegExp(`(<h2[^>]*id="${heading}"[^>]*>[\\s\\S]*?<div class="learn-list">)[\\s\\S]*?(</div>)`);
+    html = html.replace(sectionPattern, `$1\n${list.map(learnRow).join("\n")}\n        $2`);
+  }
   html = html.replace(/文章库 \d+篇/, `文章库 ${indexable.length}篇`);
   const questionsSection = html.indexOf('id="questions"');
   const listEnd = html.indexOf("</div>\n      </section>", questionsSection);
@@ -479,13 +530,14 @@ ${page.boundary}
 // ---------- 8. vercel.json 301 跳转 ----------
 
 {
-  const config = JSON.parse(read("vercel.json"));
-  const managed = new Set(renamed.map(([id]) => `/blog/${id}`));
-  config.redirects = [
-    ...(config.redirects || []).filter((r) => !managed.has(r.source)),
-    ...renamed.map(([id, item]) => ({ source: `/blog/${id}`, destination: `/blog/${item.slug}`, permanent: true })),
+  const managed = new Set(plans.flatMap((plan) => [...plan.aliases].map((alias) => `/blog/${alias}`)));
+  deploymentConfig.redirects = [
+    ...(deploymentConfig.redirects || []).filter((r) => !managed.has(r.source)),
+    ...plans.flatMap((plan) => [...plan.aliases].filter((alias) => alias !== plan.slug).sort().map((alias) => ({
+      source: `/blog/${alias}`, destination: `/blog/${plan.slug}`, permanent: true,
+    }))),
   ];
-  write("vercel.json", JSON.stringify(config, null, 2) + "\n");
+  write("vercel.json", JSON.stringify(deploymentConfig, null, 2) + "\n");
 }
 
 const noindexed = posts.filter((p) => !p.indexable);

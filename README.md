@@ -45,10 +45,10 @@ python3 -m http.server 4173
 
 SEO 相关配置和脚本都在 `tools/`：
 
-- `tools/seo-config.mjs`：品牌名 `SITE_BRAND`、小程序名 `MINIPROGRAM_NAME`、不收录的文章名单、文章新标题/URL 映射。品牌或小程序改名只改这里。
+- `tools/seo-config.mjs`：品牌名 `SITE_BRAND`、小程序名 `MINIPROGRAM_NAME`、不收录的文章名单、文章新标题/URL 映射。品牌或小程序改名后重新生成，并检查首页等手工维护内容。
 - `tools/answer-pages-data.mjs`：问答页内容，新增问答页就在这里加一项。
 - `tools/build-answer-pages.mjs`：把问答数据渲染成 `answers/<slug>.html`。
-- `tools/apply-seo.mjs`：处理文章页（字符修复、删除内部信息、标题/描述/URL、noindex、CTA）、更新列表页，并重新生成 `sitemap.xml`、`sitemap.txt`、`llms.txt`、`llms-full.txt` 和 `vercel.json` 里的文章 301 跳转。可重复运行。
+- `tools/apply-seo.mjs`：处理文章页（字符修复、删除内部信息、标题/描述/URL、noindex、CTA）、更新列表页，并重新生成 `sitemap.xml`、`sitemap.txt`、`llms.txt`、`llms-full.txt` 和 `vercel.json` 里的文章永久跳转（Vercel 的 `permanent: true` 使用 308）。可重复运行。
 
 改完配置或内容后，在仓库根目录运行：
 
@@ -56,4 +56,23 @@ SEO 相关配置和脚本都在 `tools/`：
 node tools/build-answer-pages.mjs && node tools/apply-seo.mjs
 ```
 
-注意：`tools/generate-blog.mjs` 和 `tools/generate-qa-pages.mjs` 是旧生成器，读取的是维护者本机路径，而且模板已经落后于线上页面（例如导航仍是「个人中心」）。不要直接运行它们覆盖现有页面；如果重新生成了文章，之后必须再跑一次 `tools/apply-seo.mjs`。
+注意：`tools/generate-blog.mjs` 和 `tools/generate-qa-pages.mjs` 是旧生成器，读取的是维护者本机路径，而且模板已经落后于线上页面（例如导航仍是「个人中心」）。不要直接运行它们覆盖现有页面；如果重新生成后同一文章同时存在原始目录与改名目录，SEO 脚本会停止并报错；先核对内容并统一到唯一目录，再运行 SEO 脚本，避免静默覆盖较新的正文。
+
+
+### 首页内容与维护边界
+
+首页产品说明、问答入口和 FAQ 位于 `#home-guide`，与 React 的 `#root` 分开，JavaScript 加载后仍然可见。修改首页 FAQ 时同步修改 JSON-LD，保证问题和答案与可见正文一致。本次修订移除了 SEO 改动新增的隐私承诺，不新增相关声明。
+
+代码同步与本地验证不等于线上发布。生产发布前仍需在 Vercel Preview 核验文章旧网址到新网址的永久跳转；登录和支付需要已配置的后端才能验收。
+
+
+### 文章列表与网址迁移
+
+文章库和学习页列表从文章数据重新生成。移出 `NOINDEX_POSTS` 或补足薄内容后，符合收录条件的文章会重新进入列表；`PRIORITY_POST_IDS` 保留优先阅读的人工选择和顺序。
+
+`vercel.json` 的文章重定向同时保存历史网址关系。修改已有文章的 `POST_OVERRIDES.slug` 时保留历史记录，脚本会定位原目录、检查冲突，再将历次旧网址直接指向最终网址。不要手工清空这些历史重定向。发现多个候选目录或网址冲突时，先核对来源再继续，不要直接删除其中一份。
+
+
+### 回归检查
+
+运行 `node tools/test-seo.mjs`。测试只在临时副本内执行，覆盖默认生成幂等、恢复收录与优先阅读、正文增厚、连续两次改名、历史相关链接、网址冲突和重复目录。无需安装新依赖。

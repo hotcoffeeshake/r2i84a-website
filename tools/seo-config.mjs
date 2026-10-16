@@ -118,3 +118,9 @@ export const POST_OVERRIDES = {
     description: "别再用“在干嘛”开头了。按破冰、熟悉、升温、暧昧四个阶段整理60个和女生聊天的话题，每个都能自然聊下去。",
   },
 };
+
+// 学习页及文章库优先阅读，保留编辑选定的顺序；暂不收录时隐藏，恢复收录后自动回来。
+export const PRIORITY_POST_IDS = [
+  "qinggan-025", "qinggan-009", "qinggan-010",
+  "qinggan-048", "qinggan-014", "qinggan-047",
+];

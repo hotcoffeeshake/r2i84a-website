@@ -28,12 +28,40 @@ function escapeHtml(value) {
     .replaceAll('"', "&quot;");
 }
 
+// 旧语义链接通过原始 ID 和持久化重定向历史解析到当前配置。
+const redirects = JSON.parse(fs.readFileSync(path.join(ROOT, "vercel.json"), "utf8")).redirects || [];
+const destinationsBySource = new Map();
+for (const redirect of redirects) {
+  if (destinationsBySource.has(redirect.source) && destinationsBySource.get(redirect.source) !== redirect.destination) {
+    throw new Error(`Conflicting redirect source: ${redirect.source}`);
+  }
+  destinationsBySource.set(redirect.source, redirect.destination);
+}
+const blogAliases = new Map();
+for (const [id, post] of Object.entries(POST_OVERRIDES)) {
+  const aliases = new Set([`/blog/${id}`, `/blog/${post.slug}`]);
+  let changed = true;
+  while (changed) {
+    changed = false;
+    for (const { source, destination } of redirects) {
+      if (!source.startsWith("/blog/") || !destination.startsWith("/blog/")) continue;
+      if (aliases.has(source) || aliases.has(destination)) {
+        if (!aliases.has(source) || !aliases.has(destination)) changed = true;
+        aliases.add(source); aliases.add(destination);
+      }
+    }
+  }
+  for (const alias of aliases) {
+    if (blogAliases.has(alias)) throw new Error(`Conflicting blog alias ${alias}`);
+    blogAliases.set(alias, post);
+  }
+}
+
 function relatedLink(ref) {
   if (ref.startsWith("/blog/")) {
-    const slug = ref.slice("/blog/".length);
-    const post = Object.values(POST_OVERRIDES).find((item) => item.slug === slug);
+    const post = blogAliases.get(ref);
     if (!post) throw new Error(`unknown blog ref ${ref}`);
-    return { href: ref, title: post.title, kind: "文章" };
+    return { href: `/blog/${post.slug}`, title: post.title, kind: "文章" };
   }
   const page = ANSWER_PAGES.find((item) => item.slug === ref);
   const title = page ? page.question.replace(/？$/, "") : EXISTING_ANSWERS[ref];
@@ -253,8 +281,9 @@ ${related.map((item) => `                <a class="qa-side-link" href="${item.hr
 `;
 }
 
-for (const page of ANSWER_PAGES) {
+const renderedPages = ANSWER_PAGES.map((page) => ({ page, html: renderPage(page) }));
+for (const { page, html } of renderedPages) {
   const filePath = path.join(ROOT, "answers", `${page.slug}.html`);
-  fs.writeFileSync(filePath, renderPage(page));
+  fs.writeFileSync(filePath, html);
   console.log(`generated answers/${page.slug}.html`);
 }
