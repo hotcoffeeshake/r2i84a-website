@@ -40,3 +40,13 @@ vercel alias set love-train-v12-fm91a18oq-flyxqc1s-projects.vercel.app r2i84a.ch
 ```
 
 回滚后必须再次确认 `/api/web/auth/me` 返回 401，而不是 404。
+
+## FAQ 合并补充发布
+
+- 源码提交：`d8f375b`
+- Vercel 部署：`dpl_8W8x3uxoWQFYXkJN7Gp48opeCg2z`
+- 将首页两个 FAQ 区块合并为原有的双列折叠区。
+- 5 个重复问题合并，补入“会不会教我 PUA 或套路？”和“在哪里使用？”两个独有问题，最终共 16 项。
+- 删除下方重复的静态 FAQ 卡片；保留首页 FAQPage 结构化数据。
+- 桌面和 390px 手机浏览器均验证 16 项可展开，“展开全部”可一次打开全部项目，无页面脚本错误。
+- `/api/web/auth/me` 继续返回 401 `GUEST_SESSION_EXPIRED`。
