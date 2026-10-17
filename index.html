@@ -924,16 +924,80 @@ ${b}`}({domain:y.host,address:A,statement:g,uri:y.href,version:"1",chainId:w,non
   <p class="r2pay-note">付款前无需公众号登录。付款后需联系客服人工开通，请保留当前浏览器的购买凭据及微信支付凭证。</p>
 </section>
 
-<div id="home-guide" class="seo-static" role="region" aria-label="产品说明与常见问题" style="position:relative;z-index:4;background:#0a0a0a;max-width:960px;margin:0 auto;padding:80px 24px;color:#e8e8e8;font-family:Inter,'PingFang SC',sans-serif;line-height:1.7">
-<section><h2>AI 帮你看懂聊天、教你怎么回她</h2>
-<p>把聊天截图或一句关系处境发给 AI，它会先判断你们当前的关系阶段和她的信号，再给出自然、简短、有余地的回复建议。适合暧昧期推进、聊天冷场、女生不回消息、吵架冷战等情况。</p>
-<h3>判断局势</h3><p>上传聊天截图，先判断当前互动更像升温、平稳、降温、暂停，还是明确拒绝。</p>
-<h3>选择策略</h3><p>结合对方投入和你的状态，判断该推进、后撤、换话题，还是停止打扰。</p>
-<h3>练习表达</h3><p>把长篇解释改成短、自然、有余地的表达，而不是生成一段不像你的模板。</p></section>
-<section><h2>怎么用</h2><ol><li>微信搜索「练爱导师」小程序，或扫描本页的小程序码。</li><li>上传聊天截图，或者描述你们现在的情况。</li><li>约 30 秒拿到关系判断和可以直接参考的回复。</li></ol></section>
-<section><h2>能帮你解决哪些聊天问题</h2><ul><li><a href="/answers/girl-not-replying">女生不回消息怎么办</a></li><li><a href="/answers/she-replies-oh">女生回“哦”怎么回</a></li><li><a href="/answers/she-says-whatever">女生说“随便”怎么回</a></li><li><a href="/answers/she-says-busy">女生说在忙怎么回</a></li><li><a href="/answers/chat-cold">男生聊天冷场怎么办</a></li><li><a href="/answers/ambiguous-relationship">暧昧期怎么推进关系</a></li><li><a href="/answers/how-to-ask-her-out">第一次约女生出来怎么说</a></li><li><a href="/answers/girlfriend-angry">女朋友生气了怎么哄</a></li><li><a href="/answers/after-cold-war">冷战后第一句话怎么说</a></li><li><a href="/answers/does-she-like-me">怎么判断她是不是喜欢我</a></li></ul>
-<p><a href="/answers">查看全部恋爱问题答疑</a> · <a href="/blog">情感文章库</a></p></section>
-<section><h2>常见问题</h2><h3>AI 帮我回消息靠谱吗？</h3><p>靠谱的不是万能话术，而是清楚的判断依据。它会解释回复变短、没有反问、连续回避邀约等具体信号，给出条件化建议，并承认 AI 只能辅助判断趋势，不能百分之百确认对方真实心意。</p><h3>女生不回消息怎么办？</h3><p>不回消息不等于一定没戏，也不等于要继续加码。短期没回先等待，不连续追问；长期低投入就降低投入，把注意力放回自己的生活；出现拉黑或“不想被打扰”等明确边界时，停止推进。</p><h3>暧昧期怎么推进关系？</h3><p>推进不是逼对方表态，而是在互动基础足够时给出一个具体、轻松、可退可进的选择。先看对方是否主动、愿意延展话题并接受过低压力邀约；如果回复变短、很少主动或连续回避见面，就放慢节奏。</p><h3>会不会教我 PUA 或套路？</h3><p>不会。它不提供操控、欺骗或骚扰的方法。当对方明确拒绝、拉黑或表达不想被打扰时，建议是停止推进并尊重边界。</p><h3>在哪里使用？</h3><p>产品运行在微信小程序里。微信搜索「练爱导师」，或在电脑上用微信扫描本页的小程序码即可进入。</p><h3>情商低的人怎么练习聊天？</h3><p>最适合的起点是复盘一段真实聊天：先识别对方是开心、敷衍、试探、抗拒还是委屈，再识别自己有没有焦虑、讨好、防御或冷处理，最后分别练习关心、邀约、道歉、拒绝和结束话题。</p><h3>AI 情感建议不能替代什么？</h3><p>AI 适合做聊天复盘、关系判断和表达练习，但不能替你确认真实心意，也不能替代心理咨询、法律与安全支持。涉及严重焦虑、自伤、威胁、跟踪、暴力、财产或隐私风险时，应寻求现实中的专业帮助。</p></section>
+<style id="home-guide-style">
+#home-guide{position:relative;z-index:4;background:#0a0a0a;color:#f5f5f5;font-family:Inter,'PingFang SC','Microsoft YaHei',sans-serif;line-height:1.7;padding:clamp(72px,9vw,120px) 24px;overflow:hidden}
+#home-guide::before{content:"";position:absolute;inset:0 auto auto 50%;width:min(900px,100vw);height:520px;transform:translateX(-50%);background:radial-gradient(circle,rgba(245,179,71,.09),transparent 68%);pointer-events:none}
+#home-guide .guide-inner{position:relative;width:min(1120px,100%);margin:0 auto}
+#home-guide section+section{margin-top:clamp(80px,10vw,128px)}
+#home-guide .guide-heading{max-width:720px;margin-bottom:42px}
+#home-guide .guide-kicker{display:inline-block;margin-bottom:14px;color:#f5b347;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+#home-guide h2{margin:0;font-family:'ChironSungHK','Noto Serif SC',serif;font-size:clamp(2rem,4.5vw,3.35rem);line-height:1.18;letter-spacing:-.025em}
+#home-guide .guide-heading>p{margin:18px 0 0;color:rgba(245,245,245,.62);font-size:clamp(1rem,1.6vw,1.12rem);line-height:1.85}
+#home-guide .guide-feature-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+#home-guide .guide-card{min-height:210px;padding:28px;border:1px solid rgba(245,245,245,.12);border-radius:18px;background:linear-gradient(145deg,rgba(255,255,255,.065),rgba(255,255,255,.02));box-sizing:border-box}
+#home-guide .guide-card .guide-num{display:block;margin-bottom:34px;color:#f5b347;font-size:12px;font-weight:700;letter-spacing:.14em}
+#home-guide .guide-card h3{margin:0 0 10px;font-size:1.18rem;line-height:1.35}
+#home-guide .guide-card p{margin:0;color:rgba(245,245,245,.58);font-size:.95rem}
+#home-guide .guide-steps{counter-reset:step;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;margin:0;padding:0;list-style:none;border:1px solid rgba(245,245,245,.12);border-radius:18px;overflow:hidden;background:rgba(245,245,245,.12)}
+#home-guide .guide-steps li{counter-increment:step;min-height:170px;padding:26px;background:#101010;color:rgba(245,245,245,.7);box-sizing:border-box}
+#home-guide .guide-steps li::before{content:"0" counter(step);display:block;margin-bottom:24px;color:#f5b347;font-size:12px;font-weight:700;letter-spacing:.12em}
+#home-guide .guide-topic-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0;padding:0;list-style:none}
+#home-guide .guide-topic-grid a{display:flex;align-items:center;justify-content:space-between;min-height:64px;padding:0 20px;border:1px solid rgba(245,245,245,.1);border-radius:12px;background:rgba(255,255,255,.035);color:rgba(245,245,245,.84);text-decoration:none;transition:border-color .2s,background .2s,transform .2s}
+#home-guide .guide-topic-grid a::after{content:"→";color:#f5b347}
+#home-guide .guide-topic-grid a:hover{transform:translateY(-2px);border-color:rgba(245,179,71,.5);background:rgba(245,179,71,.07)}
+#home-guide .guide-actions{display:flex;gap:12px;margin-top:24px}
+#home-guide .guide-actions a{display:inline-flex;padding:.72rem 1.25rem;border-radius:9999px;background:#f5b347;color:#0a0a0a;font-weight:700;text-decoration:none}
+#home-guide .guide-actions a+ a{background:rgba(245,245,245,.08);color:#f5f5f5;border:1px solid rgba(245,245,245,.14)}
+#home-guide .guide-faq-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+#home-guide .guide-faq-card{padding:24px 26px;border-top:1px solid rgba(245,245,245,.15);background:linear-gradient(180deg,rgba(255,255,255,.025),transparent)}
+#home-guide .guide-faq-card h3{margin:0 0 10px;font-size:1rem;line-height:1.5}
+#home-guide .guide-faq-card p{margin:0;color:rgba(245,245,245,.55);font-size:.92rem;line-height:1.75}
+@media(max-width:760px){
+  #hero-scroll-content .hero-brand{font-size:clamp(1.9rem,8.2vw,2.1rem)!important;white-space:nowrap}
+  #home-guide{padding:72px 18px}
+  #home-guide section+section{margin-top:76px}
+  #home-guide .guide-heading{margin-bottom:28px}
+  #home-guide .guide-feature-grid,#home-guide .guide-steps,#home-guide .guide-topic-grid,#home-guide .guide-faq-grid{grid-template-columns:1fr}
+  #home-guide .guide-card{min-height:auto;padding:24px}
+  #home-guide .guide-card .guide-num{margin-bottom:20px}
+  #home-guide .guide-steps li{min-height:auto;padding:22px}
+  #home-guide .guide-steps li::before{margin-bottom:12px}
+  #home-guide .guide-actions{align-items:stretch;flex-direction:column}
+  #home-guide .guide-actions a{justify-content:center}
+}
+</style>
+<div id="home-guide" class="seo-static" role="region" aria-label="产品说明与常见问题">
+  <div class="guide-inner">
+    <section>
+      <div class="guide-heading"><span class="guide-kicker">AI 恋爱导师</span><h2>先看懂关系，再决定怎么回</h2><p>把聊天截图或一句关系处境发给 AI，它会先判断你们当前的关系阶段和她的信号，再给出自然、简短、有余地的回复建议。适合暧昧期推进、聊天冷场、女生不回消息、吵架冷战等情况。</p></div>
+      <div class="guide-feature-grid">
+        <article class="guide-card"><span class="guide-num">01 · READ</span><h3>判断局势</h3><p>上传聊天截图，先判断当前互动更像升温、平稳、降温、暂停，还是明确拒绝。</p></article>
+        <article class="guide-card"><span class="guide-num">02 · CHOOSE</span><h3>选择策略</h3><p>结合对方投入和你的状态，判断该推进、后撤、换话题，还是停止打扰。</p></article>
+        <article class="guide-card"><span class="guide-num">03 · REPLY</span><h3>练习表达</h3><p>把长篇解释改成短、自然、有余地的表达，而不是生成一段不像你的模板。</p></article>
+      </div>
+    </section>
+    <section>
+      <div class="guide-heading"><span class="guide-kicker">HOW IT WORKS</span><h2>三步拿到可参考的回复</h2></div>
+      <ol class="guide-steps"><li>微信搜索「练爱导师」小程序，或扫描本页的小程序码。</li><li>上传聊天截图，或者描述你们现在的情况。</li><li>约 30 秒拿到关系判断和可以直接参考的回复。</li></ol>
+    </section>
+    <section>
+      <div class="guide-heading"><span class="guide-kicker">QUICK ANSWERS</span><h2>你可能正在遇到这些问题</h2></div>
+      <ul class="guide-topic-grid"><li><a href="/answers/girl-not-replying">女生不回消息怎么办</a></li><li><a href="/answers/she-replies-oh">女生回“哦”怎么回</a></li><li><a href="/answers/she-says-whatever">女生说“随便”怎么回</a></li><li><a href="/answers/she-says-busy">女生说在忙怎么回</a></li><li><a href="/answers/chat-cold">男生聊天冷场怎么办</a></li><li><a href="/answers/ambiguous-relationship">暧昧期怎么推进关系</a></li><li><a href="/answers/how-to-ask-her-out">第一次约女生出来怎么说</a></li><li><a href="/answers/girlfriend-angry">女朋友生气了怎么哄</a></li><li><a href="/answers/after-cold-war">冷战后第一句话怎么说</a></li><li><a href="/answers/does-she-like-me">怎么判断她是不是喜欢我</a></li></ul>
+      <p class="guide-actions"><a href="/answers">查看全部恋爱问题答疑</a><a href="/blog">浏览情感文章库</a></p>
+    </section>
+    <section>
+      <div class="guide-heading"><span class="guide-kicker">FAQ</span><h2>使用前常见问题</h2></div>
+      <div class="guide-faq-grid">
+        <article class="guide-faq-card"><h3>AI 帮我回消息靠谱吗？</h3><p>靠谱的不是万能话术，而是清楚的判断依据。它会解释回复变短、没有反问、连续回避邀约等具体信号，给出条件化建议，并承认 AI 只能辅助判断趋势，不能百分之百确认对方真实心意。</p></article>
+        <article class="guide-faq-card"><h3>女生不回消息怎么办？</h3><p>不回消息不等于一定没戏，也不等于要继续加码。短期没回先等待，不连续追问；长期低投入就降低投入，把注意力放回自己的生活；出现拉黑或“不想被打扰”等明确边界时，停止推进。</p></article>
+        <article class="guide-faq-card"><h3>暧昧期怎么推进关系？</h3><p>推进不是逼对方表态，而是在互动基础足够时给出一个具体、轻松、可退可进的选择。先看对方是否主动、愿意延展话题并接受过低压力邀约；如果回复变短、很少主动或连续回避见面，就放慢节奏。</p></article>
+        <article class="guide-faq-card"><h3>会不会教我 PUA 或套路？</h3><p>不会。它不提供操控、欺骗或骚扰的方法。当对方明确拒绝、拉黑或表达不想被打扰时，建议是停止推进并尊重边界。</p></article>
+        <article class="guide-faq-card"><h3>在哪里使用？</h3><p>产品运行在微信小程序里。微信搜索「练爱导师」，或在电脑上用微信扫描本页的小程序码即可进入。</p></article>
+        <article class="guide-faq-card"><h3>情商低的人怎么练习聊天？</h3><p>最适合的起点是复盘一段真实聊天：先识别对方是开心、敷衍、试探、抗拒还是委屈，再识别自己有没有焦虑、讨好、防御或冷处理，最后分别练习关心、邀约、道歉、拒绝和结束话题。</p></article>
+        <article class="guide-faq-card"><h3>AI 情感建议不能替代什么？</h3><p>AI 适合做聊天复盘、关系判断和表达练习，但不能替你确认真实心意，也不能替代心理咨询、法律与安全支持。涉及严重焦虑、自伤、威胁、跟踪、暴力、财产或隐私风险时，应寻求现实中的专业帮助。</p></article>
+      </div>
+    </section>
+  </div>
 </div>
 
 <div class="r2pay-mask" id="r2payMask" role="dialog" aria-modal="true" aria-labelledby="r2payModalTitle">
