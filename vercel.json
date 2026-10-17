@@ -6,6 +6,81 @@
       "source": "/hone",
       "destination": "/home",
       "permanent": true
+    },
+    {
+      "source": "/blog/qinggan-002",
+      "destination": "/blog/why-guys-dont-know-what-to-say",
+      "permanent": true
+    },
+    {
+      "source": "/blog/qinggan-009",
+      "destination": "/blog/chat-opening-lines",
+      "permanent": true
+    },
+    {
+      "source": "/blog/qinggan-011",
+      "destination": "/blog/why-she-doesnt-chat",
+      "permanent": true
+    },
+    {
+      "source": "/blog/qinggan-014",
+      "destination": "/blog/how-to-continue-conversation",
+      "permanent": true
+    },
+    {
+      "source": "/blog/qinggan-019",
+      "destination": "/blog/rejected-by-her",
+      "permanent": true
+    },
+    {
+      "source": "/blog/qinggan-031",
+      "destination": "/blog/she-replies-en",
+      "permanent": true
+    },
+    {
+      "source": "/blog/qinggan-032",
+      "destination": "/blog/replies-that-kill-the-chat",
+      "permanent": true
+    },
+    {
+      "source": "/blog/qinggan-037",
+      "destination": "/blog/chats-but-no-date",
+      "permanent": true
+    },
+    {
+      "source": "/blog/qinggan-047",
+      "destination": "/blog/mbti-nt-nf",
+      "permanent": true
+    },
+    {
+      "source": "/blog/qinggan-048",
+      "destination": "/blog/mbti-sj-sp",
+      "permanent": true
+    },
+    {
+      "source": "/blog/qinggan-049",
+      "destination": "/blog/chat-gone-quiet",
+      "permanent": true
+    },
+    {
+      "source": "/blog/qinggan-052",
+      "destination": "/blog/she-says-nothing-much",
+      "permanent": true
+    },
+    {
+      "source": "/blog/qinggan-054",
+      "destination": "/blog/first-date-topics",
+      "permanent": true
+    },
+    {
+      "source": "/blog/qinggan-061",
+      "destination": "/blog/she-says-no-feeling",
+      "permanent": true
+    },
+    {
+      "source": "/blog/qinggan-062",
+      "destination": "/blog/60-chat-topics",
+      "permanent": true
     }
   ],
   "headers": [
