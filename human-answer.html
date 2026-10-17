@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Love Train 真人答题台 | 情商练习有事问AI</title>
+    <meta
+      name="description"
+      content="Love Train 真人答题台让真人在限定窗口内回答已打码聊天截图问题。参与答题即可获得 1 次机会，被用户选中可获得 5 次免费机会。"
+    />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="canonical" href="https://r2i84a.chat/human-answer" />
+    <link rel="stylesheet" href="./human-answer.css?v=2026070701" />
+  </head>
+  <body class="answer-page">
+    <header class="app-header">
+      <a class="app-brand" href="/" aria-label="返回情商练习有事问AI首页">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 28 28" focusable="false">
+            <path d="M7 4h14v5c0 5.9-2.6 10.5-7 15-4.4-4.5-7-9.1-7-15V4Z" />
+            <path d="M10 11c1.8-2 3.5-1.2 4 .4.5-1.6 2.2-2.4 4-.4 1.8 2.1.2 5.1-4 7.2-4.2-2.1-5.8-5.1-4-7.2Z" />
+          </svg>
+        </span>
+        <span>
+          <strong>Love Train 真人答题台</strong>
+          <small>只看问题，不看身份</small>
+        </span>
+      </a>
+
+      <div class="header-status" aria-label="实时状态">
+        <span class="live-dot"></span>
+        <span>在线</span>
+        <span class="header-divider"></span>
+        <span><strong id="onlineCount">1,248</strong> 人在线答题</span>
+        <span class="header-divider"></span>
+        <span id="fallbackStatus">AI 兜底已启动</span>
+      </div>
+
+      <div class="chance-pill" aria-label="我的机会">
+        <span>我的机会</span>
+        <strong><span id="chanceCount">12</span> 次</strong>
+      </div>
+    </header>
+
+    <main class="answer-shell">
+      <aside class="panel queue-panel" aria-label="任务池">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">任务池</p>
+            <h1>限时真人挑战</h1>
+          </div>
+          <button class="ghost-button" id="refreshButton" type="button">刷新</button>
+        </div>
+
+        <div class="queue-tabs" role="tablist" aria-label="任务筛选">
+          <button class="queue-tab is-active" type="button" data-filter="all">全部</button>
+          <button class="queue-tab" type="button" data-filter="active">可答</button>
+          <button class="queue-tab" type="button" data-filter="urgent">即将超时</button>
+        </div>
+
+        <div class="task-list" id="taskList" aria-live="polite"></div>
+
+        <div class="queue-footer">
+          <button class="outline-button" id="filterButton" type="button">
+            <svg viewBox="0 0 20 20" focusable="false" aria-hidden="true">
+              <path d="M3 5h14M6 10h8M8.5 15h3" />
+            </svg>
+            筛选
+          </button>
+        </div>
+      </aside>
+
+      <section class="panel work-panel" aria-labelledby="taskTitle">
+        <div class="work-head">
+          <div>
+            <p class="eyebrow">当前任务</p>
+            <h2 id="taskTitle">#4872</h2>
+          </div>
+          <div class="timer-chip" id="currentTimer" aria-live="polite">剩 01:18</div>
+        </div>
+
+        <div class="privacy-banner">
+          <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+            <path d="M12 3 5 6v5c0 4.7 2.8 8.3 7 10 4.2-1.7 7-5.3 7-10V6l-7-3Z" />
+            <path d="m9 12 2 2 4-5" />
+          </svg>
+          <span>截图原图对答题者可见；头像、昵称、手机号、微信号必须先打码</span>
+        </div>
+
+        <div class="task-meta">
+          <span id="maskStatus">已自动打码</span>
+          <span id="taskSource">聊天截图</span>
+          <span id="taskReward">参与 +1 次，被选中 +5 次</span>
+        </div>
+
+        <div class="phone-shot" aria-label="已打码聊天截图预览">
+          <div class="phone-top">
+            <span class="chevron"></span>
+            <span class="masked-title"></span>
+            <span class="dots">...</span>
+          </div>
+          <div class="chat-line incoming">
+            <span class="avatar-mask"></span>
+            <span class="bubble" id="chatA">我们是不是应该冷静一下？</span>
+            <small>19:42</small>
+          </div>
+          <div class="chat-line outgoing">
+            <small>19:42</small>
+            <span class="bubble" id="chatB">为什么突然这么说？</span>
+            <span class="avatar-mask"></span>
+          </div>
+          <div class="chat-line incoming">
+            <span class="avatar-mask"></span>
+            <span class="bubble wide" id="chatC">我最近压力挺大的，可能没法像以前一样照顾你了</span>
+            <small>19:43</small>
+          </div>
+          <div class="chat-line outgoing">
+            <small>19:43</small>
+            <span class="bubble wide" id="chatD">是我哪里做得不好吗...</span>
+            <span class="avatar-mask"></span>
+          </div>
+          <div class="chat-line incoming">
+            <span class="avatar-mask"></span>
+            <span class="bubble" id="chatE">你能理解我吗？</span>
+            <small>19:43</small>
+          </div>
+        </div>
+
+        <div class="summary-block">
+          <div class="block-label">问题摘要（OCR 提取）</div>
+          <p id="taskSummary">
+            对方突然说需要冷静，表示最近压力大、没法像以前一样照顾你，问你能否理解。
+          </p>
+        </div>
+
+        <form class="answer-form" id="answerForm">
+          <label for="answerInput">你的回答</label>
+          <textarea
+            id="answerInput"
+            name="answer"
+            rows="7"
+            maxlength="1000"
+            placeholder="请输入你的回答或建议，至少 10 个字。"
+          ></textarea>
+          <div class="form-foot">
+            <span id="answerState">AI 兜底已启动，真人窗口仍在倒计时。</span>
+            <span><span id="charCount">0</span>/1000</span>
+          </div>
+          <div class="action-row">
+            <button class="primary-button" id="submitButton" type="submit" disabled>
+              提交回答
+            </button>
+            <span class="shortcut">Enter 发送，Ctrl+Enter 换行</span>
+          </div>
+        </form>
+      </section>
+
+      <aside class="side-stack" aria-label="规则与数据">
+        <section class="panel side-panel">
+          <div class="side-title">
+            <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+              <path d="M9 11h6M9 15h4" />
+              <path d="M8 4h8l3 3v13H5V4h3Z" />
+            </svg>
+            <h2>答题规则</h2>
+          </div>
+          <ul class="rule-list">
+            <li>阅读聊天截图和问题摘要，给出你的建议</li>
+            <li>在倒计时内提交，超时直接由 AI 兜底回答</li>
+            <li>答案会和 AI 回答一起匿名展示，由提问者选择</li>
+          </ul>
+        </section>
+
+        <section class="panel side-panel">
+          <div class="side-title accent">
+            <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+              <path d="M20 8H4v12h16V8Z" />
+              <path d="M12 8v12M4 12h16" />
+              <path d="M8.5 8C6 7 6.2 4.5 8 4c2-.6 3.3 2 4 4 .7-2 2-4.6 4-4 1.8.5 2 3-0.5 4" />
+            </svg>
+            <h2>奖励机制</h2>
+          </div>
+          <div class="reward-row">
+            <span>参与答题</span>
+            <strong>+1 次机会</strong>
+          </div>
+          <div class="reward-row">
+            <span>被提问者选中</span>
+            <strong>+5 次免费机会</strong>
+          </div>
+          <p class="muted-copy">机会可用于小程序继续提问或刷新回答。</p>
+        </section>
+
+        <section class="panel side-panel">
+          <div class="side-title">
+            <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+              <path d="M4 20V9M10 20V4M16 20v-7M22 20H2" />
+            </svg>
+            <h2>我的数据</h2>
+          </div>
+          <div class="stats-grid">
+            <div>
+              <strong id="todayCount">36</strong>
+              <span>今日参与</span>
+            </div>
+            <div>
+              <strong id="pickedCount">7</strong>
+              <span>今日被选中</span>
+            </div>
+            <div>
+              <strong id="earnedCount">128</strong>
+              <span>总共获得</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel side-panel privacy-panel">
+          <div class="side-title secure">
+            <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+              <path d="M12 3 5 6v5c0 4.7 2.8 8.3 7 10 4.2-1.7 7-5.3 7-10V6l-7-3Z" />
+              <path d="m9 12 2 2 4-5" />
+            </svg>
+            <h2>隐私与打码</h2>
+          </div>
+          <ul class="check-list">
+            <li>头像已打码</li>
+            <li>昵称已隐藏</li>
+            <li>手机号、微信号已遮盖</li>
+            <li>只展示必要聊天内容</li>
+          </ul>
+          <button class="report-button" id="reportButton" type="button">发现未打码内容</button>
+        </section>
+      </aside>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="./human-answer.js?v=2026070701"></script>
+  </body>
+</html>

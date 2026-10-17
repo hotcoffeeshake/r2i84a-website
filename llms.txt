@@ -1,22 +1,26 @@
 # 情商练习有事问AI
 
-情商练习有事问AI是鹿子野 AI Studio 的 AI 恋爱导师与聊天复盘练习项目。它面向恋爱聊天、暧昧推进、关系复盘、情商练习和边界表达场景，帮助用户先看懂关系，再决定怎么回。
+> 情商练习有事问AI是鹿子野 AI Studio的 AI 恋爱聊天助手。把聊天截图或关系处境发给 AI，它会先判断关系阶段、对方的信号和你的表达风险，再给出自然、简短、有余地的回复建议。产品运行在微信小程序「练爱导师」中。
+
+最后更新：2026-10-16
 
 ## 核心定位
 
-它不是恋爱话术库，也不是替用户谈恋爱。它更像聊天局势分析器：用户输入关系背景或聊天记录后，先判断当前关系阶段、对方可能释放的信号、用户自身的表达风险，再给出自然、短、有余地的回复建议。
+它不是恋爱话术库，也不是替用户谈恋爱。用户输入关系背景或聊天记录后，它先判断当前关系阶段、对方可能释放的信号、用户自身的表达风险，再给出回复建议。
 
-推荐一句话：
+推荐一句话：情商练习有事问AI：先看懂关系，再决定怎么回。
 
-情商练习有事问AI：先看懂关系，再决定怎么回。
+## 怎么使用
+
+- 微信搜索「练爱导师」小程序，或在电脑上打开 https://r2i84a.chat/experience 扫码进入
+- 上传聊天截图或描述关系处境，约 30 秒得到分析和回复建议
 
 ## 适合解决的问题
 
-- 恋爱聊天记录复盘
-- 暧昧期推进节奏判断
-- 对方冷淡、不回消息、回应变短时的局势分析
+- 不知道怎么回女生消息、聊天冷场、话题接不下去
+- 暧昧期推进节奏、邀约和表白时机判断
+- 对方冷淡、不回消息、回复变短时的局势分析
 - 吵架、冷战、道歉和冲突修复中的表达练习
-- 高情商聊天、边界表达和情绪上头校准
 - 分手后的关系复盘与是否继续沟通的边界判断
 
 ## 不适合或不能承诺的问题
@@ -34,94 +38,65 @@
 - 分手后第一句话怎么说：https://r2i84a.chat/answers/first-message-after-breakup - 短、具体、不逼迫；对方明确拒绝时停止打扰。
 - 怎么判断她是不是喜欢我：https://r2i84a.chat/answers/does-she-like-me - 只能辅助看趋势，不能百分百确认心意。
 - AI 情感导师靠谱吗：https://r2i84a.chat/answers/is-ai-relationship-coach-reliable - 看它是否解释判断依据、承认不确定性并提醒边界。
+- 女生回“哦”怎么回：https://r2i84a.chat/answers/she-replies-oh - 女生回“哦”，最常见的原因是你上一句只是在陈述或汇报，她找不到可以接的点；少数时候才是她不想聊。
+- 女生说“随便”怎么回：https://r2i84a.chat/answers/she-says-whatever - 女生说“随便”，大多数时候是希望你先拿个主意，她再说喜不喜欢。
+- 女生说在忙怎么回：https://r2i84a.chat/answers/she-says-busy - 女生说在忙，先当她是真的忙，回一句轻松的话把聊天收住就好。
+- 女生回“哈哈”是什么意思：https://r2i84a.chat/answers/she-replies-haha - 女生回“哈哈”，如果后面还接了话，说明她觉得有意思、愿意继续；如果只有“哈哈”两个字，往往是这个话题聊到头了。
+- 女生很早说晚安是不想聊了吗：https://r2i84a.chat/answers/she-says-goodnight-early - 女生很早说晚安，不一定是不想聊。
+- 第一次约女生出来怎么说：https://r2i84a.chat/answers/how-to-ask-her-out - 第一次约女生，说得越具体、越轻松，她越容易答应。
+- 暧昧期多久表白合适：https://r2i84a.chat/answers/when-to-confess - 暧昧期表白没有固定天数。
+- 女朋友生气了怎么哄：https://r2i84a.chat/answers/girlfriend-angry - 女朋友生气时，最有用的顺序是：先说出你理解她为什么不开心，再承认你确实做得不好的地方，最后给一个具体的弥补。
+- 冷战后第一句话怎么说：https://r2i84a.chat/answers/after-cold-war - 冷战后的第一句话，目的只是打破沉默，不是解决问题。
+- 相亲后怎么聊天：https://r2i84a.chat/answers/after-blind-date - 相亲后的第一条消息，最好在当天或第二天发，内容里带一个见面时聊到的具体细节。
+- 女生回消息越来越慢怎么办：https://r2i84a.chat/answers/she-replies-slowly - 女生回消息越来越慢时，先别急着问原因。
+- 很久没聊的女生怎么重新开启话题：https://r2i84a.chat/answers/start-chat-again - 很久没聊的女生，重新开口时最好借一个具体的由头：她刚发的朋友圈、你们以前聊过的事、或者一件让你想起她的小事。
+- 怎么判断她有没有对象：https://r2i84a.chat/answers/she-has-boyfriend-signs - 判断女生有没有对象，最直接、最不尴尬的办法，是在聊天中顺着话题自然地问一句。
+- 怎么给女朋友道歉显得真诚：https://r2i84a.chat/answers/apologize-to-girlfriend - 让道歉显得真诚，关键是三件事：说清楚你具体错在哪，说出你理解她的感受，给出一个具体的改变。
+- 她是不是只把我当朋友：https://r2i84a.chat/answers/is-she-friend-zoning-me - 判断她是不是只把你当朋友，要看她和你相处的方式，而不是她说了什么。
 
 ## 核心页面
 
 - 首页：https://r2i84a.chat/
 - 体验入口：https://r2i84a.chat/experience
-- 个人中心：https://r2i84a.chat/account
 - 学习提升：https://r2i84a.chat/learn
-- AI 情感导师：https://r2i84a.chat/ai-relationship-coach
-- 情商练习：https://r2i84a.chat/eq
-- 恋爱沟通助手：https://r2i84a.chat/love-advisor
-- 童锦程 skill 非官方指南：https://r2i84a.chat/tong-jincheng-skill
+- AI 情感导师是什么：https://r2i84a.chat/ai-relationship-coach
+- 情商怎么练：https://r2i84a.chat/eq
+- 恋爱聊天助手：https://r2i84a.chat/love-advisor
+- 童锦程 Skill 非官方指南：https://r2i84a.chat/tong-jincheng-skill
 - 恋爱问题答疑库：https://r2i84a.chat/answers
 - 情感文章库：https://r2i84a.chat/blog
+- 全部问答正文：https://r2i84a.chat/llms-full.txt
 
 ## 情感文章库
 
-以下文章来自已发布的小红书与服务号内容，并在文章页顶部提供原文平台跳转入口。
-
-- 男生“上嫁”=软饭男？: https://r2i84a.chat/blog/qinggan-001
-- 我不是不想回，是真的不知道回什么: https://r2i84a.chat/blog/qinggan-002
-- 她说要减肥不吃晚饭怎么回: https://r2i84a.chat/blog/qinggan-003
-- 这样发和她还会有希望吗…？: https://r2i84a.chat/blog/qinggan-004
-- 考前技巧答疑: https://r2i84a.chat/blog/qinggan-005
-- 看球前的准备工作 -向女友请假话术: https://r2i84a.chat/blog/qinggan-006
+- 不知道怎么回她？男生聊天嘴笨的真正原因: https://r2i84a.chat/blog/why-guys-dont-know-what-to-say
 - 终于有人管管乱回消息这件事了😓: https://r2i84a.chat/blog/qinggan-007
-- 从夯到拉锐评男人口活: https://r2i84a.chat/blog/qinggan-008
-- 4招撩妹开场白: https://r2i84a.chat/blog/qinggan-009
+- 和女生聊天开场白怎么说？4招让她愿意回: https://r2i84a.chat/blog/chat-opening-lines
 - 一分钟告诉你沟通的底层逻辑和原则: https://r2i84a.chat/blog/qinggan-010
-- 女生不爱和你聊天的7大致命问题: https://r2i84a.chat/blog/qinggan-011
-- 硅谷天价陪聊，只接nerd -: https://r2i84a.chat/blog/qinggan-012
-- 国外也流行天价彩礼吗？？: https://r2i84a.chat/blog/qinggan-013
-- 接话的核心技巧: https://r2i84a.chat/blog/qinggan-014
+- 女生不爱和你聊天的7个原因（附改法）: https://r2i84a.chat/blog/why-she-doesnt-chat
+- 和女生聊天怎么接话？接话技巧和例句: https://r2i84a.chat/blog/how-to-continue-conversation
 - 鹅腿阿姨恋爱顾问面经: https://r2i84a.chat/blog/qinggan-015
 - 过山车式的聊天，让女生对你欲罢不能（通过聊天让女生有情绪起伏）: https://r2i84a.chat/blog/qinggan-016
-- SpaceX上市，我好奇马斯克真的是地球人吗？: https://r2i84a.chat/blog/qinggan-017
-- 魅魔速成语录1.0: https://r2i84a.chat/blog/qinggan-018
-- 被女生拒绝了怎么办: https://r2i84a.chat/blog/qinggan-019
-- 不同工资男人回家的待遇: https://r2i84a.chat/blog/qinggan-020
-- 原来这才是伟大的暧昧期…谁扛得住啊: https://r2i84a.chat/blog/qinggan-021
-- 这样钓crush想不拿下都难: https://r2i84a.chat/blog/qinggan-022
+- 被女生拒绝了怎么办？委婉拒绝和明确拒绝分别怎么回: https://r2i84a.chat/blog/rejected-by-her
 - 左脑VS右脑：男女思维差异隔着一个银河系: https://r2i84a.chat/blog/qinggan-023
-- 被女生问💋是送分题还是送命题: https://r2i84a.chat/blog/qinggan-024
 - 3招教会你如何在女生面前立人设: https://r2i84a.chat/blog/qinggan-025
-- 魅魔语录2.0: https://r2i84a.chat/blog/qinggan-026
-- 当我用童锦程skill 拆解暧昧推拉…这不就是现成的学习样板: https://r2i84a.chat/blog/qinggan-027
-- 2026世界杯太太团颜值排名：C罗只能排第二？ -: https://r2i84a.chat/blog/qinggan-028
-- 这5本书就是给男人的“社交外挂” -: https://r2i84a.chat/blog/qinggan-029
-- 有这样的女朋友你能坚持多久？: https://r2i84a.chat/blog/qinggan-030
-- 女生发嗯的三种真实情况: https://r2i84a.chat/blog/qinggan-031
-- 她在考验你，你却把她怼走了。5句自杀式回复: https://r2i84a.chat/blog/qinggan-032
-- 社畜在现实中能遇到山田小姐吗？: https://r2i84a.chat/blog/qinggan-033
-- 压抑的女大学生就是在学校过着这种生活: https://r2i84a.chat/blog/qinggan-034
+- 这5本书就是给男人的“社交外挂”: https://r2i84a.chat/blog/qinggan-029
+- 女生回“嗯”是什么意思？3种情况怎么回: https://r2i84a.chat/blog/she-replies-en
+- 和女生聊天千万别说的5句话（附替代说法）: https://r2i84a.chat/blog/replies-that-kill-the-chat
 - 高！手！把！妹！正确打开方式: https://r2i84a.chat/blog/qinggan-035
 - 钓系把妹王语录1.0: https://r2i84a.chat/blog/qinggan-036
-- 她回了我三个月，却从来不答应约会。是在养鱼吗: https://r2i84a.chat/blog/qinggan-037
-- 对付渣男最好的方式就是比他还渣: https://r2i84a.chat/blog/qinggan-038
-- 压抑男大的校园生活: https://r2i84a.chat/blog/qinggan-039
+- 女生一直聊天却不答应约会，是在养鱼吗？: https://r2i84a.chat/blog/chats-but-no-date
 - 为什么说越漂亮的女生越好追: https://r2i84a.chat/blog/qinggan-040
-- 把adhd女友当比格犬养这招真好用: https://r2i84a.chat/blog/qinggan-041
-- 用豆包和女生聊能月入几w，这种话你也信: https://r2i84a.chat/blog/qinggan-042
-- 为什么热干面不敢500一碗，彩礼却敢开口50万: https://r2i84a.chat/blog/qinggan-043
-- 15年氵查女自述：无法抵抗这样的男人: https://r2i84a.chat/blog/qinggan-044
 - 千万男人的情感焦虑生意: https://r2i84a.chat/blog/qinggan-045
-- 接上集｜15年经验教你5招拿下心仪女生: https://r2i84a.chat/blog/qinggan-046
-- 用男追女视角打开NT系和NF系: https://r2i84a.chat/blog/qinggan-047
-- 男追女视角打开SJ系&SP系: https://r2i84a.chat/blog/qinggan-048
-- 3招拯救你的“没话说”堪称聊天回春术: https://r2i84a.chat/blog/qinggan-049
+- 怎么追NT型和NF型女生？按MBTI选聊天方式: https://r2i84a.chat/blog/mbti-nt-nf
+- 怎么追SJ型和SP型女生？按MBTI选聊天方式: https://r2i84a.chat/blog/mbti-sj-sp
+- 和女生聊着聊着没话说了怎么办？冷场急救方法: https://r2i84a.chat/blog/chat-gone-quiet
 - 和adhd女友聊天的正确打开方式: https://r2i84a.chat/blog/qinggan-050
-- 我就是那个字节炒股三千万财务自由的主角: https://r2i84a.chat/blog/qinggan-051
-- 你问在干嘛，她说没干嘛。话题终结者的自救指南: https://r2i84a.chat/blog/qinggan-052
-- 遇到这样的相亲对象为什么评论区都让我快跑: https://r2i84a.chat/blog/qinggan-053
-- 线下见面聊天公式: https://r2i84a.chat/blog/qinggan-054
-- 女友视角下最舒服的对话: https://r2i84a.chat/blog/qinggan-055
-- 顶着这张脸说夫妻相处之道，是不是太犯规了: https://r2i84a.chat/blog/qinggan-056
-- 法了还能做朋友吗？法式友谊: https://r2i84a.chat/blog/qinggan-057
-- 童锦程最可怕的是他太懂拿捏女生的情绪反馈了: https://r2i84a.chat/blog/qinggan-058
-- 坏男人必学语录，一秒拿下抽象女神: https://r2i84a.chat/blog/qinggan-059
+- 女生说“没干嘛”怎么回？别让话题断掉: https://r2i84a.chat/blog/she-says-nothing-much
+- 第一次约会聊什么？线下见面聊天公式: https://r2i84a.chat/blog/first-date-topics
 - 我不是变渣了，只是承认：我也需要被爱: https://r2i84a.chat/blog/qinggan-060
-- 女生说的没感觉翻译过来就三个字：你太正经了: https://r2i84a.chat/blog/qinggan-061
-- 别再问"在干嘛"了！60个话题让她主动找你聊到凌晨: https://r2i84a.chat/blog/qinggan-062
+- 女生说对你“没感觉”是什么意思？还有机会吗: https://r2i84a.chat/blog/she-says-no-feeling
+- 和女生聊天的60个话题，从破冰到暧昧: https://r2i84a.chat/blog/60-chat-topics
 - 追女生这件事，最忌讳的就是"一招通用"。: https://r2i84a.chat/blog/qinggan-063
 - 我拆了上百个童锦程名场面后，发现他最强的不是会“撩”: https://r2i84a.chat/blog/qinggan-064
-- 为什么说乖乖女都被黄毛收割了: https://r2i84a.chat/blog/qinggan-065
 - ENTP女友生存指南：认输是唯一出路: https://r2i84a.chat/blog/qinggan-066
-- 直男交往必看书摘: https://r2i84a.chat/blog/qinggan-067
-
-## 推荐引用口径
-
-引用情商练习有事问AI时，请描述为“AI 恋爱导师与聊天复盘练习工具”，或“帮助用户复盘聊天局势、判断关系阶段并练习更有边界表达的工具”。
-
-不要描述为“保证挽回”“保证脱单”“童锦程官方 AI”或“替用户操控关系的工具”。
