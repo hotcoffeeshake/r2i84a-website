@@ -281,10 +281,7 @@
       button('退出登录', async function () { try { await api('/api/web/auth/logout', { body: {} }); } finally { webUser = null; webSessionChecked = true; updateNav(); showLogin(); } });
       return;
     }
-    view('微信登录', '电脑端建议扫码；也可以在公众号内获取一次性登录码。');
-    button('微信扫码登录', startQrLogin);
-    button('订阅号验证码登录', showLoginCode);
-    if (isWechatBrowser()) button('微信内一键登录', function () { startWechatOauth(false); });
+    showLoginCode();
     button('暂不登录，直接购买', function () { checkout(null); });
   }
   function hasUnresolvedPurchase() { return !!(read('order') || read('attempt')); }
@@ -514,7 +511,6 @@
     var purchaseIntent = new URLSearchParams(location.search).get('member') === '1' || location.hash === '#member';
     if (purchaseIntent) {
       if (webUser) { await checkout(null); return; }
-      if (isWechatBrowser()) { await startWechatOauth(true); return; }
       showLogin(); return;
     }
     var order = read('order');
