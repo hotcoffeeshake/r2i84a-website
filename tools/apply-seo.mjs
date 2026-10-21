@@ -271,7 +271,7 @@ const aliasTargets = new Map(plans.flatMap((plan) => [...plan.aliases].map((alia
 // 测试页本身、体验/账号/真人答复等转化页面不弹。改版本号即可刷新缓存。
 const QUIZ_POPUP_TAG = '<script src="/assets/chat-quiz.js?v=20261021b" data-mode="popup" defer></script>\n';
 const QUIZ_POPUP_RE = /<script src="\/assets\/chat-quiz\.js[^"]*" data-mode="popup" defer><\/script>\n/g;
-const QUIZ_POPUP_EXCLUDE = new Set(["quiz.html", "experience.html", "account.html", "human-answer.html", "temple.html", "home.html"]);
+const QUIZ_POPUP_EXCLUDE = new Set(["quiz.html", "quiz-guide.html", "experience.html", "account.html", "human-answer.html", "temple.html", "home.html", "wechat-login.html"]);
 // 先删旧标签再插到 </body> 前，重复运行结果不变
 const withQuizPopup = (file, html) => {
   html = html.replace(QUIZ_POPUP_RE, "");
@@ -292,7 +292,7 @@ for (const file of siteHtmlFiles()) {
 
 function platformPill(post) {
   const xhs = post.platform === "小红书";
-  return `<span class="platform-pill ${xhs ? "xhs" : "wx"}"><img src="../assets/platform-${xhs ? "xiaohongshu" : "wechat"}.svg" alt="${escapeHtml(post.platform)}" /> ${escapeHtml(post.platform)}</span>`;
+  return `<span class="platform-pill ${xhs ? "xhs" : "wx"}"><img src="../assets/platform-${xhs ? "xiaohongshu" : "wechat-service"}.svg" alt="${escapeHtml(post.platform)}" /> ${escapeHtml(post.platform)}</span>`;
 }
 
 function learnRow(post) {

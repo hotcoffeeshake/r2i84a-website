@@ -44,7 +44,7 @@
   var FREE_WHY = 2;                 // 结果页免费展示几题解析
   var POPUP_DELAY_MS = 6000;        // 进入页面后几秒弹出
   var SNOOZE_DAYS = 3;              // 关掉弹窗后几天内不再弹
-  var QR_SRC = "/assets/wechat-subscription-qr.jpg";
+  var QR_SRC = "/assets/wechat-subscription-follow.jpg";
   var KEYWORD = "速查";
   var STORE_DONE = "cq_done";
   var STORE_SNOOZE = "cq_snooze_until";
