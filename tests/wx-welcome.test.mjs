@@ -26,3 +26,5 @@ test('stale pairing callback is rejected',async()=>assert.equal((await post(xml(
 test('reply safely escapes all XML special characters',()=>{const f=parseWechatXml(xml());const text='&<>"\' ]]> 中文';assert.equal(parseWechatXml(textReply(f,text)).Content,text);});
 test('body reader supports parsed body',async()=>assert.equal(await readXmlBody({body:xml()}),xml()));
 test('malformed or nested XML rejected',()=>{assert.throws(()=>parseWechatXml(xml().replace('<Event>subscribe</Event>','<Event><x>subscribe</x></Event>')));assert.throws(()=>parseWechatXml(xml().replace('gh_test','x]]>&evil;<![CDATA[y')));});
+test('keyword 速查 replies with quiz guide link',async()=>{const r=await post(xml().replace('<MsgType>event</MsgType><Event>subscribe</Event>','<MsgType>text</MsgType><Content>速查</Content>'));assert.equal(r.status,200);assert.match(parseWechatXml(r.body).Content,/https:\/\/r2i84a\.chat\/quiz-guide$/);});
+test('other text still gets login hint',async()=>{const r=await post(xml().replace('<MsgType>event</MsgType><Event>subscribe</Event>','<MsgType>text</MsgType><Content>你好</Content>'));assert.match(parseWechatXml(r.body).Content,/6 位数字/);});
