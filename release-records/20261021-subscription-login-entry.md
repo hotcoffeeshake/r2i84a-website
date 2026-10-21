@@ -19,3 +19,10 @@
 - 独立 Review、diff 检查通过；部署浏览器实际测得连续按钮间距均为 12px；health 维持 native、guestReady=true、wechatLogin=false。
 - 登录参考：https://howtolivebetter.net/sign-in。页面实测显示 6 位配对码，发送到公众号后原页自动登录；另有关键词回复验证码的备用输入入口。没有验证其后台实现或 magic link。
 - 本次仅发布显示修复；6 位配对码流程尚未实现，公众号真实收发仍待接入。
+
+## 同日仅保留验证码登录
+
+- 提交：edd05db；未登录入口直接展示订阅号验证码表单；移除新扫码/OAuth入口和微信内自动OAuth；保留访客购买及旧回调兼容代码。
+- 部署：dpl_ERtbzMivpC3saG2BcoY4wEZ9dHoa；上一部署 dpl_6gAEvNjzVvaTzS2UGQ8HbXnKQ5RV。
+- JS语法、diff、独立Review通过；部署浏览器确认仅有验证码表单及直接购买；health仍native、guestReady=true、wechatLogin=false。
+- 无依赖、环境变量、共享目录、支付函数或部署配置改动。实际公众号验证码收发仍未接通，未测试真实付款。
