@@ -44,7 +44,7 @@
   var FREE_WHY = 2;                 // 结果页免费展示几题解析
   var POPUP_DELAY_MS = 6000;        // 进入页面后几秒弹出
   var SNOOZE_DAYS = 3;              // 关掉弹窗后几天内不再弹
-  var QR_SRC = "/assets/wechat-service-follow-no-avatar.png";
+  var QR_SRC = "/assets/wechat-subscription-qr.jpg";
   var KEYWORD = "速查";
   var STORE_DONE = "cq_done";
   var STORE_SNOOZE = "cq_snooze_until";
@@ -260,14 +260,14 @@
       var lead = el("div", "cq-lead");
       var img = el("img");
       img.src = QR_SRC;
-      img.alt = "情商练习有事问AI 服务号二维码";
-      img.width = 300; img.height = 300;
+      img.alt = "情商练习有事问AI 公众号二维码";
+      img.width = 430; img.height = 430;
       img.loading = "lazy";
       lead.appendChild(img);
       var box = el("div");
       box.appendChild(el("h3", null, "免费领取：完整解析 + 高频场景速查"));
       var p = el("p");
-      p.appendChild(document.createTextNode("微信扫码关注服务号，发送"));
+      p.appendChild(document.createTextNode("微信扫码关注公众号，发送"));
       p.appendChild(el("span", "cq-kw", KEYWORD));
       p.appendChild(document.createTextNode("，自动发给你："));
       box.appendChild(p);
