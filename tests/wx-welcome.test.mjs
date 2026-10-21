@@ -22,7 +22,7 @@ test('DTD rejected',async()=>assert.equal((await post('<!DOCTYPE xml>'+xml())).s
 test('duplicate identity rejected',async()=>assert.equal((await post(xml().replace('</xml>','<FromUserName>other</FromUserName></xml>'))).status,400));
 test('encrypted body rejected',async()=>assert.equal((await post('<xml><Encrypt>secret</Encrypt></xml>')).status,400));
 test('oversize body rejected',async()=>assert.equal((await post('x'.repeat(65537))).status,400));
-test('text pairing stays gated',async()=>assert.equal((await post(xml().replace('<MsgType>event</MsgType>','<MsgType>text</MsgType><Content>123456</Content>'))).status,503));
+test('stale pairing callback is rejected',async()=>assert.equal((await post(xml().replace('<MsgType>event</MsgType>','<MsgType>text</MsgType><Content>123456</Content>'))).status,403));
 test('reply safely escapes all XML special characters',()=>{const f=parseWechatXml(xml());const text='&<>"\' ]]> 中文';assert.equal(parseWechatXml(textReply(f,text)).Content,text);});
 test('body reader supports parsed body',async()=>assert.equal(await readXmlBody({body:xml()}),xml()));
 test('malformed or nested XML rejected',()=>{assert.throws(()=>parseWechatXml(xml().replace('<Event>subscribe</Event>','<Event><x>subscribe</x></Event>')));assert.throws(()=>parseWechatXml(xml().replace('gh_test','x]]>&evil;<![CDATA[y')));});

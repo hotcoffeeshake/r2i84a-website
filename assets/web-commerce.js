@@ -71,11 +71,11 @@
   }
   function updateNav() {
     document.querySelectorAll('button.nav-login').forEach(function (el) {
-      var label = webUser ? '微信已登录' : '微信登录 / 购买';
+      var label = (webUser || siteUser) ? '微信已登录' : '微信登录 / 购买';
       if (el.textContent !== label) el.textContent = label;
     });
   }
-  var generation = 0, busy = false, timer, webUser = null, webSessionChecked = false, webSessionPromise = null;
+  var generation = 0, busy = false, timer, webUser = null, siteUser = null, webSessionChecked = false, webSessionPromise = null;
   function toast(message) { toastEl.textContent = message; toastEl.classList.add('on'); }
   function message(text) { var el = document.getElementById('r2status'); if (el) el.textContent = text; }
   function close() { generation++; clearTimeout(timer); mask.classList.remove('on'); }
@@ -281,7 +281,17 @@
       button('退出登录', async function () { try { await api('/api/web/auth/logout', { body: {} }); } finally { webUser = null; webSessionChecked = true; updateNav(); showLogin(); } });
       return;
     }
-    showLoginCode();
+    if (siteUser) {
+      view('微信账号', '已登录：微信用户');
+      button('购买 / 查询订单', function () { checkout(null); });
+      button('退出登录', async function () { try { await api('/api/auth/wechat/logout', { body: {} }); siteUser = null; updateNav(); showLogin(); } catch (_) { message('退出失败，请重试。'); } });
+      return;
+    }
+    view('微信公众号登录', '关注订阅号，发送网页上的 6 位数字即可登录。');
+    button('获取 6 位登录码', function () {
+      try { sessionStorage.setItem('login_return', location.pathname + location.search + location.hash); } catch (_) {}
+      location.assign('/wechat-login');
+    });
     button('暂不登录，直接购买', function () { checkout(null); });
   }
   function hasUnresolvedPurchase() { return !!(read('order') || read('attempt')); }
@@ -508,9 +518,10 @@
     render();
     if (await completeWechatOauth()) return;
     await loadWebUser().catch(function () {});
+    await api('/api/auth/wechat/me').then(function (data) { siteUser = data.user; updateNav(); }).catch(function () {});
     var purchaseIntent = new URLSearchParams(location.search).get('member') === '1' || location.hash === '#member';
     if (purchaseIntent) {
-      if (webUser) { await checkout(null); return; }
+      if (webUser || siteUser) { await checkout(null); return; }
       showLogin(); return;
     }
     var order = read('order');
