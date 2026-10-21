@@ -29,14 +29,14 @@
 2. 实现/验证关注事件欢迎语。
 3. 复用现有数据库，实现配对码、openid 绑定与浏览器会话；接入前必须核对现有账号和支付身份契约。
 4. 错码、过期、重复领取、无领取凭证、限流验证。
-5. 前端 /wechat-login、复制、刷新与来源页跳转。
+5. 前端 /wechat-login、复制、刷新与登录后统一首页跳转。
 6. 本轮不做 P2 反向验证码/magic link。
 
 待处理的必要准确性问题：前端隐私文案不能写“不获取任何个人信息”同时又保存 openid；实施第 5 步时应准确说明仅用于账号识别，避免把真实数据处理描述成零采集。此处不改变登录流程。
 
 ## 第 3 步实现与身份边界
 
-- 网页：`wechat-login.html`、`assets/wechat-login.js`、`assets/wechat-login.css`。每 2 秒轮询，失败退避 5 秒；5 分钟有效期，过期重取；来源地址只允许本站路径。
+- 网页：`wechat-login.html`、`assets/wechat-login.js`、`assets/wechat-login.css`。每 2 秒轮询，失败退避 5 秒；5 分钟有效期，过期重取；登录成功后统一跳转网站首页 /（按用户最新要求），不再恢复来源地址。
 - 入口：`assets/web-commerce.js`，首页导航只保留配对码登录入口；购买仍沿用原流程。
 - 接口：`api/auth/wechat/pair/start.mjs`、`claim.mjs`；`api/auth/wechat/me.mjs`、`logout.mjs`。
 - 回调：`api/wx/callback.mjs`，收到 6 位码先事务落库，再返回成功 XML。

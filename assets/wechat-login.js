@@ -3,7 +3,7 @@
  var codeEl=document.getElementById('pairCode'),statusEl=document.getElementById('pairStatus'),copy=document.getElementById('copyCode'),refresh=document.getElementById('refreshCode');
  var current='',expires=0,timer,generation=0,copyTimer;
  function status(text,waiting){statusEl.textContent=text;statusEl.classList.toggle('waiting',!!waiting);}
- function returnPath(){try{var raw=sessionStorage.getItem('login_return');sessionStorage.removeItem('login_return');if(raw){var url=new URL(raw,location.origin);if(url.origin===location.origin&&url.pathname!=='/wechat-login'&&url.pathname!=='/wechat-login.html')return url.pathname+url.search+url.hash;}}catch(_){}return '/home';}
+ function returnPath(){try{sessionStorage.removeItem('login_return');}catch(_){}return '/';}
  async function request(path,data){var response=await fetch('/api/auth/wechat/'+path,{method:data?'POST':'GET',credentials:'same-origin',headers:data?{'Content-Type':'application/json'}:{},body:data?JSON.stringify(data):undefined,cache:'no-store',signal:AbortSignal.timeout(8000)});var result;try{result=await response.json();}catch(_){throw new Error('暂时无法连接登录服务，请重试。');}return {ok:response.ok,status:response.status,data:result};}
  function expired(){clearTimeout(timer);current='';copy.disabled=true;status('登录码已过期，请重新获取。');refresh.hidden=false;}
  async function poll(g){if(g!==generation)return;if(Date.now()>=expires)return expired();var delay=2000;
