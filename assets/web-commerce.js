@@ -121,6 +121,7 @@
   function errorText(error) {
     if (error && error.name === 'AbortError') return '请求超时，请重试；如已付款请勿重复购买。';
     var code = error && error.code;
+    if (code === 'WECHAT_LOGIN_UNAVAILABLE') return '公众号验证码登录暂未开通，请稍后重试。购买入口仍可使用。';
     if (code === 'PURCHASE_STORAGE_UNAVAILABLE') return '当前浏览器无法保存或读取购买凭据，请使用普通浏览器重试；如已付款请保留微信支付凭证，不要重复购买。';
     if (code === 'SECURE_RANDOM_UNAVAILABLE') return '当前浏览器不支持安全生成购买凭据，请使用较新的普通浏览器重试。';
     if (code === 'INVALID_LOGIN_CODE') return '登录码格式不正确，请在公众号内重新发送“登录”后复制完整登录码。';
@@ -230,8 +231,8 @@
     } catch (error) { if (g === generation) { message(errorText(error)); button('重试生成二维码', startQrLogin); } }
   }
   function showLoginCode() {
-    var g = view('公众号登录码', '关注服务号，在公众号内发送“登录”，取得一次性登录码。');
-    image('/assets/wechat-service-follow-no-avatar.png', '微信服务号二维码');
+    var g = view('订阅号验证码登录', '扫码关注订阅号，在公众号内发送“登录”，获取一次性登录验证码，再填回本页面。');
+    image('/assets/wechat-subscription-follow.jpg', '微信订阅号关注二维码');
     var input = document.createElement('input');
     input.type = 'text'; input.autocomplete = 'one-time-code'; input.inputMode = 'text'; input.maxLength = 16;
     input.placeholder = '请输入登录码，例如 ABCDE-12345';
@@ -282,7 +283,7 @@
     }
     view('微信登录', '电脑端建议扫码；也可以在公众号内获取一次性登录码。');
     button('微信扫码登录', startQrLogin);
-    button('使用公众号登录码', showLoginCode);
+    button('订阅号验证码登录', showLoginCode);
     if (isWechatBrowser()) button('微信内一键登录', function () { startWechatOauth(false); });
     button('暂不登录，直接购买', function () { checkout(null); });
   }
