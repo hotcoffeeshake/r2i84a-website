@@ -9,7 +9,7 @@
 - Vercel production 环境变量：`WX_TOKEN`，与公众号后台 Token 完全一致；不要写入 Git、浏览器代码或发布日志。
 - 公众号后台：设置与开发 → 基本配置 → 服务器配置。填写上述 URL 与 Token；EncodingAESKey 由后台随机生成，第一版选择明文模式。
 - GET 签名有效时原样回显 echostr，否则 403；缺少服务端 Token 时 503。
-- 这一阶段尚未实现消息业务：有效 POST 返回明确 503，不虚假确认消息已处理。完成后台提交/启用后立即继续第 2 步关注事件；此时尚不能验收欢迎语或登录。
+- 第 1 步已由用户截图确认提交/启用成功（明文 XML）。第 2 步新增关注欢迎语：subscribe 被动返回 XML，unsubscribe 返回 success；普通文本暂返回 503，配对业务待第 3 步实现。
 - 若此公众号原本已启用其他服务器，应先核对原有服务，不能直接覆盖。
 - 第一阶段不需要 AppSecret、用户资料查询、网页授权、开放平台或带参数二维码。
 
@@ -19,7 +19,9 @@
 新增函数采用 Vercel Build Output API；`tools/add-wx-callback-artifact.mjs` 只在私有部署请求中新增独立函数，断言保留全部支付函数文件，不向 static 暴露服务端源码。
 函数 region 沿用当前 iad1（方案要求尽量单 region）；只使用 Node 内置库，无新增依赖。
 
-测试：`node --test tests/wx-callback.test.mjs`。
+测试：`node --test tests/wx-*.test.mjs`。
+
+第 2 步无数据库写入或外呼：相同事件返回相同欢迎语，XML 响应只发送一次。XML 输入限 64KiB，流读取限 1.5 秒；拒绝 DTD、重复字段、加密体和畸形 XML。函数 maxDuration=5 不代表真实微信收信或冷启动时延保证，需手机关注验收。
 
 ## 后续验收门槛
 
