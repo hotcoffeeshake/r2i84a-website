@@ -13,8 +13,18 @@
       "permanent": true
     },
     {
+      "source": "/blog/qinggan-007",
+      "destination": "/blog/why-her-messages-hard-to-reply",
+      "permanent": true
+    },
+    {
       "source": "/blog/qinggan-009",
       "destination": "/blog/chat-opening-lines",
+      "permanent": true
+    },
+    {
+      "source": "/blog/qinggan-010",
+      "destination": "/blog/chat-basic-principles",
       "permanent": true
     },
     {
@@ -33,6 +43,21 @@
       "permanent": true
     },
     {
+      "source": "/blog/qinggan-023",
+      "destination": "/blog/men-women-chat-thinking",
+      "permanent": true
+    },
+    {
+      "source": "/blog/qinggan-025",
+      "destination": "/blog/show-yourself-to-her",
+      "permanent": true
+    },
+    {
+      "source": "/blog/qinggan-029",
+      "destination": "/blog/books-for-social-skills",
+      "permanent": true
+    },
+    {
       "source": "/blog/qinggan-031",
       "destination": "/blog/she-replies-en",
       "permanent": true
@@ -45,6 +70,11 @@
     {
       "source": "/blog/qinggan-037",
       "destination": "/blog/chats-but-no-date",
+      "permanent": true
+    },
+    {
+      "source": "/blog/qinggan-040",
+      "destination": "/blog/are-pretty-girls-harder-to-chase",
       "permanent": true
     },
     {
@@ -80,6 +110,21 @@
     {
       "source": "/blog/qinggan-062",
       "destination": "/blog/60-chat-topics",
+      "permanent": true
+    },
+    {
+      "source": "/blog/qinggan-063",
+      "destination": "/blog/chase-by-her-personality",
+      "permanent": true
+    },
+    {
+      "source": "/blog/qinggan-064",
+      "destination": "/blog/tong-jincheng-reading-emotions",
+      "permanent": true
+    },
+    {
+      "source": "/blog/qinggan-066",
+      "destination": "/blog/entp-girlfriend",
       "permanent": true
     }
   ],

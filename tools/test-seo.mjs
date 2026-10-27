@@ -39,7 +39,7 @@ try {
     }
   }
   run();
-  assert.equal(countCards(), 31);
+  assert.equal(countCards(), 24);
   const first = snapshot(); run(); assert.equal(snapshot(), first, 'default build must be idempotent');
   const originalConfig = read('tools/seo-config.mjs');
   write('tools/seo-config.mjs', originalConfig.replace(/export const NOINDEX_POSTS = \[[\s\S]*?\];/, 'export const NOINDEX_POSTS = [];').replace('THIN_TEXT_LENGTH = 80', 'THIN_TEXT_LENGTH = 0'));
@@ -50,12 +50,12 @@ try {
   assert.match(read('sitemap.xml'), /\/blog\/qinggan-005</);
   assert.equal(JSON.parse(read('blog/index.html').match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1])['@graph'].find(x => x['@type'] === 'ItemList').itemListElement.length, 66);
   write('tools/seo-config.mjs', originalConfig.replace('  "qinggan-005",', '  "qinggan-025",\n  "qinggan-005",'));
-  run(); assert.doesNotMatch(learnSection('priority-title'), /qinggan-025/);
-  write('tools/seo-config.mjs', originalConfig); run(); assert.match(learnSection('priority-title'), /qinggan-025/);
+  run(); assert.doesNotMatch(learnSection('priority-title'), /show-yourself-to-her/);
+  write('tools/seo-config.mjs', originalConfig); run(); assert.match(learnSection('priority-title'), /show-yourself-to-her/);
   const thinPath = 'blog/qinggan-001/index.html';
   const wasThin = read(thinPath); assert.match(wasThin, /noindex, follow/);
   write(thinPath, wasThin.replace('<div class="article-prose">', `<div class="article-prose"><p>${'补充具体聊天情境与处理建议。'.repeat(12)}</p>`));
-  run(); assert.equal(countCards(), 32); assert.match(learnSection('all-articles-title'), /qinggan-001/);
+  run(); assert.equal(countCards(), 25); assert.match(learnSection('all-articles-title'), /qinggan-001/);
   const firstSlug = 'why-guys-dont-know-what-to-say';
   const history = ['qinggan-002', firstSlug];
   write('tools/answer-pages-data.mjs', read('tools/answer-pages-data.mjs').replace(/\/blog\/[a-z0-9-]+/, `/blog/${firstSlug}`));
