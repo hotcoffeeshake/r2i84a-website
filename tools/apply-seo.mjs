@@ -561,3 +561,8 @@ const noindexed = posts.filter((p) => !p.indexable);
 const count = (reason) => noindexed.filter((p) => p.reason === reason).length;
 console.log(`posts: ${posts.length}, indexable: ${indexable.length}, excluded: ${noindexed.length} (offtopic ${count("offtopic")}, thin ${count("thin")}, duplicate ${count("duplicate")})`);
 console.log(`renamed: ${renamed.length}, answers: ${allAnswers.length}`);
+
+// ---------- 9. 统计脚本 ----------
+
+import { injectAnalytics } from "./inject-analytics.mjs";
+console.log(`analytics: ${injectAnalytics()} pages tagged`);

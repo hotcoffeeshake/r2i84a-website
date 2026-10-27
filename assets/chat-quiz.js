@@ -45,6 +45,7 @@
   var POPUP_DELAY_MS = 6000;        // 进入页面后几秒弹出
   var SNOOZE_DAYS = 3;              // 关掉弹窗后几天内不再弹
   var QR_SRC = "/assets/wechat-subscription-follow.jpg";
+  function track(action, label, value) { if (window.r2track) window.r2track("quiz", action, label, value); }
   var KEYWORD = "速查";
   var STORE_DONE = "cq_done";
   var STORE_SNOOZE = "cq_snooze_until";
@@ -164,7 +165,7 @@
       ["选完马上知道对错", "测完看你的聊天习惯", "免费领完整解析"].forEach(function (t) { meta.appendChild(el("li", null, t)); });
       root.appendChild(meta);
       var act = el("div", "cq-actions");
-      var start = button("cq-btn", "开始测试 →", function () { idx = 0; picks = []; question(); });
+      var start = button("cq-btn", "开始测试 →", function () { track("start", opts.compact ? "popup" : location.pathname); idx = 0; picks = []; question(); });
       act.appendChild(start);
       if (opts.onLater) act.appendChild(button("cq-link", "以后再说", opts.onLater));
       root.appendChild(act);
@@ -226,6 +227,7 @@
 
     function result() {
       var s = score();
+      track("complete", "score_" + s, s);
       store(STORE_DONE, "1");
       root.innerHTML = "";
       var sc = el("div", "cq-score");
@@ -335,6 +337,7 @@
     dialog.appendChild(body);
     overlay.appendChild(dialog);
     document.body.appendChild(overlay);
+    track("popup_show", location.pathname);
     var prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     // 弹窗打开时先藏起小程序浮窗，避免两个二维码同时出现
@@ -367,6 +370,7 @@
     overlay.addEventListener("click", function (e) { if (e.target === overlay) close(true); });
 
     Quiz(body, {
+      compact: true,
       focus: true,
       onLater: function () { close(true); },
       onClose: function () { close(false); },
