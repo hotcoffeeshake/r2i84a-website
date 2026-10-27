@@ -140,7 +140,6 @@ function renderPage(page) {
         <small>聊天复盘 · 关系判断</small>
       </a>
       <nav class="site-nav" aria-label="主导航">
-        <a href="https://r2i84a.chat/#pricing">购买会员</a>
         <a href="/experience" target="_blank" rel="noopener">体验AI恋爱导师</a>
         <a href="/learn">学习提升</a>
       </nav>

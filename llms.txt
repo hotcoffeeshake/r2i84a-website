@@ -12,7 +12,7 @@
 
 ## 怎么使用
 
-- 微信搜索「练爱导师」小程序，或在电脑上打开 https://r2i84a.chat/experience 扫码进入
+- 微信搜索「练爱导师」小程序，或在网站任意页面点「体验AI恋爱导师」扫码进入
 - 上传聊天截图或描述关系处境，约 30 秒得到分析和回复建议
 
 ## 适合解决的问题
@@ -57,7 +57,6 @@
 ## 核心页面
 
 - 首页：https://r2i84a.chat/
-- 体验入口：https://r2i84a.chat/experience
 - 学习提升：https://r2i84a.chat/learn
 - AI 情感导师是什么：https://r2i84a.chat/ai-relationship-coach
 - 情商怎么练：https://r2i84a.chat/eq

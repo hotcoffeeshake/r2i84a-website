@@ -31,7 +31,7 @@
     if (!t) return;
     if (t.matches(".qa-copy-button")) return track("answer", "copy_reply", location.pathname + "#" + (t.getAttribute("data-copy-target") || ""));
     var href = t.getAttribute("href") || "";
-    if (/\/experience(\.html)?(?:[?#]|$)/.test(href)) return track("miniprogram", "cta_click", location.pathname + " | " + text(t));
+    if (href === "#mp-qr" || /\/experience(\.html)?(?:[?#]|$)/.test(href)) return track("miniprogram", "cta_click", location.pathname + " | " + text(t));
     if (/#pricing$/.test(href)) return track("purchase", "pricing_click", location.pathname);
     if (/\/quiz(\.html)?(?:[?#]|$)/.test(href)) return track("quiz", "entry_click", location.pathname);
     if (/\/course(\.html)?(?:[?#]|$)/.test(href)) return track("course", "entry_click", location.pathname);
