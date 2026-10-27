@@ -3,7 +3,8 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const TAG = '<script src="/assets/analytics.js?v=20261027" defer></script>';
+const TAG = '<script src="/assets/analytics.js?v=20261028" defer></script>';
+const OLD_TAG = /<script src="\/assets\/analytics\.js\?v=[^"]*" defer><\/script>/;
 const SKIP = new Set(["node_modules", ".git", ".vercel", ".npm-cache", ".scratch", "materials", "test-results", "exports", "release-records", "docs"]);
 
 export function injectAnalytics(root = process.cwd()) {
@@ -15,8 +16,9 @@ export function injectAnalytics(root = process.cwd()) {
       if (entry.isDirectory()) { visit(file); continue; }
       if (!entry.name.endsWith(".html")) continue;
       const html = fs.readFileSync(file, "utf8");
-      if (html.includes("/assets/analytics.js") || !html.includes("</head>")) continue;
-      fs.writeFileSync(file, html.replace("</head>", `${TAG}</head>`));
+      if (html.includes(TAG) || !html.includes("</head>")) continue;
+      // 改了 TAG 的版本号时，替换旧标签（.js 缓存一年，只能靠版本号让浏览器拿新文件）
+      fs.writeFileSync(file, OLD_TAG.test(html) ? html.replace(OLD_TAG, TAG) : html.replace("</head>", `${TAG}</head>`));
       changed += 1;
     }
   };

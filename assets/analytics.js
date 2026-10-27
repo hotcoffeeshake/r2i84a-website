@@ -2,7 +2,7 @@
 // BAIDU_ID 为空时不加载百度统计，事件只打印到控制台；网址带 ?debug_track=1 时也会打印。
 // 其他脚本用 window.r2track && window.r2track(分类, 动作, 标签, 数值) 记事件。
 (function () {
-  var BAIDU_ID = ""; // 百度统计后台「代码获取」里 hm.js? 后面的 32 位字符
+  var BAIDU_ID = "1f57d5916cf5fdec68997d4a22212bfa"; // 百度统计后台「代码获取」里 hm.js? 后面的 32 位字符
   var hmt = (window._hmt = window._hmt || []);
   var debug = !BAIDU_ID || /[?&]debug_track=1/.test(location.search);
 
