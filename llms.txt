@@ -64,6 +64,7 @@
 - 聊天反应测试：https://r2i84a.chat/quiz - 10 个高频聊天场景单选题，选完即时看对错，测完看得分与聊天习惯
 - 恋爱聊天助手：https://r2i84a.chat/love-advisor
 - 童锦程 Skill 非官方指南：https://r2i84a.chat/tong-jincheng-skill
+- 腾哥课程（亲密关系研学营、30 天实战陪跑）：https://r2i84a.chat/course
 - 恋爱问题答疑库：https://r2i84a.chat/answers
 - 情感文章库：https://r2i84a.chat/blog
 - 全部问答正文：https://r2i84a.chat/llms-full.txt

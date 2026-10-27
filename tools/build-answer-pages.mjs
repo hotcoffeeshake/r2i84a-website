@@ -240,6 +240,12 @@ ${page.faqs
             </div>
 
             <div class="qa-sidebar-card">
+              <h2>想有人带你走一遍？</h2>
+              <p>腾哥本人带的研学营和 30 天实战陪跑，从认识异性到线下约会。</p>
+              <a href="/course">看看腾哥的课程 →</a>
+            </div>
+
+            <div class="qa-sidebar-card">
               <h2>本页内容</h2>
               <nav class="qa-toc" aria-label="本页内容">
 ${sections.map((item, index) => `                <a class="${index === 0 ? "active" : ""}" href="#${item.id}">${item.title}</a>`).join("\n")}

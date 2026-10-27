@@ -34,12 +34,15 @@
     if (/\/experience(\.html)?(?:[?#]|$)/.test(href)) return track("miniprogram", "cta_click", location.pathname + " | " + text(t));
     if (/#pricing$/.test(href)) return track("purchase", "pricing_click", location.pathname);
     if (/\/quiz(\.html)?(?:[?#]|$)/.test(href)) return track("quiz", "entry_click", location.pathname);
+    if (/\/course(\.html)?(?:[?#]|$)/.test(href)) return track("course", "entry_click", location.pathname);
+    if (/space\.bilibili\.com/.test(href)) return track("course", "bilibili_click", location.pathname);
   }, true);
 
   // 二维码出现在屏幕上：订阅号码、小程序码，每页每种只记一次
   var QR = [
     { match: "wechat-subscription-follow", action: "subscription_qr_view" },
     { match: "mp-qrcode", action: "miniprogram_qr_view" },
+    { match: "assistant-wechat", action: "assistant_qr_view" },
   ];
   var seen = {};
   var io = "IntersectionObserver" in window ? new IntersectionObserver(function (entries) {
