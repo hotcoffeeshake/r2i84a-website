@@ -190,6 +190,14 @@ const CTA_PANEL = `<div class="info-panel">
             </ul>
           </div>`;
 
+const COURSE_PANEL = `<div class="info-panel">
+            <h2>想有人带你走一遍？</h2>
+            <p>腾哥本人带的亲密关系研学营和 30 天实战陪跑，从认识异性、线上聊天到线下约会。</p>
+            <ul class="compact-flow">
+              <li><a href="/course">看看腾哥的课程 →</a></li>
+            </ul>
+          </div>`;
+
 function relatedFor(post) {
   const pool = indexable.filter((p) => p.id !== post.id);
   const after = pool.filter((p) => p.id > post.id);
@@ -251,6 +259,9 @@ for (const post of posts) {
   );
   if (!html.includes("把你的聊天截图发给 AI")) {
     html = html.replace(/(<div class="info-panel">\s*<h2>文章信息<\/h2>)/, `${CTA_PANEL}\n          $1`);
+  }
+  if (!html.includes('href="/course"')) {
+    html = html.replace(/(<div class="info-panel">\s*<h2>文章信息<\/h2>)/, `${COURSE_PANEL}\n          $1`);
   }
 
   // 继续阅读：只推荐可收录的文章
@@ -405,6 +416,7 @@ const corePages = [
   { loc: "/quiz", name: "聊天反应测试", priority: "0.8" },
   { loc: "/love-advisor", name: "恋爱聊天助手", priority: "0.8" },
   { loc: "/tong-jincheng-skill", name: "童锦程 Skill 非官方指南", priority: "0.8" },
+  { loc: "/course", name: "腾哥课程", priority: "0.7" },
   { loc: "/answers", name: "恋爱问题答疑库", priority: "0.8" },
   { loc: "/answers/girl-not-replying", name: "女生不回消息怎么办", priority: "0.8" },
   { loc: "/answers/ambiguous-relationship", name: "暧昧期怎么推进关系", priority: "0.8" },
@@ -496,6 +508,7 @@ ${ANSWER_PAGES.map((page) => `- ${page.question.replace(/？$/, "")}：${SITE_UR
 - 聊天反应测试：${SITE_URL}/quiz - 10 个高频聊天场景单选题，选完即时看对错，测完看得分与聊天习惯
 - 恋爱聊天助手：${SITE_URL}/love-advisor
 - 童锦程 Skill 非官方指南：${SITE_URL}/tong-jincheng-skill
+- 腾哥课程（亲密关系研学营、30 天实战陪跑）：${SITE_URL}/course
 - 恋爱问题答疑库：${SITE_URL}/answers
 - 情感文章库：${SITE_URL}/blog
 - 全部问答正文：${SITE_URL}/llms-full.txt
