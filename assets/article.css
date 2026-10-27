@@ -176,3 +176,26 @@ main { padding: 36px 0 0; }
 .prose img { display: block; max-width: 100%; height: auto; margin: 1.4em 0; border-radius: var(--r-card); }
 .prose blockquote { margin: 1.4em 0; padding: 14px 18px; border-left: 3px solid var(--gold); background: var(--gold-wash); border-radius: 0 12px 12px 0; }
 .prose blockquote p { margin: 0; }
+
+/* 问答与专题页 FAQ */
+.faq details { margin: 12px 0; padding: 0 16px; border: 1px solid var(--line); border-radius: 16px; background: var(--card); }
+.faq summary { cursor: pointer; padding: 16px 24px 16px 0; color: var(--ink); font-family: var(--serif); font-size: 17px; font-weight: 700; list-style: none; position: relative; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; position: absolute; right: 0; color: var(--gold-ink); font: 700 22px/1 var(--sans); }
+.faq details[open] summary::after { content: "−"; }
+.faq details p { padding: 0 0 16px; color: var(--ink-2); font-size: 15.5px; line-height: 1.75; }
+.directory { padding-top: 12px; }
+.directory-group { margin: 0 0 48px; }
+.directory-group h2 { margin-bottom: 16px; }
+.directory-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+@media (min-width: 640px) { .directory-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1000px) { .directory-grid { grid-template-columns: repeat(3, 1fr); } }
+.directory-card { display: block; padding: 18px; border: 1px solid var(--line); border-radius: 16px; background: var(--card); text-decoration: none; }
+.directory-card:hover { border-color: var(--gold); }
+.directory-card b { display: block; margin-top: 8px; color: var(--ink); font-family: var(--serif); font-size: 17px; line-height: 1.5; }
+.directory-card > span:last-child { display: block; margin-top: 6px; color: var(--muted); font-size: 14px; line-height: 1.6; }
+.directory-shortcuts { display: grid; grid-template-columns: 1fr; gap: 12px; margin: 24px 0 48px; }
+@media (min-width: 640px) { .directory-shortcuts { grid-template-columns: repeat(3, 1fr); } }
+.directory-shortcuts a { display: block; padding: 16px 18px; border: 1px solid var(--line); border-radius: 16px; background: var(--card); text-decoration: none; }
+.directory-shortcuts b { display: block; color: var(--ink); font-family: var(--serif); }
+.directory-shortcuts span { color: var(--muted); font-size: 14px; }

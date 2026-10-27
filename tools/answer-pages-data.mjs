@@ -576,3 +576,27 @@ export const ANSWER_PAGES = [
     related: ["does-she-like-me", "when-to-confess", "she-has-boyfriend-signs"],
   },
 ];
+
+// 旧版手写问答页已纳入统一模板；正文搬迁时保留原页面的核心问题和边界。
+export const LEGACY_ANSWER_PAGES = [
+  { slug: "ambiguous-relationship", category: "约会和推进", question: "暧昧期怎么推进关系？", seoTitle: "暧昧期怎么推进关系？先看互动基础再给台阶", description: "暧昧期推进要看双方投入和见面意愿，给出具体、低压力的下一步，同时尊重对方的拒绝。", verdict: "先看互动是不是双向，再用具体邀约推进；连续回避时就停下来。" },
+  { slug: "chat-cold", category: "她回了一句话", question: "男生聊天冷场怎么办？", seoTitle: "男生聊天冷场怎么办？先判断话题还是投入出了问题", description: "聊天冷场可能是话题断了，也可能是对方投入降低。先看上下文，再换成具体分享或自然收尾。", verdict: "先分清是话题没接住还是对方低投入，再决定换话题或减少输出。" },
+  { slug: "does-she-like-me", category: "判断她的态度", question: "怎么判断她是不是喜欢我？", seoTitle: "怎么判断她是不是喜欢我？看持续投入而不是单句信号", description: "判断好感要看持续的主动、回应和见面意愿，不能靠一句话或一次暧昧互动下结论。", verdict: "看持续投入、主动联系和愿不愿意见面，单个信号不能证明喜欢。" },
+  { slug: "first-message-after-breakup", category: "吵架和复联", question: "分手后第一句话怎么说？", seoTitle: "分手后第一句话怎么说？短、具体、不给压力", description: "分手后重新联系要短、具体、不逼迫。对方明确拒绝或不回应时，应该停止继续打扰。", verdict: "只发一条轻量、具体、不逼迫的消息；没有回应就给对方空间。" },
+  { slug: "girl-not-replying", category: "她回了一句话", question: "女生不回消息怎么办？", seoTitle: "女生不回消息怎么办？先判断关系阶段和投入", description: "女生不回消息时，先判断关系阶段、上一句是否难接、对方投入和边界信号，再决定收尾、换话题还是停止推进。", verdict: "单次不回先别追问；连续低投入或明确拒绝时，停止推进。" },
+  { slug: "is-ai-relationship-coach-reliable", category: "判断她的态度", question: "AI 情感导师靠谱吗？", seoTitle: "AI 情感导师靠谱吗？看它是否解释依据和边界", description: "AI 可以辅助整理聊天和列出可能性，但不能替你确认对方心意，也不能代替现实沟通和安全判断。", verdict: "可以用来整理信号和练习表达，但要看依据、承认不确定性并尊重边界。" },
+].map((page) => ({
+  ...page,
+  intro: page.verdict,
+  signals: ["先回看上一句和最近几次互动，再判断这一条消息。", "看对方是否持续主动、回应和提出替代时间。", "出现明确拒绝或长期低投入时，把边界放在前面。"],
+  signalsNote: page.verdict,
+  cases: [{ title: "偶发情况", text: "先轻量回应，给对方自然接话的空间。" }, { title: "持续变化", text: "减少追问，观察接下来是否有双向投入。" }, { title: "明确边界", text: "尊重拒绝和不想被打扰的表达，停止推进。" }],
+  steps: ["先读上下文，不为单个字下结论。", "下一句具体、轻松、不给压力。", "没有回应或被拒绝时停止加码。"],
+  replyNote: "下面的说法用于练习表达，请结合你们的具体聊天调整。",
+  replies: [{ label: "轻量回应", text: "我先不打扰你，等你方便了再聊。" }, { label: "具体推进", text: "这周六下午我想去喝杯咖啡，你有兴趣一起吗？" }],
+  faqs: [{ q: "只看这一条消息能判断吗？", a: "不能。要结合最近的持续投入、主动联系和见面意愿。" }, { q: "没有回复还要再发吗？", a: "通常不需要连续追问。可以给空间，之后再自然开一个新话题。" }, { q: "什么时候该停？", a: "对方明确拒绝、拉黑、说不想被打扰，或长期低投入时就应该停下来。" }],
+  boundary: "如果对方已经明确拒绝或表达不想被打扰，请停止继续联系。",
+  related: ["she-replies-oh", "she-says-busy", "how-to-ask-her-out"],
+}));
+
+export const ALL_ANSWER_PAGES = [...ANSWER_PAGES, ...LEGACY_ANSWER_PAGES];

@@ -8,6 +8,66 @@
       "permanent": true
     },
     {
+      "source": "/answers/AI情感导师靠谱吗",
+      "destination": "/answers/is-ai-relationship-coach-reliable",
+      "permanent": true
+    },
+    {
+      "source": "/answers/AI%E6%83%85%E6%84%9F%E5%AF%BC%E5%B8%88%E9%9D%A0%E8%B0%B1%E5%90%97",
+      "destination": "/answers/is-ai-relationship-coach-reliable",
+      "permanent": true
+    },
+    {
+      "source": "/answers/分手后第一句话怎么说",
+      "destination": "/answers/first-message-after-breakup",
+      "permanent": true
+    },
+    {
+      "source": "/answers/%E5%88%86%E6%89%8B%E5%90%8E%E7%AC%AC%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%80%8E%E4%B9%88%E8%AF%B4",
+      "destination": "/answers/first-message-after-breakup",
+      "permanent": true
+    },
+    {
+      "source": "/answers/女生不回消息怎么办",
+      "destination": "/answers/girl-not-replying",
+      "permanent": true
+    },
+    {
+      "source": "/answers/%E5%A5%B3%E7%94%9F%E4%B8%8D%E5%9B%9E%E6%B6%88%E6%81%AF%E6%80%8E%E4%B9%88%E5%8A%9E",
+      "destination": "/answers/girl-not-replying",
+      "permanent": true
+    },
+    {
+      "source": "/answers/怎么判断她是不是喜欢我",
+      "destination": "/answers/does-she-like-me",
+      "permanent": true
+    },
+    {
+      "source": "/answers/%E6%80%8E%E4%B9%88%E5%88%A4%E6%96%AD%E5%A5%B9%E6%98%AF%E4%B8%8D%E6%98%AF%E5%96%9C%E6%AC%A2%E6%88%91",
+      "destination": "/answers/does-she-like-me",
+      "permanent": true
+    },
+    {
+      "source": "/answers/暧昧期怎么推进关系",
+      "destination": "/answers/ambiguous-relationship",
+      "permanent": true
+    },
+    {
+      "source": "/answers/%E6%9A%A7%E6%98%A7%E6%9C%9F%E6%80%8E%E4%B9%88%E6%8E%A8%E8%BF%9B%E5%85%B3%E7%B3%BB",
+      "destination": "/answers/ambiguous-relationship",
+      "permanent": true
+    },
+    {
+      "source": "/answers/男生聊天冷场怎么办",
+      "destination": "/answers/chat-cold",
+      "permanent": true
+    },
+    {
+      "source": "/answers/%E7%94%B7%E7%94%9F%E8%81%8A%E5%A4%A9%E5%86%B7%E5%9C%BA%E6%80%8E%E4%B9%88%E5%8A%9E",
+      "destination": "/answers/chat-cold",
+      "permanent": true
+    },
+    {
       "source": "/blog/qinggan-002",
       "destination": "/blog/why-guys-dont-know-what-to-say",
       "permanent": true

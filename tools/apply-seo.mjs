@@ -21,7 +21,7 @@ import {
   POST_OVERRIDES,
   PRIORITY_POST_IDS,
 } from "./seo-config.mjs";
-import { ANSWER_PAGES } from "./answer-pages-data.mjs";
+import { ANSWER_PAGES, ALL_ANSWER_PAGES } from "./answer-pages-data.mjs";
 import { ARTICLE_PAGES } from "./article-pages-data.mjs";
 import {
   STYLE_VERSION,
@@ -421,15 +421,12 @@ function learnRow(post) {
 
 // ---------- 5. 学习页、问答库列表页 ----------
 
-const allAnswers = [
-  { href: "/answers/girl-not-replying", title: "女生不回消息怎么办？", kind: "恋爱聊天", summary: "" },
-  ...ANSWER_PAGES.map((page) => ({
+const allAnswers = ALL_ANSWER_PAGES.map((page) => ({
     href: `/answers/${page.slug}`,
     title: page.question,
     kind: page.category,
     summary: page.description,
-  })),
-];
+  }));
 
 function replaceMarked(html, name, content, insertBefore) {
   const start = `<!-- seo:${name}:start -->`;
@@ -451,7 +448,7 @@ function replaceMarked(html, name, content, insertBefore) {
   html = html.replace(/文章库 \d+篇/, `文章库 ${indexable.length}篇`);
   const questionsSection = html.indexOf('id="questions"');
   const listEnd = html.indexOf("</div>\n      </section>", questionsSection);
-  const rows = ANSWER_PAGES.map(
+  const rows = ALL_ANSWER_PAGES.map(
     (page) => `          <a class="learn-row" href="/answers/${page.slug}">
             <span class="source-badge qa">QA</span>
             <strong>${escapeHtml(page.question)}</strong>
@@ -466,14 +463,33 @@ function replaceMarked(html, name, content, insertBefore) {
 
 {
   let html = read("answers/index.html");
-  const items = ANSWER_PAGES.map(
+  const items = ALL_ANSWER_PAGES.map(
     (page) => `          <li>
             <a href="/answers/${page.slug}"><strong>${escapeHtml(page.question.replace(/？$/, ""))}</strong></a>
             <span>${escapeHtml(page.intro)}</span>
           </li>`,
   ).join("\n");
-  html = replaceMarked(html, "answers-list", items, "</ol>\n      </section>\n    </main>");
-  write("answers/index.html", html);
+  if (html.includes("<!-- seo:answers-list:start -->")) {
+    html = replaceMarked(html, "answers-list", items, "</ol>\n      </section>\n    </main>");
+    write("answers/index.html", html);
+  }
+}
+
+// ---------- 5b. 目录页统一模板 ----------
+function directoryDocument({ title, description, intro, groups, shortcuts = false }) {
+  const cards = groups.map((group, index) => `<section class="directory-group"><h2><span class="num">${String(index + 1).padStart(2, "0")}</span>${escapeHtml(group.title)}</h2><div class="directory-grid">${group.items.map((item) => `<a class="directory-card" href="${item.href}"><span class="tag-light">${escapeHtml(item.tag || "情感")}</span><b>${escapeHtml(item.title)}</b><span>${escapeHtml(item.summary || "按场景整理的判断和回复。")}</span></a>`).join("")}</div></section>`).join("");
+  const shortcutHtml = shortcuts ? `<div class="directory-shortcuts"><a href="/quiz"><b>聊天反应测试</b><span>先测自己的卡点</span></a><a href="/answers"><b>问答库</b><span>按问题查答案</span></a><a href="/blog"><b>文章库</b><span>按主题系统读</span></a></div>` : "";
+  return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(title)} | ${SITE_BRAND}</title><meta name="description" content="${escapeHtml(description)}"><meta name="robots" content="index, follow"><link rel="canonical" href="${SITE_URL}/${title === "学习提升" ? "learn" : title === "情感文章库" ? "blog" : "answers"}"><link rel="stylesheet" href="${title === "学习提升" ? "" : "../"}assets/tokens.css?v=${STYLE_VERSION}"><link rel="stylesheet" href="${title === "学习提升" ? "" : "../"}assets/article.css?v=${STYLE_VERSION}"></head><body>${siteHeader({ progress: true })}<section class="hero"><div class="hero-in"><div class="crumbs"><a href="/learn">学习提升</a><span>/</span><span>${escapeHtml(title)}</span></div><h1>${escapeHtml(title)}</h1><div class="verdict"><div class="label">这里有什么</div><p>${escapeHtml(intro)}</p></div></div></section><div class="directory layout"><main class="prose">${shortcutHtml}${cards}${ctaSection()}</main></div>${siteFooter()}<script src="${title === "学习提升" ? "" : "../"}assets/mp-qr.js?v=${STYLE_VERSION}" defer></script></body></html>`;
+}
+{
+  const articleItems = indexable.map((p) => ({ href: `/blog/${p.slug}`, title: p.title, summary: p.description, tag: articleDataBySlug.get(p.slug)?.category || "情感文章" }));
+  const featured = PRIORITY_POST_IDS.map((id) => posts.find((p) => p.id === id && p.indexable)).filter(Boolean).map((p) => ({ href: `/blog/${p.slug}`, title: p.title, summary: p.description, tag: articleDataBySlug.get(p.slug)?.category || "优先阅读" }));
+  const answerItems = ALL_ANSWER_PAGES.map((p) => ({ href: `/answers/${p.slug}`, title: p.question.replace(/？$/, ""), summary: p.description, tag: p.category }));
+  const answerGroups = ["她回了一句话", "判断她的态度", "约会和推进", "吵架和复联"].map((title) => ({ title, items: answerItems.filter((x) => ({ "她回了一句话": ["她回了一句话", "恋爱聊天"], "判断她的态度": ["判断她的态度"], "约会和推进": ["约会和推进", "暧昧推进"], "吵架和复联": ["吵架和复联"] }[title]).includes(x.tag)) }));
+  const nonempty = answerGroups.filter((g) => g.items.length);
+  write("learn.html", directoryDocument({ title: "学习提升", description: "按问题查问答、按主题读文章，先找到自己的聊天卡点。", intro: "先看 2 分钟测试找到自己的卡点，再按问题查问答、按主题读文章。", shortcuts: true, groups: [{ title: "优先阅读", items: featured }, { title: "问答库精选（6 个）", items: answerItems.slice(0, 6) }, { title: "全部文章", items: articleItems }] }));
+  write("blog/index.html", directoryDocument({ title: "情感文章库", description: "按场景整理的聊天和约会文章，每篇先给结论和能直接发的回复。", intro: "按场景整理的聊天和约会文章，每篇先给结论和能直接发的回复。", groups: [{ title: "先读这几篇", items: featured }, ...Object.entries(articleItems.reduce((m, item) => ((m[item.tag] ||= []).push(item), m), {})).map(([title, items]) => ({ title, items }))] }));
+  write("answers/index.html", directoryDocument({ title: "问答库", description: "她回了一句话、你不知道怎么接？按问题查，一页一个答案。", intro: "她回了一句话、你不知道怎么接？按问题查，一页一个答案。", groups: nonempty }));
 }
 
 // ---------- 6. sitemap ----------
