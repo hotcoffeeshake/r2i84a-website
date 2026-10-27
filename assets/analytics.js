@@ -36,6 +36,7 @@
     if (/\/quiz(\.html)?(?:[?#]|$)/.test(href)) return track("quiz", "entry_click", location.pathname);
     if (/\/course(\.html)?(?:[?#]|$)/.test(href)) return track("course", "entry_click", location.pathname);
     if (/space\.bilibili\.com/.test(href)) return track("course", "bilibili_click", location.pathname);
+    if (/bilibili\.com\/video\//.test(href)) return track("course", "video_click", location.pathname);
   }, true);
 
   // 二维码出现在屏幕上：订阅号码、小程序码，每页每种只记一次

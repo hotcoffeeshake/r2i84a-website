@@ -192,11 +192,38 @@ const CTA_PANEL = `<div class="info-panel">
 
 const COURSE_PANEL = `<div class="info-panel">
             <h2>想有人带你走一遍？</h2>
-            <p>腾哥本人带的亲密关系研学营和 30 天实战陪跑，从认识异性、线上聊天到线下约会。</p>
+            <p>小腾哥本人带的亲密关系研学营和 30 天实战陪跑，从认识异性、线上聊天到线下约会。</p>
             <ul class="compact-flow">
-              <li><a href="/course">看看腾哥的课程 →</a></li>
+              <li><a href="/course">看看小腾哥的课程 →</a></li>
             </ul>
           </div>`;
+
+// 文章页版式（样式见 assets/article.css）：面板打标记、配图收起、头部改成面包屑和阅读信息。可重复运行。
+const ARTICLE_CSS_TAG = '<link rel="stylesheet" href="../../assets/article.css?v=20261028" />';
+const PANEL_KEYS = { "文章信息": "meta", "继续阅读": "related", "相关入口": "links", "把你的聊天截图发给 AI": "ai", "想有人带你走一遍？": "course" };
+
+function articleLayout(html) {
+  html = html.replace(/\n?\s*<link rel="stylesheet" href="\.\.\/\.\.\/assets\/article\.css[^"]*" \/>/, "");
+  html = html.replace(/(<link rel="stylesheet" href="\.\.\/\.\.\/styles\.css[^"]*" \/>)/, `$1\n    ${ARTICLE_CSS_TAG}`);
+  html = html.replace(/<div class="info-panel">(\s*<h2>([^<]+)<\/h2>)/g, (m, head, title) =>
+    PANEL_KEYS[title] ? `<div class="info-panel" data-panel="${PANEL_KEYS[title]}">${head}` : m);
+  html = html.replace(
+    /<div class="article-media-card">\s*<div class="article-media-grid" aria-label="文章配图 (\d+) 张">([\s\S]*?)<\/div>\s*<\/div>/,
+    (m, n, imgs) => `<details class="article-media-card">
+            <summary>查看原帖配图（${n} 张）</summary>
+            <div class="article-media-grid" aria-label="文章配图 ${n} 张">${imgs}</div>
+          </details>`,
+  );
+  html = html.replace(/<p class="article-kicker">[\s\S]*?<\/p>/, '<p class="article-kicker"><a href="/blog">文章库</a></p>');
+  const prose = (html.match(/<div class="article-prose">([\s\S]*?)<\/div>\s*<\/article>/) || [])[1] || "";
+  const minutes = Math.max(1, Math.round(prose.replace(/<[^>]+>/g, "").replace(/\s+/g, "").length / 450));
+  html = html.replace(/\s*<p class="article-meta">[^<]*<\/p>/, "");
+  html = html.replace(
+    /(<section class="hero hero-page blog-article-hero">[\s\S]*?<p class="hero-copy">[\s\S]*?<\/p>)/,
+    `$1\n          <p class="article-meta">更新于 ${SEO_UPDATED} · 约 ${minutes} 分钟读完</p>`,
+  );
+  return html;
+}
 
 function relatedFor(post) {
   const pool = indexable.filter((p) => p.id !== post.id);
@@ -249,7 +276,7 @@ for (const post of posts) {
   html = html.replace(/aria-label="飞书源表原文配图 (\d+) 张"/, 'aria-label="文章配图 $1 张"');
   html = html.replace(/\s*<div>\s*<h2>配图<\/h2>\s*<p>[^<]*<\/p>\s*<\/div>/, "");
   html = html.replace(
-    /<div class="info-panel">\s*<h2>文章信息<\/h2>[\s\S]*?<\/div>/,
+    /<div class="info-panel"(?: data-panel="[a-z]+")?>\s*<h2>文章信息<\/h2>[\s\S]*?<\/div>/,
     `<div class="info-panel">
             <h2>文章信息</h2>
             <p>发布平台：${post.platform}</p>
@@ -258,10 +285,10 @@ for (const post of posts) {
           </div>`,
   );
   if (!html.includes("把你的聊天截图发给 AI")) {
-    html = html.replace(/(<div class="info-panel">\s*<h2>文章信息<\/h2>)/, `${CTA_PANEL}\n          $1`);
+    html = html.replace(/(<div class="info-panel"(?: data-panel="[a-z]+")?>\s*<h2>文章信息<\/h2>)/, `${CTA_PANEL}\n          $1`);
   }
   if (!html.includes('href="/course"')) {
-    html = html.replace(/(<div class="info-panel">\s*<h2>文章信息<\/h2>)/, `${COURSE_PANEL}\n          $1`);
+    html = html.replace(/(<div class="info-panel"(?: data-panel="[a-z]+")?>\s*<h2>文章信息<\/h2>)/, `${COURSE_PANEL}\n          $1`);
   }
 
   // 继续阅读：只推荐可收录的文章
@@ -269,6 +296,8 @@ for (const post of posts) {
     /(<h2>继续阅读<\/h2>\s*<ul class="compact-flow">)[\s\S]*?(<\/ul>)/,
     `$1\n${relatedFor(post).map((p) => `              <li><a href="/blog/${p.slug}">${escapeHtml(p.title)}</a></li>`).join("\n")}\n            $2`,
   );
+
+  html = articleLayout(html);
 
   fs.writeFileSync(post.file, html);
 }
@@ -416,7 +445,7 @@ const corePages = [
   { loc: "/quiz", name: "聊天反应测试", priority: "0.8" },
   { loc: "/love-advisor", name: "恋爱聊天助手", priority: "0.8" },
   { loc: "/tong-jincheng-skill", name: "童锦程 Skill 非官方指南", priority: "0.8" },
-  { loc: "/course", name: "腾哥课程", priority: "0.7" },
+  { loc: "/course", name: "小腾哥课程", priority: "0.7" },
   { loc: "/answers", name: "恋爱问题答疑库", priority: "0.8" },
   { loc: "/answers/girl-not-replying", name: "女生不回消息怎么办", priority: "0.8" },
   { loc: "/answers/ambiguous-relationship", name: "暧昧期怎么推进关系", priority: "0.8" },
@@ -508,7 +537,7 @@ ${ANSWER_PAGES.map((page) => `- ${page.question.replace(/？$/, "")}：${SITE_UR
 - 聊天反应测试：${SITE_URL}/quiz - 10 个高频聊天场景单选题，选完即时看对错，测完看得分与聊天习惯
 - 恋爱聊天助手：${SITE_URL}/love-advisor
 - 童锦程 Skill 非官方指南：${SITE_URL}/tong-jincheng-skill
-- 腾哥课程（亲密关系研学营、30 天实战陪跑）：${SITE_URL}/course
+- 小腾哥课程（亲密关系研学营、30 天实战陪跑）：${SITE_URL}/course
 - 恋爱问题答疑库：${SITE_URL}/answers
 - 情感文章库：${SITE_URL}/blog
 - 全部问答正文：${SITE_URL}/llms-full.txt
