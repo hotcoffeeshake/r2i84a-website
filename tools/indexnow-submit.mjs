@@ -24,7 +24,7 @@ if (dryRun) {
 }
 
 // 线上 key 文件不对时，IndexNow 会拒绝整批请求，先自查。
-const live = await fetch(KEY_LOCATION).then((r) => (r.ok ? r.text() : ''));
+const live = await fetch(KEY_LOCATION).then((r) => (r.status === 200 ? r.text() : ''));
 if (live.trim() !== KEY) throw new Error(`线上 key 文件不可用：${KEY_LOCATION}（先部署再推送）`);
 
 const res = await fetch('https://api.indexnow.org/indexnow', {
