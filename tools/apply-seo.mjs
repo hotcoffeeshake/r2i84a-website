@@ -327,6 +327,10 @@ for (const file of siteHtmlFiles()) {
   for (const oldBrand of PREVIOUS_BRANDS) html = html.replaceAll(oldBrand, SITE_BRAND);
   html = html.replace(/(<title>[^<]*\| )(?:情商练习)?有事问AI(?:文章库)?(<\/title>)/, `$1${SITE_BRAND}$2`);
   html = withQuizPopup(file, html);
+  // 「体验」入口不再跳 /experience 页，原地弹出小程序二维码（assets/mp-qr.js）
+  html = html.replace(/href="\/experience"(?: target="_blank" rel="noopener")?/g, 'href="#mp-qr"');
+  // 顶部导航只留「体验」入口，不放购买会员
+  html = html.replace(/(<nav class="site-nav"[^>]*>[\s\S]*?)\s*<a href="https:\/\/r2i84a\.chat\/#pricing">购买会员<\/a>([\s\S]*?<\/nav>)/, "$1$2");
   fs.writeFileSync(file, html);
 }
 
@@ -438,7 +442,6 @@ function replaceMarked(html, name, content, insertBefore) {
 
 const corePages = [
   { loc: "/", name: "首页", priority: "1.0" },
-  { loc: "/experience", name: "体验入口", priority: "0.9" },
   { loc: "/learn", name: "学习提升", priority: "0.8" },
   { loc: "/ai-relationship-coach", name: "AI情感导师是什么", priority: "0.8" },
   { loc: "/eq", name: "情商怎么练", priority: "0.8" },
@@ -504,7 +507,7 @@ write(
 
 ## 怎么使用
 
-- 微信搜索「${MINIPROGRAM_NAME}」小程序，或在电脑上打开 ${SITE_URL}/experience 扫码进入
+- 微信搜索「${MINIPROGRAM_NAME}」小程序，或在网站任意页面点「体验AI恋爱导师」扫码进入
 - 上传聊天截图或描述关系处境，约 30 秒得到分析和回复建议
 
 ## 适合解决的问题
@@ -530,7 +533,6 @@ ${ANSWER_PAGES.map((page) => `- ${page.question.replace(/？$/, "")}：${SITE_UR
 ## 核心页面
 
 - 首页：${SITE_URL}/
-- 体验入口：${SITE_URL}/experience
 - 学习提升：${SITE_URL}/learn
 - AI 情感导师是什么：${SITE_URL}/ai-relationship-coach
 - 情商怎么练：${SITE_URL}/eq
