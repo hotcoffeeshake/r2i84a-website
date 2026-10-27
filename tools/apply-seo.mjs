@@ -22,6 +22,18 @@ import {
   PRIORITY_POST_IDS,
 } from "./seo-config.mjs";
 import { ANSWER_PAGES } from "./answer-pages-data.mjs";
+import { ARTICLE_PAGES } from "./article-pages-data.mjs";
+import {
+  STYLE_VERSION,
+  siteHeader,
+  siteFooter,
+  articleHero,
+  editorByline,
+  ctaSection,
+  authorCard,
+  relatedBlock,
+  metaFoot,
+} from "./article-shell.mjs";
 
 const ROOT = process.cwd();
 const BLOG_DIR = path.join(ROOT, "blog");
@@ -127,38 +139,65 @@ for (const plan of plans) {
 }
 const planById = new Map(plans.map((plan) => [plan.id, plan]));
 
+// 已经写进 tools/article-pages-data.mjs 的文章：页面由 build-article-pages.mjs 生成，
+// 这里只用数据里的标题和一句话结论，正文结构不再动。
+const articleDataBySlug = new Map(ARTICLE_PAGES.map((page) => [page.slug, page]));
+const dataProseText = (page) =>
+  [
+    page.verdict,
+    ...page.replies.flatMap((r) => [r.she, r.text, r.why]),
+    ...page.stages.flatMap((s) => [s.when, s.what, s.note]),
+    ...page.judgment,
+    ...page.donts.flatMap((d) => [d.say, d.why]),
+    page.quote ? page.quote.text : "",
+  ].join("");
+
+// 正文：还没换版式的旧文章是 div.article-prose，换过之后是 article.prose，两种都认
+const proseOf = (html) => {
+  const legacy = html.match(/<div class="article-prose">([\s\S]*?)<\/div>\s*<\/article>/);
+  if (legacy) return legacy[1];
+  const shelled = html.match(/<article class="prose">([\s\S]*?)<\/article>/);
+  return shelled ? shelled[1] : "";
+};
+
 const posts = postIds.map((id) => {
   const dir = planById.get(id).destination;
   const file = path.join(dir, "index.html");
   const html = fixCompatChars(fs.readFileSync(file, "utf8"));
+  const override = POST_OVERRIDES[id];
+  const slug = override ? override.slug : id;
+  const data = articleDataBySlug.get(slug);
   const originalTitle = stripTags((html.match(/<h1>([\s\S]*?)<\/h1>/) || [])[1] || id);
-  const prose = (html.match(/<div class="article-prose">([\s\S]*?)<\/div>/) || [])[1] || "";
+  const prose = data ? dataProseText(data) : proseOf(html);
   const text = stripTags(prose)
     .replace("这篇原文属于短答或图文发布，这里保留可读文字；如需查看完整图片排版，请打开原文链接。", "")
     .replace("这篇内容原文以图文为主，这里先保留文章标题、发布平台和原文链接。点击上方平台入口可以查看完整原文。", "")
     .trim();
-  const override = POST_OVERRIDES[id];
-  const slug = override ? override.slug : id;
   const reason = NOINDEX_POSTS.includes(id)
     ? "offtopic"
     : DUPLICATE_POSTS[id]
       ? "duplicate"
-      : !override && text.length < THIN_TEXT_LENGTH
+      : !override && !data && text.length < THIN_TEXT_LENGTH
         ? "thin"
         : "";
-  const platform = (html.match(/<span class="source-label">原文发布平台<\/span>\s*<strong>([^<]+)<\/strong>/) || [])[1] || "小红书";
-  const published = (html.match(/"datePublished": "([^"]+)"/) || [])[1] || "2026-07-04";
+  const platform =
+    (data && data.platform) ||
+    (html.match(/<span class="source-label">原文发布平台<\/span>\s*<strong>([^<]+)<\/strong>/) || [])[1] ||
+    (html.match(/<span data-platform="([^"]+)">/) || [])[1] ||
+    "小红书";
+  const published = (data && data.published) || (html.match(/"datePublished": "([^"]+)"/) || [])[1] || "2026-07-04";
   return {
     id,
     slug,
     file,
     html,
     text,
+    data,
     platform,
     published,
     originalTitle,
-    title: override ? override.title : originalTitle.replace(/\s*-\s*$/, ""),
-    description: override ? override.description : makeExcerpt(text, originalTitle),
+    title: data ? data.title : override ? override.title : originalTitle.replace(/\s*-\s*$/, ""),
+    description: data ? data.verdict : override ? override.description : makeExcerpt(text, originalTitle),
     indexable: !reason,
     reason,
   };
@@ -181,55 +220,75 @@ const postUrl = (p) => `${SITE_URL}/blog/${p.slug}`;
 
 // ---------- 2. 文章页 ----------
 
-const CTA_PANEL = `<div class="info-panel">
-            <h2>把你的聊天截图发给 AI</h2>
-            <p>看完还是不知道怎么回？把聊天截图发给 AI，帮你判断她的意思，再给出适合你们的回复。</p>
-            <p>微信搜索「${MINIPROGRAM_NAME}」小程序即可使用。</p>
-            <ul class="compact-flow">
-              <li><a href="/experience" target="_blank" rel="noopener">扫码体验 AI 恋爱导师 →</a></li>
-            </ul>
-          </div>`;
-
-const COURSE_PANEL = `<div class="info-panel">
-            <h2>想有人带你走一遍？</h2>
-            <p>小腾哥本人带的亲密关系研学营和 30 天实战陪跑，从认识异性、线上聊天到线下约会。</p>
-            <ul class="compact-flow">
-              <li><a href="/course">看看小腾哥的课程 →</a></li>
-            </ul>
-          </div>`;
-
-// 文章页版式（样式见 assets/article.css）：面板打标记、配图收起、头部改成面包屑和阅读信息。可重复运行。
-const ARTICLE_CSS_TAG = '<link rel="stylesheet" href="../../assets/article.css?v=20261028" />';
-const PANEL_KEYS = { "文章信息": "meta", "继续阅读": "related", "相关入口": "links", "把你的聊天截图发给 AI": "ai", "想有人带你走一遍？": "course" };
-
-function articleLayout(html) {
-  html = html.replace(/\n?\s*<link rel="stylesheet" href="\.\.\/\.\.\/assets\/article\.css[^"]*" \/>/, "");
-  html = html.replace(/(<link rel="stylesheet" href="\.\.\/\.\.\/styles\.css[^"]*" \/>)/, `$1\n    ${ARTICLE_CSS_TAG}`);
-  html = html.replace(/<div class="info-panel">(\s*<h2>([^<]+)<\/h2>)/g, (m, head, title) =>
-    PANEL_KEYS[title] ? `<div class="info-panel" data-panel="${PANEL_KEYS[title]}">${head}` : m);
-  html = html.replace(
-    /<div class="article-media-card">\s*<div class="article-media-grid" aria-label="文章配图 (\d+) 张">([\s\S]*?)<\/div>\s*<\/div>/,
-    (m, n, imgs) => `<details class="article-media-card">
-            <summary>查看原帖配图（${n} 张）</summary>
-            <div class="article-media-grid" aria-label="文章配图 ${n} 张">${imgs}</div>
-          </details>`,
-  );
-  html = html.replace(/<p class="article-kicker">[\s\S]*?<\/p>/, '<p class="article-kicker"><a href="/blog">文章库</a></p>');
-  const prose = (html.match(/<div class="article-prose">([\s\S]*?)<\/div>\s*<\/article>/) || [])[1] || "";
-  const minutes = Math.max(1, Math.round(prose.replace(/<[^>]+>/g, "").replace(/\s+/g, "").length / 450));
-  html = html.replace(/\s*<p class="article-meta">[^<]*<\/p>/, "");
-  html = html.replace(
-    /(<section class="hero hero-page blog-article-hero">[\s\S]*?<p class="hero-copy">[\s\S]*?<\/p>)/,
-    `$1\n          <p class="article-meta">更新于 ${SEO_UPDATED} · 约 ${minutes} 分钟读完</p>`,
-  );
-  return html;
-}
-
 function relatedFor(post) {
   const pool = indexable.filter((p) => p.id !== post.id);
   const after = pool.filter((p) => p.id > post.id);
   const before = pool.filter((p) => p.id < post.id).reverse();
   return [...after.slice(0, 2), ...before].slice(0, 3);
+}
+
+const relatedCards = (post) =>
+  relatedFor(post).map((p) => ({
+    slug: p.slug,
+    title: p.title,
+    summary: p.description,
+    category: (articleDataBySlug.get(p.slug) || {}).category || "情感文章",
+  }));
+
+// 还没写进 tools/article-pages-data.mjs 的旧文章：同样套新外壳（页头、深色标题区、页脚、收尾），
+// 标题区用现有 description 代替一句话结论（标签「这篇讲什么」），正文保留原文，
+// 去掉原帖配图和顶部原文平台条，不放文中行动条和目录。
+function legacyShell(post) {
+  // 第一次转换时正文在旧结构 .article-prose 里；转换过的页面正文在 <article class="prose"> 里，重复运行时从这里取，模板改了才会跟着更新
+  const proseMatch =
+    post.html.match(/<div class="article-prose">([\s\S]*?)<\/div>\s*<\/article>/) ||
+    post.html.match(/<article class="prose">([\s\S]*?)<\/article>/);
+  if (!proseMatch) return null;
+  const prose = proseMatch[1].trim();
+  const minutes = Math.max(1, Math.round(stripTags(prose).replace(/\s+/g, "").length / 450));
+
+  const bodyOpen = post.html.indexOf("<body>");
+  const bodyClose = post.html.lastIndexOf("</body>");
+  if (bodyOpen < 0 || bodyClose < 0) throw new Error(`article ${post.slug}: 找不到 <body>`);
+
+  let head = post.html.slice(0, bodyOpen);
+  // 文章页不再加载 styles.css（旧的橙色/白色变量会覆盖新配色）
+  head = head.replace(/\s*<link rel="stylesheet" href="\.\.\/\.\.\/(?:styles\.css|assets\/(?:article|tokens)\.css)[^"]*" \/>/g, "");
+  head = head.replace(
+    "</head>",
+    `    <link rel="stylesheet" href="../../assets/tokens.css?v=${STYLE_VERSION}" />\n    <link rel="stylesheet" href="../../assets/article.css?v=${STYLE_VERSION}" />\n  </head>`,
+  );
+
+  const body = `<body>
+${siteHeader()}
+
+${articleHero({
+  category: null,
+  title: post.title,
+  verdict: post.description,
+  label: "这篇讲什么",
+  byline: editorByline({ minutes }),
+})}
+
+    <div class="layout">
+      <main>
+
+      <article class="prose">
+${prose}
+      </article>
+
+${ctaSection()}
+
+${authorCard({ fromCourse: false })}
+
+${relatedBlock(relatedCards(post))}
+
+${metaFoot({ platform: post.platform, published: post.published })}
+      </main>
+    </div>
+${siteFooter()}
+  </body>`;
+  return head + body + post.html.slice(bodyClose + "</body>".length);
 }
 
 for (const post of posts) {
@@ -265,39 +324,13 @@ for (const post of posts) {
   }
   html = html.replace(/("author": \{\s*"@type": "Organization",\s*"name": )"(?:[^"\\]|\\.)*"/, `$1${JSON.stringify(SITE_BRAND)}`);
 
-  // 正文头部
-  html = html.replace(/<h1>[\s\S]*?<\/h1>/, `<h1>${escapeHtml(post.title)}</h1>`);
-  html = html.replace(
-    /(<section class="hero hero-page blog-article-hero">[\s\S]*?<p class="hero-copy">)[\s\S]*?(<\/p>)/,
-    `$1${escapeHtml(post.description)}$2`,
-  );
-
-  // 删除内部信息：配图来源说明、源头行号、附件数量
-  html = html.replace(/aria-label="飞书源表原文配图 (\d+) 张"/, 'aria-label="文章配图 $1 张"');
-  html = html.replace(/\s*<div>\s*<h2>配图<\/h2>\s*<p>[^<]*<\/p>\s*<\/div>/, "");
-  html = html.replace(
-    /<div class="info-panel"(?: data-panel="[a-z]+")?>\s*<h2>文章信息<\/h2>[\s\S]*?<\/div>/,
-    `<div class="info-panel">
-            <h2>文章信息</h2>
-            <p>发布平台：${post.platform}</p>
-            <p>发布日期：${post.published}</p>
-            <p>最后更新：${SEO_UPDATED}</p>
-          </div>`,
-  );
-  if (!html.includes("把你的聊天截图发给 AI")) {
-    html = html.replace(/(<div class="info-panel"(?: data-panel="[a-z]+")?>\s*<h2>文章信息<\/h2>)/, `${CTA_PANEL}\n          $1`);
+  if (post.data) {
+    // 页面由 build-article-pages.mjs 按定稿生成，正文结构已经对了，这里只统一 head。
+    html = html.replace(/<h1>[\s\S]*?<\/h1>/, `<h1>${escapeHtml(post.title)}</h1>`);
+  } else {
+    const shelled = legacyShell({ ...post, html });
+    if (shelled) html = shelled;
   }
-  if (!html.includes('href="/course"')) {
-    html = html.replace(/(<div class="info-panel"(?: data-panel="[a-z]+")?>\s*<h2>文章信息<\/h2>)/, `${COURSE_PANEL}\n          $1`);
-  }
-
-  // 继续阅读：只推荐可收录的文章
-  html = html.replace(
-    /(<h2>继续阅读<\/h2>\s*<ul class="compact-flow">)[\s\S]*?(<\/ul>)/,
-    `$1\n${relatedFor(post).map((p) => `              <li><a href="/blog/${p.slug}">${escapeHtml(p.title)}</a></li>`).join("\n")}\n            $2`,
-  );
-
-  html = articleLayout(html);
 
   fs.writeFileSync(post.file, html);
 }
@@ -331,6 +364,11 @@ for (const file of siteHtmlFiles()) {
   html = html.replace(/href="\/experience"(?: target="_blank" rel="noopener")?/g, 'href="#mp-qr"');
   // 顶部导航只留「体验」入口，不放购买会员
   html = html.replace(/(<nav class="site-nav"[^>]*>[\s\S]*?)\s*<a href="https:\/\/r2i84a\.chat\/#pricing">购买会员<\/a>([\s\S]*?<\/nav>)/, "$1$2");
+  // 文章页统一页头和页脚（照定稿；首页和其它静态页不在这次范围内）
+  if (/^blog\/.+\/index\.html$/.test(path.relative(ROOT, file).split(path.sep).join("/"))) {
+    html = html.replace(/<header class="site-header">[\s\S]*?<\/header>/, siteHeader().trim());
+    html = html.replace(/<footer class="site-footer">[\s\S]*?<\/footer>/, siteFooter().trim());
+  }
   fs.writeFileSync(file, html);
 }
 

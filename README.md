@@ -48,13 +48,19 @@ SEO 相关配置和脚本都在 `tools/`：
 - `tools/seo-config.mjs`：品牌名 `SITE_BRAND`、小程序名 `MINIPROGRAM_NAME`、不收录的文章名单、文章新标题/URL 映射。品牌或小程序改名后重新生成，并检查首页等手工维护内容。
 - `tools/answer-pages-data.mjs`：问答页内容，新增问答页就在这里加一项。
 - `tools/build-answer-pages.mjs`：把问答数据渲染成 `answers/<slug>.html`。
-- `tools/apply-seo.mjs`：处理文章页（字符修复、删除内部信息、标题/描述/URL、noindex、CTA）、更新列表页，并重新生成 `sitemap.xml`、`sitemap.txt`、`llms.txt`、`llms-full.txt` 和 `vercel.json` 里的文章永久跳转（Vercel 的 `permanent: true` 使用 308）。可重复运行。
+- `tools/article-pages-data.mjs`：文章页内容（标题、一句话结论、可直接发的回复、状态卡、别这样回、原话、接着读），格式见 `网站SEO_GEO/实施规范_全站改版.md` 第 4 节。
+- `tools/article-shell.mjs`：文章页外壳（页头、页脚、深色标题区、收尾、各组件），`build-article-pages.mjs` 和 `apply-seo.mjs` 共用。
+- `tools/build-article-pages.mjs`：把文章数据渲染成 `blog/<slug>/index.html`（版式照 `网站SEO_GEO/文章页设计稿.html`）。
+- `tools/apply-seo.mjs`：处理文章页（字符修复、标题/描述/URL、noindex、统一页头页脚；还没写进数据文件的旧文章套新外壳、正文保留原文）、更新列表页，并重新生成 `sitemap.xml`、`sitemap.txt`、`llms.txt`、`llms-full.txt` 和 `vercel.json` 里的文章永久跳转（Vercel 的 `permanent: true` 使用 308）。可重复运行。
+- `assets/tokens.css`、`assets/article.css`、`assets/article.js`：文章页的颜色/字体变量、版式和交互（复制提示、阅读进度、手机底部行动条）。文章页只加载这两个 CSS，不加载 `styles.css`。
 
 改完配置或内容后，在仓库根目录运行：
 
 ```sh
-node tools/build-answer-pages.mjs && node tools/apply-seo.mjs
+node tools/build-answer-pages.mjs && node tools/build-article-pages.mjs && node tools/apply-seo.mjs && node tools/test-seo.mjs
 ```
+
+连续跑两次，`git status` 不应有新的变化。改了任何 `.js` / `.css` 都要改 `?v=` 版本号（`tools/inject-analytics.mjs` 里的 `V`、`tools/article-shell.mjs` 里的 `STYLE_VERSION`），浏览器会把它们缓存一年。
 
 注意：`tools/generate-blog.mjs` 和 `tools/generate-qa-pages.mjs` 是旧生成器，读取的是维护者本机路径，而且模板已经落后于线上页面（例如导航仍是「个人中心」）。不要直接运行它们覆盖现有页面；如果重新生成后同一文章同时存在原始目录与改名目录，SEO 脚本会停止并报错；先核对内容并统一到唯一目录，再运行 SEO 脚本，避免静默覆盖较新的正文。
 
