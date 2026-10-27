@@ -4,7 +4,7 @@ export const SITE_URL = "https://r2i84a.chat";
 export const SITE_BRAND = "情商练习有事问AI";
 export const MINIPROGRAM_NAME = "练爱导师";
 export const PUBLISHER = "鹿子野 AI Studio";
-export const SEO_UPDATED = "2026-10-16";
+export const SEO_UPDATED = "2026-10-27";
 
 // 偏题或标题擦边的文章：保留页面，但 noindex，并从 sitemap、llms.txt、列表页移除。
 export const NOINDEX_POSTS = [

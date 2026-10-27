@@ -11,8 +11,10 @@ const read = (file) => fs.readFileSync(path.join(temp, file), 'utf8');
 const write = (file, text) => fs.writeFileSync(path.join(temp, file), text);
 const run = (ok = true) => {
   if (ok) {
-    const build = spawnSync(process.execPath, ['tools/build-answer-pages.mjs'], { cwd: temp, encoding: 'utf8' });
-    assert.equal(build.status, 0, build.stderr);
+    for (const script of ['tools/build-answer-pages.mjs', 'tools/build-article-pages.mjs']) {
+      const build = spawnSync(process.execPath, [script], { cwd: temp, encoding: 'utf8' });
+      assert.equal(build.status, 0, build.stderr);
+    }
   }
   const result = spawnSync(process.execPath, ['tools/apply-seo.mjs'], { cwd: temp, encoding: 'utf8' });
   assert.equal(result.status === 0, ok, result.stderr || result.stdout);
@@ -54,7 +56,7 @@ try {
   write('tools/seo-config.mjs', originalConfig); run(); assert.match(learnSection('priority-title'), /show-yourself-to-her/);
   const thinPath = 'blog/qinggan-001/index.html';
   const wasThin = read(thinPath); assert.match(wasThin, /noindex, follow/);
-  write(thinPath, wasThin.replace('<div class="article-prose">', `<div class="article-prose"><p>${'补充具体聊天情境与处理建议。'.repeat(12)}</p>`));
+  write(thinPath, wasThin.replace('<article class="prose">', `<article class="prose"><p>${'补充具体聊天情境与处理建议。'.repeat(12)}</p>`));
   run(); assert.equal(countCards(), 25); assert.match(learnSection('all-articles-title'), /qinggan-001/);
   const firstSlug = 'why-guys-dont-know-what-to-say';
   const history = ['qinggan-002', firstSlug];

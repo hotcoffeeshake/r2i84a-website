@@ -1,0 +1,43 @@
+/* 全站设计变量（设计规范第 2、3、4 节）。所有静态页面先加载它，再加载页面自己的样式。
+   改颜色、字体、圆角只改这里。文章页只加载 tokens.css + article.css。 */
+:root {
+  --ink-950: #0a0a0a;
+  --ink-900: #141414;
+  --ink-800: #1f1f1f;
+  --line-dark: rgba(245, 245, 245, 0.14);
+  --text-on-dark: #f5f5f5;
+  --text-on-dark-2: rgba(245, 245, 245, 0.68);
+  --gold: #f5b347;
+
+  --paper: #faf8f3;
+  --card: #fff;
+  --line: #e8e3d8;
+  --ink: #1a1a1a;
+  --ink-2: #3d3a35;
+  --muted: #6b6b6b;
+  --gold-ink: #8a5d0c;
+  --gold-wash: #fbf3e2;
+
+  --good: #1f7a55;
+  --good-wash: #eef7f1;
+  --bad: #a8321f;
+  --bad-wash: #fbefec;
+
+  /* 末尾不写通用 serif：Windows 会落到 SimSun */
+  --serif: "ChironSungHK", "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --sans: "Inter", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --num: "Space Grotesk", "Inter", sans-serif;
+
+  --r-card: 16px;
+  --measure: 680px;
+  --toc: 200px;
+  --gap: 56px;
+  /* 对齐线：页头、标题区、正文、页脚共用这个宽度，窄屏等于正文栏宽，≥1100px 加上目录和间距 */
+  --wrap: var(--measure);
+}
+
+@media (min-width: 1100px) {
+  :root {
+    --wrap: calc(var(--measure) + var(--gap) + var(--toc));
+  }
+}

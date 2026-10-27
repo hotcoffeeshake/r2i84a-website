@@ -29,6 +29,10 @@
   document.addEventListener("click", function (e) {
     var t = e.target.closest && e.target.closest("a,button");
     if (!t) return;
+    // 通用规则：带 data-cta 的入口，记 cta 分类，名字就是 data-cta 的值
+    // （inline / bottom-bar / toc / end / toast / header / consult）
+    var cta = t.closest("[data-cta]");
+    if (cta) track("cta", cta.getAttribute("data-cta"), location.pathname);
     if (t.matches(".qa-copy-button")) return track("answer", "copy_reply", location.pathname + "#" + (t.getAttribute("data-copy-target") || ""));
     var href = t.getAttribute("href") || "";
     if (href === "#mp-qr" || /\/experience(\.html)?(?:[?#]|$)/.test(href)) return track("miniprogram", "cta_click", location.pathname + " | " + text(t));
