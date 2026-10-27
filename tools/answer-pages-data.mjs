@@ -577,26 +577,180 @@ export const ANSWER_PAGES = [
   },
 ];
 
-// 旧版手写问答页已纳入统一模板；正文搬迁时保留原页面的核心问题和边界。
+// 原来手写的 6 个问答页（70cb9d9 及之前的 answers/<slug>.html），内容原样搬进来，只按字段拆分，不改写。
+// 可选字段：*Title 覆盖默认小节名；cases[].label 是状态卡上的小字；cases[].warn 标红。
 export const LEGACY_ANSWER_PAGES = [
-  { slug: "ambiguous-relationship", category: "约会和推进", question: "暧昧期怎么推进关系？", seoTitle: "暧昧期怎么推进关系？先看互动基础再给台阶", description: "暧昧期推进要看双方投入和见面意愿，给出具体、低压力的下一步，同时尊重对方的拒绝。", verdict: "先看互动是不是双向，再用具体邀约推进；连续回避时就停下来。" },
-  { slug: "chat-cold", category: "她回了一句话", question: "男生聊天冷场怎么办？", seoTitle: "男生聊天冷场怎么办？先判断话题还是投入出了问题", description: "聊天冷场可能是话题断了，也可能是对方投入降低。先看上下文，再换成具体分享或自然收尾。", verdict: "先分清是话题没接住还是对方低投入，再决定换话题或减少输出。" },
-  { slug: "does-she-like-me", category: "判断她的态度", question: "怎么判断她是不是喜欢我？", seoTitle: "怎么判断她是不是喜欢我？看持续投入而不是单句信号", description: "判断好感要看持续的主动、回应和见面意愿，不能靠一句话或一次暧昧互动下结论。", verdict: "看持续投入、主动联系和愿不愿意见面，单个信号不能证明喜欢。" },
-  { slug: "first-message-after-breakup", category: "吵架和复联", question: "分手后第一句话怎么说？", seoTitle: "分手后第一句话怎么说？短、具体、不给压力", description: "分手后重新联系要短、具体、不逼迫。对方明确拒绝或不回应时，应该停止继续打扰。", verdict: "只发一条轻量、具体、不逼迫的消息；没有回应就给对方空间。" },
-  { slug: "girl-not-replying", category: "她回了一句话", question: "女生不回消息怎么办？", seoTitle: "女生不回消息怎么办？先判断关系阶段和投入", description: "女生不回消息时，先判断关系阶段、上一句是否难接、对方投入和边界信号，再决定收尾、换话题还是停止推进。", verdict: "单次不回先别追问；连续低投入或明确拒绝时，停止推进。" },
-  { slug: "is-ai-relationship-coach-reliable", category: "判断她的态度", question: "AI 情感导师靠谱吗？", seoTitle: "AI 情感导师靠谱吗？看它是否解释依据和边界", description: "AI 可以辅助整理聊天和列出可能性，但不能替你确认对方心意，也不能代替现实沟通和安全判断。", verdict: "可以用来整理信号和练习表达，但要看依据、承认不确定性并尊重边界。" },
-].map((page) => ({
-  ...page,
-  intro: page.verdict,
-  signals: ["先回看上一句和最近几次互动，再判断这一条消息。", "看对方是否持续主动、回应和提出替代时间。", "出现明确拒绝或长期低投入时，把边界放在前面。"],
-  signalsNote: page.verdict,
-  cases: [{ title: "偶发情况", text: "先轻量回应，给对方自然接话的空间。" }, { title: "持续变化", text: "减少追问，观察接下来是否有双向投入。" }, { title: "明确边界", text: "尊重拒绝和不想被打扰的表达，停止推进。" }],
-  steps: ["先读上下文，不为单个字下结论。", "下一句具体、轻松、不给压力。", "没有回应或被拒绝时停止加码。"],
-  replyNote: "下面的说法用于练习表达，请结合你们的具体聊天调整。",
-  replies: [{ label: "轻量回应", text: "我先不打扰你，等你方便了再聊。" }, { label: "具体推进", text: "这周六下午我想去喝杯咖啡，你有兴趣一起吗？" }],
-  faqs: [{ q: "只看这一条消息能判断吗？", a: "不能。要结合最近的持续投入、主动联系和见面意愿。" }, { q: "没有回复还要再发吗？", a: "通常不需要连续追问。可以给空间，之后再自然开一个新话题。" }, { q: "什么时候该停？", a: "对方明确拒绝、拉黑、说不想被打扰，或长期低投入时就应该停下来。" }],
-  boundary: "如果对方已经明确拒绝或表达不想被打扰，请停止继续联系。",
-  related: ["she-replies-oh", "she-says-busy", "how-to-ask-her-out"],
-}));
+  {
+    slug: "ambiguous-relationship",
+    question: "暧昧期怎么推进关系？",
+    seoTitle: "暧昧期怎么推进关系？别只背邀约话术",
+    description: "暧昧期推进关系前，先看对方主动性、话题延展、线下互动和投入程度，再给有台阶、不施压的邀约。",
+    subtitle: "推进不是逼表态，而是给轻松选择。",
+    intro: "暧昧期最怕两种误判：对方只是礼貌，你却强行推进；对方有兴趣，你却一直停在安全话题里不敢邀约。先判断互动基础，再决定推进力度。",
+    signalsTitle: "先判断能不能推进",
+    signals: [
+      "对方是否主动找你，或愿意延展你开启的话题。",
+      "聊天是否有轻松感，而不是你单方面找话题。",
+      "对方是否接受过低压力邀约，比如一起吃饭、散步、看展。",
+      "你推进的目的是否清楚，是见面增进了解，而不是逼对方确认关系。",
+    ],
+    replyTitle: "邀约要有台阶",
+    replyNote: "好的邀约不是“你到底愿不愿意”，而是给对方一个轻松、可退可进的选择。先给具体场景，再留出拒绝空间。",
+    replies: [{ label: "参考邀约", text: "这周末我想去试一家新店，\n你有空的话一起去，没空也没事。" }],
+    stepsTitle: "什么时候要放慢",
+    stepsNote: "如果对方很少主动、回复越来越短、连续回避见面，继续推进容易变成施压。此时更适合降低频率，观察对方是否会重新投入。",
+    steps: ["先减少确认关系的提问。", "把话题从情绪拉回轻松互动。", "观察对方是否主动补充信息、反问或提出下次机会。"],
+    faqs: [
+      { q: "暧昧期一定要表白吗？", a: "不一定。很多时候先创造线下互动，比直接逼表态更稳。" },
+      { q: "对方说再看时间是不是拒绝？", a: "可能是忙，也可能是低投入。要看之后是否主动补时间或继续延展话题。" },
+      { q: "邀约被拒绝要不要继续约？", a: "先看拒绝方式。如果对方没有给替代时间，短期内不要连续邀约。" },
+    ],
+    related: ["how-to-ask-her-out", "when-to-confess", "does-she-like-me"],
+  },
+  {
+    slug: "chat-cold",
+    question: "男生聊天冷场怎么办？",
+    seoTitle: "男生聊天冷场怎么办？先判断是话题断了还是低投入",
+    description: "冷场可能是话题断了，也可能是你太用力，或者对方本来投入就低。先判断原因，再决定怎么接。",
+    subtitle: "不是所有冷场都要硬找话题。",
+    intro: "冷场可能是话题断了，也可能是你太用力，或者对方本来投入就低。先判断原因，再决定怎么接。",
+    casesTitle: "三种常见冷场",
+    cases: [
+      { label: "话题断了", title: "双方都不知道接什么", text: "可以补一点自己的状态，或换一个轻松具体的话题。" },
+      { label: "表达太重", title: "一句话让对方只能表态", text: "比如过早表白、追问答案、连续解释，都会让对方难接。" },
+      { label: "投入低", title: "对方一直短回不反问", text: "这时硬找话题只会让自己更累，适合降低输出。", warn: true },
+      { label: "时机不对", title: "对方忙或状态差", text: "可以延后再聊，不要把短期没回应立刻理解成失败。" },
+    ],
+    replyTitle: "更自然的接法",
+    replyNote: "不要一冷场就问“你怎么不说话”。更稳的方式是轻轻收一下，给对方空间，也给自己台阶。",
+    replies: [{ label: "适合普通冷场时", text: "哈哈这个话题好像聊岔了。\n我刚想到一件更好玩的事。" }],
+    boundaryTitle: "什么时候别硬聊",
+    boundary: "如果你连续开启话题，对方都只用“嗯、哈哈、还好”回应，并且没有反问，就不要继续堆问题。聊天不是考试，关系也不是靠单方面输出撑起来的。",
+    faqs: [],
+    related: ["she-replies-oh", "she-replies-haha", "start-chat-again"],
+  },
+  {
+    slug: "does-she-like-me",
+    question: "怎么判断她是不是喜欢我？",
+    seoTitle: "怎么判断她是不是喜欢我？不要只看一句回复",
+    description: "一句“哈哈”“嗯嗯”不能证明喜欢或不喜欢。更可靠的是看一段时间里的主动性、回应质量和线下互动。",
+    subtitle: "看持续投入，不靠单句解读。",
+    intro: "一句“哈哈”“嗯嗯”不能证明喜欢或不喜欢。更可靠的是看一段时间里的主动性、回应质量和线下互动。",
+    signalsTitle: "更值得看的信号",
+    signals: [
+      "她是否会主动找你，或主动延续你开启的话题。",
+      "她回复是否有信息量，而不是长期只有敷衍短句。",
+      "她是否愿意给你时间，比如愿意见面或认真语音。",
+      "她是否会记得你的信息，并在后续聊天里自然提起。",
+      "你表达边界或邀约时，她是否给清楚反馈而不是一直回避。",
+    ],
+    signalsNoteTitle: "容易误判的情况",
+    signalsNote: "有人本来就慢热或忙，不代表没兴趣；也有人礼貌热情，但并没有关系推进意愿。不要把单次热情当承诺，也不要把一次冷淡当最终答案。",
+    replyTitle: "下一步怎么做",
+    replyNote: "如果信号整体偏积极，可以给一个轻量邀约，观察对方是否愿意把聊天推进到真实互动。如果长期低投入，就不要用更多解释换确定性。",
+    replies: [{ label: "适合信号偏积极时", text: "跟你聊天还挺轻松的。\n这周有空的话，一起喝杯东西？" }],
+    faqs: [],
+    related: ["is-she-friend-zoning-me", "she-replies-slowly", "ambiguous-relationship"],
+  },
+  {
+    slug: "first-message-after-breakup",
+    question: "分手后第一句话怎么说？",
+    seoTitle: "分手后第一句话怎么说？短、具体、不逼迫",
+    description: "分手后的第一句话不是挽回按钮。它更像一次低压力沟通尝试，前提是对方仍然保留沟通窗口。",
+    subtitle: "先判断能不能说，再想怎么说。",
+    intro: "分手后的第一句话不是挽回按钮。它更像一次低压力沟通尝试，前提是对方仍然保留沟通窗口。",
+    signalsTitle: "先判断是否适合开口",
+    signals: [
+      "对方是否明确说过“不想再联系”或已经拉黑。",
+      "分手原因是否涉及伤害、欺骗、边界或安全风险。",
+      "你开口是想认真道歉，还是只是缓解自己的焦虑。",
+      "你是否能接受对方不回复，而不是继续追问。",
+    ],
+    replyTitle: "第一句话的原则",
+    replyNote: "短、具体、不逼迫。不要一上来长篇复盘，也不要把“我很痛苦”变成对方必须回应的压力。",
+    replies: [{ label: "适合仍有沟通窗口时", text: "这两天我想清楚了一点。\n上次那件事我确实处理得不好，\n不是来逼你回应，只是想把这句话说清楚。" }],
+    boundaryTitle: "什么时候应该停止",
+    boundary: "如果对方明确拒绝、持续不回、拉黑，或者表达被打扰，继续优化第一句话没有意义。此时最重要的是尊重边界，并复盘下一段关系里如何更成熟地表达。",
+    faqs: [],
+    related: ["after-cold-war", "apologize-to-girlfriend", "girl-not-replying"],
+  },
+  {
+    slug: "girl-not-replying",
+    question: "女生不回消息怎么办？",
+    seoTitle: "女生不回消息怎么办？先判断关系阶段",
+    description: "女生不回消息时，先判断关系阶段、上一句是否难接、对方投入和边界信号，再决定轻量收尾、换话题还是停止推进。",
+    subtitle: "先别追问，先判断局势。",
+    intro: "不回消息不等于一定没戏，也不等于一定要继续加码。关键是看关系阶段、上一句内容、对方投入和边界信号，再决定该等、该换话题，还是该停止推进。",
+    signalsTitle: "先看 4 个信号",
+    signals: [
+      "之前是否也经常隔很久才回，还是最近突然变冷。",
+      "你的上一句是不是太长、太急、太重，或让对方只能表态。",
+      "对方是否还会主动开启话题、反问你、解释自己在忙。",
+      "是否已经出现明确拒绝、拉黑、不想被打扰等边界信号。",
+    ],
+    signalsNote: "很多男生在对方不回时会立刻补一句“你怎么不回”，这通常会把压力继续推给对方。更稳的顺序是先看信号，再决定动作。",
+    cases: [
+      { title: "短期没回", text: "先等，不补刀。需要开口时用轻量收尾，不追问原因。" },
+      { title: "长期低投入", text: "降低投入，不解释、不讨好，把注意力放回自己的生活。" },
+      { title: "明确拒绝", text: "停止推进。边界已经出现时，优化回复不是重点。", warn: true },
+    ],
+    steps: ["先停 12–24 小时，避免连续追问。", "看上一次聊天是不是难接，必要时换一个轻话题。", "如果对方持续低投入，减少主动频率，而不是加码证明自己。"],
+    replyNote: "适合轻量收尾，不施压，也不把对方逼到必须解释的位置。",
+    replies: [{ label: "参考回复", text: "刚看到你可能在忙，没事。\n我先去处理点事，回头再聊。" }],
+    faqs: [
+      { q: "女生不回消息是不是没戏了？", a: "不一定。要看她是突然变冷、长期低投入，还是本来就回复慢。单次不回不能直接下结论。" },
+      { q: "要不要再发一条？", a: "如果上一句没有明显冒犯，可以等一段时间后轻量收尾；不要连续追问。" },
+      { q: "她一直不回怎么办？", a: "长期不回就是强信号。继续解释和讨好通常只会让自己更低位。" },
+      { q: "什么时候应该停止推进？", a: "对方明确拒绝、拉黑、表达不想被打扰，或持续回避时，应该停止推进。" },
+    ],
+    related: ["she-replies-slowly", "she-says-busy", "start-chat-again"],
+  },
+  {
+    slug: "is-ai-relationship-coach-reliable",
+    question: "AI 情感导师靠谱吗？",
+    seoTitle: "AI 情感导师靠谱吗？看它有没有判断依据",
+    description: "AI 情感导师靠谱不靠谱，关键看它是否解释判断依据、给条件化建议、承认不确定性，并提醒边界，而不是承诺保证拿下。",
+    subtitle: "靠谱的不是万能话术，而是判断依据。",
+    intro: "健康的 AI 情感导师应该帮你看清关系阶段、对方信号和自己的表达风险，而不是承诺保证拿下、保证复合。判断依据越清楚，建议才越可复盘。",
+    signalsTitle: "靠谱建议的 3 个特点",
+    signals: [
+      "先说明判断依据，比如回复变短、没有反问、连续回避邀约。",
+      "给条件化建议，而不是说“她一定喜欢你”或“这样一定成功”。",
+      "回复短、自然、有余地，不把用户推向讨好、控制或骚扰。",
+    ],
+    casesTitle: "不靠谱的信号",
+    casesNote: "如果一个工具只输出“高情商模板”，却不问关系背景、不解释判断依据，还承诺成功率，风险就很高。感情关系有大量上下文，不能靠一句万能回复解决。",
+    cases: [
+      { title: "承诺结果", text: "保证复合、保证拿下、保证她喜欢你，都是高风险表达。", warn: true },
+      { title: "不看上下文", text: "不问关系阶段和对方反馈，就直接给话术，容易误导行动。", warn: true },
+      { title: "鼓励越界", text: "把持续打扰包装成深情，会损害双方边界。", warn: true },
+    ],
+    replyTitle: "正确使用方式",
+    replyNote: "提问时补充背景，结果会更可用。",
+    replies: [{ label: "提问模板", text: "我们认识多久：\n最近一次互动：\n聊天记录：\n我想达到的目标：\n请先判断关系阶段，再给建议。" }],
+    boundaryTitle: "不能替代什么",
+    boundary: "AI 情感导师不能替代心理咨询、法律建议、危机干预或现实安全支持。涉及伤害、威胁、跟踪、严重心理危机时，应优先找现实中的专业帮助。",
+    faqs: [
+      { q: "AI 情感导师真的懂感情吗？", a: "它不具备真实情感，但可以用结构化框架帮你复盘聊天和表达风险。" },
+      { q: "它能判断她喜不喜欢我吗？", a: "可以辅助判断趋势，不能百分百确认对方真实心意。" },
+      { q: "它会不会把人教得套路？", a: "如果只追求控制和拿下，会套路化；更好的使用方式是练判断、边界和表达。" },
+    ],
+    related: ["does-she-like-me", "girl-not-replying", "chat-cold"],
+  },
+];
 
-export const ALL_ANSWER_PAGES = [...ANSWER_PAGES, ...LEGACY_ANSWER_PAGES];
+// 问答库分组（设计规范：她回了一句话 / 判断她的态度 / 约会和推进 / 吵架和复联）
+export const ANSWER_GROUPS = {
+  "她回了一句话": ["she-replies-oh", "she-says-whatever", "she-says-busy", "she-replies-haha", "she-says-goodnight-early", "she-replies-slowly", "girl-not-replying", "chat-cold"],
+  "判断她的态度": ["does-she-like-me", "is-she-friend-zoning-me", "she-has-boyfriend-signs", "is-ai-relationship-coach-reliable"],
+  "约会和推进": ["how-to-ask-her-out", "when-to-confess", "ambiguous-relationship", "after-blind-date", "start-chat-again"],
+  "吵架和复联": ["girlfriend-angry", "after-cold-war", "apologize-to-girlfriend", "first-message-after-breakup"],
+};
+
+const groupOf = new Map(Object.entries(ANSWER_GROUPS).flatMap(([group, slugs]) => slugs.map((slug) => [slug, group])));
+
+export const ALL_ANSWER_PAGES = [...ANSWER_PAGES, ...LEGACY_ANSWER_PAGES].map((page) => {
+  const group = groupOf.get(page.slug);
+  if (!group) throw new Error(`answer ${page.slug}: 没有归到 ANSWER_GROUPS 里的任何一组`);
+  return { ...page, group };
+});

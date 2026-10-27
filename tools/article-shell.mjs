@@ -3,7 +3,7 @@
 // apply-seo.mjs（还没写进数据文件的旧文章）共用这里，保证两种文章长得一样。
 import { SITE_URL, SITE_BRAND, SEO_UPDATED } from "./seo-config.mjs";
 
-export const STYLE_VERSION = "20261030";
+export const STYLE_VERSION = "20261031";
 export const BILIBILI_URL = "https://space.bilibili.com/77669328";
 export const COURSE_LINK_TEXT = "看看小腾哥的课程 →";
 export const TRY_LINK_TEXT = "立即体验";
@@ -38,20 +38,19 @@ export function siteFooter() {
 }
 
 /** 深色标题区：面包屑 → H1 → 一句话结论 → 作者行 */
-export function articleHero({ category, title, verdict, label = "一句话结论", minutes = 5, byline }) {
-  const crumbs = category
-    ? `<a href="/blog">文章库</a><span>/</span><span>${escapeHtml(category)}</span>`
-    : `<a href="/blog">文章库</a>`;
+export function articleHero({ category, title, verdict, label = "一句话结论", minutes = 5, byline, root = { href: "/blog", label: "文章库" } }) {
+  const home = `<a href="${root.href}">${escapeHtml(root.label)}</a>`;
+  const crumbs = category ? `${home}<span>/</span><span>${escapeHtml(category)}</span>` : home;
   return `    <section class="hero">
       <div class="hero-in">
         <div class="crumbs">${crumbs}</div>
         <h1>${escapeHtml(title)}</h1>
         <div class="verdict"><div class="label">${escapeHtml(label)}</div><p>${escapeHtml(verdict)}</p></div>
-        <div class="byline">
+${byline ? `        <div class="byline">
           <div class="avatar">${byline.avatar}</div>
           <div>${byline.html}</div>
         </div>
-      </div>
+` : ""}      </div>
     </section>`;
 }
 
@@ -75,8 +74,8 @@ export function replyCard({ she, text, why, source }) {
   return `        <div class="reply">
           <div class="reply-head">${escapeHtml(she)}<button type="button">复制</button></div>
           <div class="reply-body">
-            <div class="bubble">${escapeHtml(text)}</div>
-            <div class="reply-why">${escapeHtml(why)}</div>${source ? `\n            <div class="reply-src">回复出自 ${escapeHtml(source)}</div>` : ""}
+            <div class="bubble">${escapeHtml(text)}</div>${why ? `
+            <div class="reply-why">${escapeHtml(why)}</div>` : ""}${source ? `\n            <div class="reply-src">回复出自 ${escapeHtml(source)}</div>` : ""}
           </div>
         </div>`;
 }

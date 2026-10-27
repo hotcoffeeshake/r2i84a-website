@@ -63,7 +63,7 @@ main { padding: 36px 0 0; }
 .reply-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 16px 8px; font-size: 13.5px; font-weight: 700; color: var(--good); }
 .reply-head button { flex: none; border: 1px solid var(--good); background: #fff; color: var(--good); border-radius: 9999px; padding: 3px 12px; font: inherit; font-size: 12.5px; cursor: pointer; }
 .reply-body { padding: 0 16px 14px; }
-.bubble { display: inline-block; max-width: 100%; padding: 10px 14px; border-radius: 4px 16px 16px 16px; background: #fff; border: 1px solid #d3eadd; color: var(--ink); font-size: 16px; line-height: 1.65; }
+.bubble { display: inline-block; max-width: 100%; padding: 10px 14px; border-radius: 4px 16px 16px 16px; background: #fff; border: 1px solid #d3eadd; color: var(--ink); font-size: 16px; line-height: 1.65; white-space: pre-line; }
 .reply-why { margin-top: 8px; font-size: 14px; color: var(--muted); line-height: 1.7; }
 .reply-src { margin-top: 4px; font-size: 12.5px; color: var(--muted); }
 
@@ -199,3 +199,16 @@ main { padding: 36px 0 0; }
 .directory-shortcuts a { display: block; padding: 16px 18px; border: 1px solid var(--line); border-radius: 16px; background: var(--card); text-decoration: none; }
 .directory-shortcuts b { display: block; color: var(--ink); font-family: var(--serif); }
 .directory-shortcuts span { color: var(--muted); font-size: 14px; }
+
+/* 问答页：信号清单、步骤、四宫格状态卡、「什么时候该停」 */
+@media (min-width: 640px) { .stage.four { grid-template-columns: repeat(2, 1fr); } }
+.checklist { list-style: none; margin: 16px 0 20px; padding: 0; display: grid; gap: 10px; }
+.checklist li { position: relative; padding: 12px 16px 12px 42px; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-card); font-size: 15.5px; line-height: 1.7; color: var(--ink-2); }
+.checklist li::before { content: "✓"; position: absolute; left: 16px; top: 12px; color: var(--gold-ink); font-weight: 700; }
+.steps { list-style: none; margin: 16px 0 20px; padding: 0; counter-reset: step; display: grid; gap: 10px; }
+.steps li { counter-increment: step; position: relative; padding: 2px 0 2px 40px; font-size: 16px; line-height: 1.75; color: var(--ink-2); }
+.steps li::before { content: counter(step); position: absolute; left: 0; top: 2px; width: 26px; height: 26px; border-radius: 50%; background: var(--gold-wash); border: 1px solid #efdcb4; color: var(--gold-ink); font: 700 13px/26px var(--num); text-align: center; }
+.stop { margin: 40px 0 0; padding-top: 24px; border-top: 1px solid var(--line); }
+.stop h2 { margin-top: 0; }
+/* 目录页没有右侧目录，内容区用满对齐线宽度（--wrap），卡片宽屏三列 */
+.directory.layout { grid-template-columns: minmax(0, var(--wrap)); }
