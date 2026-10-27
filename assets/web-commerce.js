@@ -303,6 +303,7 @@
     return guest;
   }
   function completeOrder(order) {
+    if (window.r2track && order.status !== 'fulfilled') window.r2track('purchase', 'paid', order.plan || order.sku || '');
     order.status = 'fulfilled';
     var previous = read('pastOrders') || [];
     var history = previous.filter(function (item) { return item.id !== order.id; }); history.push(order);
@@ -312,6 +313,7 @@
   }
   async function manualSupport(order, g) {
     if (g !== generation) return;
+    if (window.r2track && order.status !== 'paid_pending_manual') window.r2track('purchase', 'paid_manual', order.plan || order.sku || '');
     order.status = 'paid_pending_manual'; save('order', order); save('attempt', null);
     document.getElementById('r2content').innerHTML = '';
     orderDetails(order);
@@ -396,6 +398,7 @@
       PLANS.filter(function (item) { return item.id !== 'free'; }).forEach(function (item) { button(item.name + ' ¥' + item.price, function () { checkout(item.id); }); });
       return;
     }
+    if (window.r2track) window.r2track('purchase', 'checkout_start', plan);
     var g = view('购买' + p.name, '正在准备安全购买会话…');
     busy = true;
     try {
@@ -445,6 +448,7 @@
       if (!data.id) throw new Error('订单未创建');
       if (existingOrder && data.id !== existingOrder.id) throw new Error('原订单不匹配');
       var order = { id: data.id, plan: plan, fulfillment: data.fulfillment, status: data.status }; save('order', order);
+      if (window.r2track) window.r2track('purchase', 'order_created', plan);
       if (g !== generation) return;
       mergeSummary(order, data);
       document.getElementById('r2content').innerHTML = '';

@@ -8,7 +8,7 @@
  function expired(){clearTimeout(timer);current='';copy.disabled=true;status('登录码已过期，请重新获取。');refresh.hidden=false;}
  async function poll(g){if(g!==generation)return;if(Date.now()>=expires)return expired();var delay=2000;
  try{var r=await request('pair/claim',{code:current});if(g!==generation)return;
- if(r.ok&&r.data.status==='ok'){status('✅ 配对成功，正在进入…');copy.disabled=true;location.replace(returnPath());return;}
+ if(r.ok&&r.data.status==='ok'){status('✅ 配对成功，正在进入…');if(window.r2track)window.r2track('login','pair_success');copy.disabled=true;location.replace(returnPath());return;}
  if(r.status===401||r.status===403)return expired();
  if(!r.ok){delay=5000;status('网络暂时不稳定，正在重试…',true);}else status('等待你在公众号发送登录码…',true);
  }catch(_){delay=5000;if(g===generation)status('网络暂时不稳定，正在重试…',true);}
