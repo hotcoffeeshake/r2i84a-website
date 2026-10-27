@@ -21,3 +21,17 @@ jojo-*.png
 photo_with_qr.*
 site-map.txt
 sitemap.txt
+# 不给用户看的页面与内部文档：不部署，源码保留（2026-10-21）
+home.html
+temple.html
+temple.css
+temple-scroll.js
+frames-webp
+audio
+human-answer.html
+human-answer.css
+human-answer.js
+human-answer-visual-concepts.md
+AGENTS.md
+extracted-relationship-ai-materials.md
+个人网站-首页文案.md

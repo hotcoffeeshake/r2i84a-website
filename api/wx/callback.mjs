@@ -30,6 +30,7 @@ export default async function callback(req, res) {
     if (fields.MsgType === 'event' && fields.Event === 'unsubscribe') return send(200, 'success');
     if (fields.MsgType === 'text') {
       let reply='回复网页上的 6 位数字即可登录。网站：https://r2i84a.chat';
+      if (/^\s*速查\s*$/.test(fields.Content || '')) reply='聊天反应测试的资料在这里：10 题完整解析 + 高频场景速查。\nhttps://r2i84a.chat/quiz-guide';
       if (/^\d{6}$/.test(fields.Content || '')) {
         if (Math.abs(Date.now()/1000-Number(params.get('timestamp')))>300) return send(403,'Stale callback');
         if (process.env.WX_ACCOUNT_ID && fields.ToUserName!==process.env.WX_ACCOUNT_ID) return send(403,'Unexpected account');

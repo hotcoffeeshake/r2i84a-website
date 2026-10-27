@@ -266,18 +266,33 @@ for (const post of posts) {
 
 const renamed = plans.filter((plan) => plan.aliases.size > 1);
 const aliasTargets = new Map(plans.flatMap((plan) => [...plan.aliases].map((alias) => [alias, plan.slug])));
+
+// 聊天反应测试弹窗：进入页面几秒后弹出（逻辑见 assets/chat-quiz.js）。
+// 测试页本身、体验/账号/真人答复等转化页面不弹。改版本号即可刷新缓存。
+const QUIZ_POPUP_TAG = '<script src="/assets/chat-quiz.js?v=20261021b" data-mode="popup" defer></script>\n';
+const QUIZ_POPUP_RE = /<script src="\/assets\/chat-quiz\.js[^"]*" data-mode="popup" defer><\/script>\n/g;
+const QUIZ_POPUP_PAGES = new Set(["index.html"]); // 测验弹窗只放首页
+// 先删旧标签再插到 </body> 前，重复运行结果不变
+const withQuizPopup = (file, html) => {
+  html = html.replace(QUIZ_POPUP_RE, "");
+  if (!QUIZ_POPUP_PAGES.has(path.relative(ROOT, file))) return html;
+  const end = html.lastIndexOf("</body>");
+  return end === -1 ? html : html.slice(0, end) + QUIZ_POPUP_TAG + html.slice(end);
+};
+
 for (const file of siteHtmlFiles()) {
   let html = fixCompatChars(fs.readFileSync(file, "utf8"));
   html = html.replace(/\/blog\/([a-z0-9-]+)(?=[/"'?#\s<]|$)/g, (match, slug) =>
     aliasTargets.has(slug) ? `/blog/${aliasTargets.get(slug)}` : match);
   for (const oldBrand of PREVIOUS_BRANDS) html = html.replaceAll(oldBrand, SITE_BRAND);
   html = html.replace(/(<title>[^<]*\| )(?:情商练习)?有事问AI(?:文章库)?(<\/title>)/, `$1${SITE_BRAND}$2`);
+  html = withQuizPopup(file, html);
   fs.writeFileSync(file, html);
 }
 
 function platformPill(post) {
   const xhs = post.platform === "小红书";
-  return `<span class="platform-pill ${xhs ? "xhs" : "wx"}"><img src="../assets/platform-${xhs ? "xiaohongshu" : "wechat"}.svg" alt="${escapeHtml(post.platform)}" /> ${escapeHtml(post.platform)}</span>`;
+  return `<span class="platform-pill ${xhs ? "xhs" : "wx"}"><img src="../assets/platform-${xhs ? "xiaohongshu" : "wechat-service"}.svg" alt="${escapeHtml(post.platform)}" /> ${escapeHtml(post.platform)}</span>`;
 }
 
 function learnRow(post) {
@@ -387,6 +402,7 @@ const corePages = [
   { loc: "/learn", name: "学习提升", priority: "0.8" },
   { loc: "/ai-relationship-coach", name: "AI情感导师是什么", priority: "0.8" },
   { loc: "/eq", name: "情商怎么练", priority: "0.8" },
+  { loc: "/quiz", name: "聊天反应测试", priority: "0.8" },
   { loc: "/love-advisor", name: "恋爱聊天助手", priority: "0.8" },
   { loc: "/tong-jincheng-skill", name: "童锦程 Skill 非官方指南", priority: "0.8" },
   { loc: "/answers", name: "恋爱问题答疑库", priority: "0.8" },
@@ -477,6 +493,7 @@ ${ANSWER_PAGES.map((page) => `- ${page.question.replace(/？$/, "")}：${SITE_UR
 - 学习提升：${SITE_URL}/learn
 - AI 情感导师是什么：${SITE_URL}/ai-relationship-coach
 - 情商怎么练：${SITE_URL}/eq
+- 聊天反应测试：${SITE_URL}/quiz - 10 个高频聊天场景单选题，选完即时看对错，测完看得分与聊天习惯
 - 恋爱聊天助手：${SITE_URL}/love-advisor
 - 童锦程 Skill 非官方指南：${SITE_URL}/tong-jincheng-skill
 - 恋爱问题答疑库：${SITE_URL}/answers

@@ -27,6 +27,13 @@ export const NOINDEX_POSTS = [
   "qinggan-056", // 顶着这张脸说夫妻相处之道
   "qinggan-059", // 坏男人必学语录
   "qinggan-065", // 乖乖女都被黄毛收割了
+  "qinggan-015", // 鹅腿阿姨恋爱顾问面经
+  "qinggan-016", // 过山车式的聊天，让女生欲罢不能
+  "qinggan-035", // 高！手！把！妹！
+  "qinggan-036", // 钓系把妹王语录1.0
+  "qinggan-045", // 千万男人的情感焦虑生意
+  "qinggan-050", // 和adhd女友聊天（正文只有引子）
+  "qinggan-060", // 我不是变渣了
 ];
 
 // 正文和另一篇完全相同的文章：canonical 指向保留的那篇，本篇不进 sitemap。
@@ -116,6 +123,50 @@ export const POST_OVERRIDES = {
     slug: "60-chat-topics",
     title: "和女生聊天的60个话题，从破冰到暧昧",
     description: "别再用“在干嘛”开头了。按破冰、熟悉、升温、暧昧四个阶段整理60个和女生聊天的话题，每个都能自然聊下去。",
+  },  "qinggan-007": {
+    slug: "why-her-messages-hard-to-reply",
+    title: "不会回女生消息怎么办？先读懂她没说出口的潜台词",
+    description: "她发“在干嘛”，回刚睡醒显得无聊，回想你显得油腻，不回又像装死。每条消息背后都有潜台词，先读懂再回。",
+  },
+  "qinggan-010": {
+    slug: "chat-basic-principles",
+    title: "和女生聊天的底层逻辑：3条原则让她愿意回你",
+    description: "聊天前先想清楚她想要什么、你想要什么：求安慰、分享快乐还是求建议，各给一句可以直接用的回复。",
+  },
+  "qinggan-023": {
+    slug: "men-women-chat-thinking",
+    title: "男生女生聊天思维差在哪？她要的是回应不是答案",
+    description: "她说好累，你认真帮她分析，她却更不开心。男生目的导向、女生过程导向，说明几处关键差异和怎么接。",
+  },
+  "qinggan-025": {
+    slug: "show-yourself-to-her",
+    title: "在女生面前怎么展示自己？3个不吹牛的方法",
+    description: "别像简历一样硬吹。通过一件事、身边的人、一个故事，让她自己得出你不错的结论，附错误和正确说法对比。",
+  },
+  "qinggan-029": {
+    slug: "books-for-social-skills",
+    title: "男生提升情商看什么书？5本社交进阶书",
+    description: "从不敢开口到会说话、能读懂人，5本书按顺序读：搭讪圣经、蔡康永的说话之道、冷读术等，各附一句核心观点。",
+  },
+  "qinggan-040": {
+    slug: "are-pretty-girls-harder-to-chase",
+    title: "漂亮女生真的更难追吗？",
+    description: "长得好看的女生习惯了被捧，最缺的是被正常对待和被理解。说明为什么普通男生反而有机会，以及该怎么相处。",
+  },
+  "qinggan-063": {
+    slug: "chase-by-her-personality",
+    title: "追女生没有万能话术：7种性格的女生分别怎么追",
+    description: "乖乖女、感情小白、缺安全感、富家女……用同一套方法追所有人一定碰壁。按7种常见性格说明各自的相处方式。",
+  },
+  "qinggan-064": {
+    slug: "tong-jincheng-reading-emotions",
+    title: "童锦程为什么受欢迎？拆了上百个名场面后的结论",
+    description: "他强的不是会撩，是先判断她现在是什么情绪，再接住。把女生的回复分成5种反馈，各配一种接法。",
+  },
+  "qinggan-066": {
+    slug: "entp-girlfriend",
+    title: "ENTP女生怎么相处？吵不过就换个方式",
+    description: "ENTP女朋友爱怼人、点子多、会突然消失。说明这些行为背后是什么意思，怎么接住她又不被带着走。",
   },
 };
 
