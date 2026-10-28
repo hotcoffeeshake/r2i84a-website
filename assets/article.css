@@ -212,3 +212,35 @@ main { padding: 36px 0 0; }
 .stop h2 { margin-top: 0; }
 /* 目录页没有右侧目录，内容区用满对齐线宽度（--wrap），卡片宽屏三列 */
 .directory.layout { grid-template-columns: minmax(0, var(--wrap)); }
+.checklist.warn li { border-color: #f0d3cd; background: #fffaf8; }
+.checklist.warn li::before { content: "!"; color: var(--bad); }
+
+/* 课程页：整页深色（品牌面） */
+.page-dark { background: var(--ink-950); color: var(--text-on-dark); }
+.page-dark main { padding-top: 8px; }
+.course-hero-in { display: grid; gap: 28px; align-items: center; }
+.course-hero-in > * { max-width: none; }
+@media (min-width: 760px) { .course-hero-in { grid-template-columns: minmax(0, 1fr) 172px; } }
+.course-lead { margin: 16px 0 0; color: var(--text-on-dark-2); font-size: 15.5px; line-height: 1.75; }
+.course-hero .facts { margin-top: 18px; }
+.course-hero .cta-qr figcaption { color: var(--text-on-dark-2); }
+.course { padding-bottom: 8px; }
+.course h2 { margin: 48px 0 14px; font-family: var(--serif); font-size: clamp(22px, 3vw, 26px); line-height: 1.4; color: #fff; }
+.course h2:first-child { margin-top: 24px; }
+.course h2 .num { display: block; margin-bottom: 2px; font-family: var(--num); font-size: 13px; color: var(--gold); letter-spacing: .12em; }
+.course > p { margin: 0 0 16px; color: var(--text-on-dark-2); font-size: 16px; line-height: 1.8; }
+.course-steps { list-style: none; margin: 0; padding: 0; counter-reset: cs; display: grid; gap: 10px; }
+.course-steps li { counter-increment: cs; position: relative; padding: 14px 16px 14px 56px; border: 1px solid var(--line-dark); border-radius: var(--r-card); background: var(--ink-900); }
+.course-steps li::before { content: counter(cs); position: absolute; left: 16px; top: 14px; width: 26px; height: 26px; border-radius: 50%; background: var(--gold); color: var(--ink-950); font: 700 13px/26px var(--num); text-align: center; }
+.course-steps b, .course-cards b { display: block; font-family: var(--serif); font-size: 17px; color: #fff; }
+.course-steps span, .course-cards span { display: block; margin-top: 4px; color: var(--text-on-dark-2); font-size: 14.5px; line-height: 1.7; }
+.course-cards { display: grid; gap: 12px; }
+@media (min-width: 640px) { .course-cards { grid-template-columns: repeat(2, 1fr); } }
+.course-cards > div { padding: 18px; border: 1px solid var(--line-dark); border-radius: var(--r-card); background: var(--ink-900); }
+.page-dark .faq details { border-color: var(--line-dark); background: var(--ink-900); }
+.page-dark .faq summary { color: #fff; }
+.page-dark .faq summary::after { color: var(--gold); }
+.page-dark .faq details p { color: var(--text-on-dark-2); }
+.course-consult { margin-top: 48px; }
+.course-consult-title { margin: 14px 0 0; font-family: var(--serif); font-size: 22px; color: #fff; }
+.page-dark .site-footer { border-top: 1px solid var(--line-dark); }

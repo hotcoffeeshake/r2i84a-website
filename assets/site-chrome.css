@@ -1,0 +1,14 @@
+/* 只有页头页脚的页面（测验、速查、登录）用的样式：和 article.css 里的页头页脚一致，选择器限定在 .site-header / .site-footer 内，
+   不影响这些页面自己的样式。依赖 tokens.css 的变量；在页面自己的 <style> 之前加载。 */
+.site-header { position: sticky; top: 0; z-index: 20; height: 56px; margin: 0; display: flex; justify-content: space-between; align-items: center; padding: 0 max(20px, calc((100% - var(--wrap)) / 2)); background: var(--ink-950); color: var(--text-on-dark); border-bottom: 1px solid var(--line-dark); box-sizing: border-box; font-family: var(--sans); line-height: 1.5; }
+.site-header .brand { font-family: var(--serif); font-weight: 700; font-size: 18px; letter-spacing: .02em; color: var(--text-on-dark); text-decoration: none; }
+.site-header nav { display: flex; align-items: center; gap: 18px; font-size: 14.5px; }
+.site-header nav a { text-decoration: none; color: var(--text-on-dark-2); }
+.site-header .btn-try { padding: 7px 16px; border: 1px solid rgba(245,179,71,.6); border-radius: 9999px; color: var(--gold); font-weight: 700; }
+@media (max-width: 640px) { .site-header nav .learn { display: none; } }
+.site-footer { margin: 0; border-top: 1px solid var(--line-dark); background: var(--ink-950); color: var(--text-on-dark-2); font-family: var(--sans); font-size: 13.5px; line-height: 1.6; padding: 28px 20px; }
+.site-footer .in { max-width: var(--wrap); margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px; }
+.site-footer .brand { font-family: var(--serif); font-weight: 700; color: var(--text-on-dark); font-size: 16px; }
+.site-footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
+.site-footer a { color: var(--text-on-dark-2); text-decoration: none; }
+.site-footer a:hover { color: var(--gold); }
