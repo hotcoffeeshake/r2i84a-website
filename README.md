@@ -57,7 +57,7 @@ SEO 相关配置和脚本都在 `tools/`：
 改完配置或内容后，在仓库根目录运行：
 
 ```sh
-node tools/build-answer-pages.mjs && node tools/build-article-pages.mjs && node tools/build-topic-pages.mjs && node tools/build-course-page.mjs && node tools/build-chrome-pages.mjs && node tools/apply-seo.mjs && node tools/test-seo.mjs
+node tools/build-answer-pages.mjs && node tools/build-article-pages.mjs && node tools/build-topic-pages.mjs && node tools/build-course-page.mjs && node tools/build-chrome-pages.mjs && node tools/build-home-page.mjs && node tools/apply-seo.mjs && node tools/test-seo.mjs
 ```
 
 连续跑两次，`git status` 不应有新的变化。改了任何 `.js` / `.css` 都要改 `?v=` 版本号（`tools/inject-analytics.mjs` 里的 `V`、`tools/article-shell.mjs` 里的 `STYLE_VERSION`），浏览器会把它们缓存一年。

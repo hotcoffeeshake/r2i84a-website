@@ -1,44 +1,36 @@
 (function () {
   "use strict";
+  // 套餐和权益（2026-10-30 用户确认）：免费每天 6 次；会员每天 30 次，并解锁许跃腾 Skill。
+  // 卡片样式在 assets/home.css（.plan），结构照 网站SEO_GEO/首页设计稿.html。免费版不出卡片，首页旁边直接放小程序码。
   var PLANS = [
+    { id: 'free', name: '免费版', price: '0', per: '', quota: '每天 6 次' },
     {
-      id: 'free', name: '免费版', price: '0', per: '', unit: '零门槛开始',
-      quota: '每日 6 次提问', primary: false,
-      feats: ['聊天截图解析', '关系阶段判断', '基础回复建议'],
-      cta: '当前版本'
+      id: 'year', name: '年卡会员', price: '60', per: '/ 年', unit: '每天不到 2 毛 · 比月卡省 ¥84', primary: true, badge: '更划算',
+      feats: ['每天 30 次聊天复盘', '解锁许跃腾 Skill：按小腾哥的思路判断和回复', '截图复盘、关系判断、回复建议'],
+      cta: '开通年卡'
     },
     {
-      id: 'month', name: '月卡', price: '12', per: '/月', unit: '约 ¥0.4 / 天',
-      quota: '每日 30 次提问', primary: false,
-      feats: ['每日 30 次，不限追问改口', '完整关系阶段判断', '回复逐句打磨', '优先响应速度'],
-      cta: '直接购买'
-    },
-    {
-      id: 'year', name: '年卡', price: '60', per: '/年', unit: '折算 ¥5 / 月 · 比月卡省 ¥84',
-      quota: '每日 30 次提问', primary: true, badge: '最划算',
-      feats: ['月卡全部权益', '全年不限追问改口', '新功能优先体验', '一次开通 ¥60，全年不涨价'],
-      cta: '直接购买'
+      id: 'month', name: '月卡会员', price: '12', per: '/ 月', unit: '先试一个月',
+      feats: ['每天 30 次聊天复盘', '解锁许跃腾 Skill', '截图复盘、关系判断、回复建议'],
+      cta: '开通月卡'
     }
   ];
 
   function cardHtml(p) {
-    var label = p.id === 'free' ? p.cta : '直接购买 ¥' + p.price;
-    var cls = p.primary ? 'r2pay-btn gold' : 'r2pay-btn ghost';
-    var feats = p.feats.map(function (f) { return '<li><i>&#10003;</i><span>' + f + '</span></li>'; }).join('');
-    return '<div class="r2pay-card' + (p.primary ? ' hot' : '') + '">' +
-      (p.badge ? '<span class="r2pay-badge">' + p.badge + '</span>' : '') +
-      '<p class="r2pay-name">' + p.name + '</p>' +
-      '<div class="r2pay-price"><span class="r2pay-cur">&#165;</span><span class="r2pay-num">' + p.price + '</span><span class="r2pay-per">' + p.per + '</span></div>' +
-      '<p class="r2pay-unit">' + p.unit + '</p>' +
-      '<p class="r2pay-quota">' + p.quota + '</p>' +
-      '<ul class="r2pay-feats">' + feats + '</ul>' +
-      '<button class="' + cls + '" type="button" data-plan="' + p.id + '">' + label + '</button>' +
+    var feats = p.feats.map(function (f) { return '<li>' + f + '</li>'; }).join('');
+    return '<div class="plan' + (p.primary ? ' best' : '') + '">' +
+      (p.badge ? '<span class="badge">' + p.badge + '</span>' : '') +
+      '<h3>' + p.name + '</h3>' +
+      '<div class="price">&#165;' + p.price + '<small> ' + p.per + '</small></div>' +
+      '<div class="per">' + p.unit + '</div>' +
+      '<ul>' + feats + '</ul>' +
+      '<button class="btn ' + (p.primary ? 'btn-primary' : 'btn-ghost') + '" type="button" data-plan="' + p.id + '">' + p.cta + '</button>' +
       '</div>';
   }
 
   function render() {
     updateNav();
-    grid.innerHTML = PLANS.map(cardHtml).join('');
+    grid.innerHTML = PLANS.filter(function (p) { return p.id !== 'free'; }).map(cardHtml).join('');
     (read('pastOrders') || []).forEach(function (order, index) {
       var link = document.createElement('button'); link.type = 'button'; link.className = 'r2pay-btn ghost';
       link.textContent = '订单 …' + order.id.slice(-10) + ' · ' + orderStatus(order);
