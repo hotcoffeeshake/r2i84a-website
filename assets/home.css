@@ -259,3 +259,8 @@ img { display: block; max-width: 100%; }
 .feedback { margin: 28px 0 0; max-width: 420px; }
 .feedback img { width: 100%; height: auto; border-radius: var(--r); border: 1px solid var(--line); }
 .feedback figcaption { margin-top: 10px; font-size: 13.5px; line-height: 1.7; color: var(--muted); }
+
+/* <button> 自带浅灰底和边框：开通月卡的描边按钮必须透明底，否则白字看不见 */
+button.btn { border: 0; font-family: inherit; cursor: pointer; }
+.btn-ghost, button.btn-ghost { background: transparent; border: 1px solid var(--line-dark); color: var(--text-on-dark); }
+.btn-ghost:hover { border-color: rgba(245,179,71,.6); color: var(--gold); }
