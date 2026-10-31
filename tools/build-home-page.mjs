@@ -88,9 +88,9 @@ ${siteHeader({ progress: false })}
             <small>免费，每天 6 次 · 微信扫码就能用</small>
           </div>
           <div class="proof-row">
-            <span><b>${TOTAL_PLAYS}</b>首页 3 个视频总播放</span>
+            <span><b>5K+</b>人在用</span>
             <span><b>50 万+</b>B 站粉丝</span>
-            <span><b>2.9k</b>GitHub 星标（童锦程 Skill）</span>
+            <span><b>3K</b>GitHub Stars（童锦程 Skill）</span>
           </div>
         </div>
         <div class="hero-wall">
@@ -161,9 +161,10 @@ ${VIDEOS.map(videoCard).join("\n")}
       <div class="in">
         <h2>不是空口说</h2>
         <div class="proof">
+          <div><b>5K+</b><span>人在用「情商练习有事问AI」</span></div>
           <div><b>50 万+</b><span>B 站粉丝，6 年约会实战</span></div>
           <div><b>${TOTAL_PLAYS}</b><span>首页 3 个视频的总播放</span></div>
-          <div><b>2.9k</b><span>童锦程 Skill 的 GitHub 星标</span></div>
+          <div><b>3K</b><span>童锦程 Skill 的 GitHub Stars</span></div>
         </div>
       </div>
     </section>

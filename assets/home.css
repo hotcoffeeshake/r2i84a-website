@@ -141,7 +141,7 @@ img { display: block; max-width: 100%; }
 
 /* 5 证据 */
 .proof { display: grid; gap: 14px; margin-top: 28px; }
-@media (min-width: 760px) { .proof { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 760px) { .proof { grid-template-columns: repeat(4, 1fr); } }
 .proof > div { padding: 20px; border-radius: var(--r); background: var(--card); border: 1px solid var(--line); }
 .proof b { display: block; font-family: var(--num); font-size: 28px; color: var(--ink); line-height: 1.2; }
 .proof span { font-size: 14px; color: var(--muted); }
