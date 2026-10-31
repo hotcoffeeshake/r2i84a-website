@@ -3,7 +3,7 @@
 // apply-seo.mjs（还没写进数据文件的旧文章）共用这里，保证两种文章长得一样。
 import { SITE_URL, SITE_BRAND, SEO_UPDATED } from "./seo-config.mjs";
 
-export const STYLE_VERSION = "20261031";
+export const STYLE_VERSION = "20261101";
 export const BILIBILI_URL = "https://space.bilibili.com/77669328";
 export const COURSE_LINK_TEXT = "看看小腾哥的课程 →";
 export const TRY_LINK_TEXT = "立即体验";

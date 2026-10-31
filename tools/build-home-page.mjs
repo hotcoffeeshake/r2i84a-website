@@ -19,8 +19,7 @@ const VIDEOS = [
     duration: "34:43",
     by: "摩的司机徐师傅",
     tag: "其他 UP 主实拍",
-    // 第三方视频的封面大字太刺眼，用文字卡代替封面
-    textCover: "其他 UP 主跟拍小腾哥上街实操",
+    cover: "/assets/home-video-BV1RRxPzHEN7.jpg",
   },
   {
     url: "https://www.bilibili.com/video/BV1u8411y77P",
@@ -65,7 +64,7 @@ function videoCard(v, i) {
     ? `<div class="vcover text"><div class="big">${escapeHtml(v.plays)}<small>播放</small></div><div class="by">${escapeHtml(v.textCover)}</div></div>`
     : `<div class="vcover"><img src="${v.cover}" width="640" height="360" alt="${escapeHtml(v.title)} 视频封面"${i ? ' loading="lazy"' : ""}><span class="play"></span><span class="dur">${v.duration}</span></div>`;
   const meta = v.tag
-    ? `<span class="tag">${escapeHtml(v.tag)}</span>${v.duration} · ${escapeHtml(v.by)}`
+    ? `<span class="tag">${escapeHtml(v.tag)}</span>${escapeHtml(v.plays)}播放 · ${escapeHtml(v.by)}`
     : `<span class="tag">${escapeHtml(v.plays)}播放</span>${escapeHtml(v.by)}`;
   return `          <a class="vcard" href="${v.url}" target="_blank" rel="noopener" data-video="${i + 1}">
             ${cover}
@@ -217,9 +216,13 @@ ${siteFooter()}
   </div>
 </div>
 <div class="r2pay-toast" id="r2payToast"></div>
+${MP_FLOAT}
 <script id="r2pay-js" src="/assets/web-commerce.js?v=${COMMERCE_VERSION}" defer></script>
   </body>`;
 }
+
+// 右下角小程序码浮窗（旧首页原样搬来）
+const MP_FLOAT = fs.readFileSync(path.join(ROOT, "tools", "home-mp-float.html"), "utf8").trim();
 
 const html = fs.readFileSync(FILE, "utf8");
 const headEnd = html.indexOf("<body");
