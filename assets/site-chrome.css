@@ -5,7 +5,9 @@
 .site-header nav { display: flex; align-items: center; gap: 18px; font-size: 14.5px; }
 .site-header nav a { text-decoration: none; color: var(--text-on-dark-2); }
 .site-header .btn-try { padding: 7px 16px; border: 1px solid rgba(245,179,71,.6); border-radius: 9999px; color: var(--gold); font-weight: 700; }
+.site-header nav a { white-space: nowrap; }
 @media (max-width: 640px) { .site-header nav .learn { display: none; } }
+@media (max-width: 359px) { .site-header nav .nav-login { display: none; } }
 .site-footer { margin: 0; border-top: 1px solid var(--line-dark); background: var(--ink-950); color: var(--text-on-dark-2); font-family: var(--sans); font-size: 13.5px; line-height: 1.6; padding: 28px 20px; }
 .site-footer .in { max-width: var(--wrap); margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px; }
 .site-footer .brand { font-family: var(--serif); font-weight: 700; color: var(--text-on-dark); font-size: 16px; }

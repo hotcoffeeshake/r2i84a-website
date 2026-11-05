@@ -62,8 +62,8 @@
     throw browserError('SECURE_RANDOM_UNAVAILABLE');
   }
   function updateNav() {
-    document.querySelectorAll('button.nav-login').forEach(function (el) {
-      var label = (webUser || siteUser) ? '微信已登录' : '微信登录 / 购买';
+    document.querySelectorAll('.nav-login').forEach(function (el) {
+      var label = (webUser || siteUser) ? '微信已登录' : '微信登录';
       if (el.textContent !== label) el.textContent = label;
     });
   }
@@ -279,7 +279,8 @@
       button('退出登录', async function () { try { await api('/api/auth/wechat/logout', { body: {} }); siteUser = null; updateNav(); showLogin(); } catch (_) { message('退出失败，请重试。'); } });
       return;
     }
-    view('微信公众号登录', '关注订阅号，发送网页上的 6 位数字即可登录。');
+    view('微信公众号登录', '微信扫码关注订阅号，发送网页上的 6 位数字即可登录。');
+    image('/assets/wechat-subscription-follow.jpg', '微信订阅号关注二维码');
     button('获取 6 位登录码', function () {
       try { sessionStorage.setItem('login_return', location.pathname + location.search + location.hash); } catch (_) {}
       location.assign('/wechat-login');
@@ -499,8 +500,8 @@
   });
   // Intercept the existing React login entry before its placeholder dialog opens.
   document.addEventListener('click', function (event) {
-    var b = event.target.closest && event.target.closest('button');
-    if (b && !mask.contains(b) && !grid.contains(b) && ((b.matches && b.matches('button.nav-login')) || /^(请先登录|微信登录|登录|登录 \/ 注册|登录\/注册|注册\/登录)$/.test(b.textContent.trim()))) {
+    var b = event.target.closest && event.target.closest('button, a.nav-login');
+    if (b && !mask.contains(b) && !grid.contains(b) && ((b.matches && b.matches('.nav-login')) || /^(请先登录|微信登录|登录|登录 \/ 注册|登录\/注册|注册\/登录)$/.test(b.textContent.trim()))) {
       event.preventDefault(); event.stopImmediatePropagation(); showLogin();
     }
   }, true);

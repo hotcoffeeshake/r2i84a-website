@@ -3,7 +3,7 @@
 // apply-seo.mjs（还没写进数据文件的旧文章）共用这里，保证两种文章长得一样。
 import { SITE_URL, SITE_BRAND, SEO_UPDATED } from "./seo-config.mjs";
 
-export const STYLE_VERSION = "20261101";
+export const STYLE_VERSION = "20261105";
 export const BILIBILI_URL = "https://space.bilibili.com/77669328";
 export const COURSE_LINK_TEXT = "看看小腾哥的课程 →";
 export const TRY_LINK_TEXT = "立即体验";
@@ -23,7 +23,7 @@ export function escapeHtml(value) {
 export function siteHeader({ progress = true } = {}) {
   return `    <header class="site-header">
       <span class="brand">${SITE_BRAND}</span>
-      <nav><a class="learn" href="/learn">学习提升</a><a class="btn-try" href="#mp-qr" data-cta="header">${TRY_LINK_TEXT}</a></nav>${progress ? '\n      <span class="progress" id="progress"></span>' : ""}
+      <nav><a class="learn" href="/learn">学习提升</a><a class="nav-login" href="/wechat-login" data-cta="login">微信登录</a><a class="btn-try" href="#mp-qr" data-cta="header">${TRY_LINK_TEXT}</a></nav>${progress ? '\n      <span class="progress" id="progress"></span>' : ""}
     </header>`;
 }
 
