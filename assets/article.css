@@ -160,7 +160,9 @@ main { padding: 36px 0 0; }
   .toc a.on { border-left-color: var(--gold); color: var(--gold-ink); font-weight: 700; }
 }
 
+.site-header nav a { white-space: nowrap; }
 @media (max-width: 640px) { .site-header nav .learn { display: none; } }
+@media (max-width: 359px) { .site-header nav .nav-login { display: none; } }
 /* 手机上作者行保持一行：出处放在引用卡里已经写清楚了 */
 @media (max-width: 639px) { .byline .src { display: none; } }
 
