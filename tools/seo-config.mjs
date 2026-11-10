@@ -1,10 +1,10 @@
 // SEO 全站配置。品牌名、小程序名改动只改这里，然后运行 `node tools/apply-seo.mjs`。
 
 export const SITE_URL = "https://r2i84a.chat";
-export const SITE_BRAND = "情商练习有事问AI";
-export const MINIPROGRAM_NAME = "练爱导师";
+export const SITE_BRAND = "人小鬼大恋爱助手";
+export const MINIPROGRAM_NAME = "人小鬼大恋爱助手";
 export const PUBLISHER = "鹿子野 AI Studio";
-export const SEO_UPDATED = "2026-10-27";
+export const SEO_UPDATED = "2026-11-10";
 
 // 偏题或标题擦边的文章：保留页面，但 noindex，并从 sitemap、llms.txt、列表页移除。
 export const NOINDEX_POSTS = [
@@ -45,7 +45,7 @@ export const DUPLICATE_POSTS = {
 export const THIN_TEXT_LENGTH = 80;
 
 // 以前用过的品牌名。改 SITE_BRAND 时把旧名加进来，apply-seo 会把页面里的旧名替换掉。
-export const PREVIOUS_BRANDS = [];
+export const PREVIOUS_BRANDS = ["情商练习有事问AI"];
 
 // 改为搜索词标题和语义化 URL 的文章。key 是原始 slug（qinggan-XXX），旧 URL 会 301 到新 slug。
 export const POST_OVERRIDES = {

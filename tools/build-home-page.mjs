@@ -8,7 +8,7 @@ import { STYLE_VERSION, escapeHtml, siteHeader, siteFooter } from "./article-she
 
 const ROOT = process.cwd();
 const FILE = path.join(ROOT, "index.html");
-const COMMERCE_VERSION = "20261105";
+const COMMERCE_VERSION = "20261110c";
 
 // 首屏视频：原标题一字不改；播放量为 2026-10-30 的 B 站数据，更新时改这里
 const VIDEOS = [
@@ -43,7 +43,7 @@ const TOTAL_PLAYS = "330 万+"; // 172.4 + 147.6 + 19.8
 // 常见问题：页面和结构化数据（FAQPage）共用，保证一致
 const FAQS = [
   ["免费和会员有什么区别？", "免费每天 6 次；会员每天 30 次，并且可以用许跃腾 Skill，按小腾哥的思路判断和回复。"],
-  ["付款后多久能用？", "微信支付后 2 小时内开通会员，开通后回到小程序就能用。"],
+  ["付款后多久能用？", "不用注册登录，用微信扫码付款即可。付款后用付款的这个微信打开「人小鬼大恋爱助手」小程序，会员自动到账。万一没到账（比如用别的微信付的款），联系客服人工开通，不用重复付款。"],
   ["我的聊天截图会被保存吗？", "截图只用于本次分析。"],
   ["和童锦程 Skill 是什么关系？", "童锦程 Skill 是我们开源的项目；小程序在它的基础上做了优化，手机上直接用，还能记住你们的聊天背景。本站不代表童锦程本人或官方。"],
 ];
@@ -128,7 +128,7 @@ ${VIDEOS.map(videoCard).join("\n")}
       <div class="in">
         <h2>三步用起来</h2>
         <div class="steps3">
-          <div><span class="n">01</span><b>扫码打开小程序</b><p>微信扫码，或在微信搜「练爱导师」。</p></div>
+          <div><span class="n">01</span><b>扫码打开小程序</b><p>微信扫码，或在微信搜「人小鬼大恋爱助手」。</p></div>
           <div><span class="n">02</span><b>上传聊天截图</b><p>或者直接描述你们现在的情况。</p></div>
           <div><span class="n">03</span><b>拿到判断和回复</b><p>先看她的态度，再给能直接发的一句。</p></div>
         </div>
@@ -144,13 +144,13 @@ ${VIDEOS.map(videoCard).join("\n")}
           <div class="free-qr">
             <b>先免费试</b>
             <p>每天 6 次，微信扫码就能用</p>
-            <img src="/assets/mp-qrcode.jpg" width="150" height="150" alt="情商练习有事问AI 小程序码">
+            <img src="/assets/mp-qrcode.jpg" width="150" height="150" alt="人小鬼大恋爱助手 小程序码">
             <small>微信扫码 · 手机长按识别</small>
           </div>
         </div>
         <div class="assure">
           <span>微信支付</span>
-          <span>付款后 2 小时内开通</span>
+          <span>付款后打开小程序自动到账</span>
           <span>聊天截图只用于本次分析</span>
         </div>
       </div>
@@ -160,7 +160,7 @@ ${VIDEOS.map(videoCard).join("\n")}
       <div class="in">
         <h2>用过的人怎么说</h2>
         <div class="proof">
-          <div><b>5K+</b><span>人在用「情商练习有事问AI」</span></div>
+          <div><b>5K+</b><span>人在用「人小鬼大恋爱助手」</span></div>
           <div><b>50 万+</b><span>B 站粉丝，6 年约会实战</span></div>
           <div><b>${TOTAL_PLAYS}</b><span>首页 3 个视频的总播放</span></div>
           <div><b>3K</b><span>童锦程 Skill 的 GitHub Stars</span></div>

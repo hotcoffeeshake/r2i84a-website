@@ -54,7 +54,7 @@ const html = `<!DOCTYPE html>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>聊天反应测试：完整解析与场景速查 | 情商练习有事问AI</title>
+    <title>聊天反应测试：完整解析与场景速查 | 人小鬼大恋爱助手</title>
     <meta name="description" content="聊天反应测试 10 题的完整解析和更好的回法，以及一份高频聊天场景速查。" />
     <meta name="robots" content="noindex, follow" />
     <meta name="theme-color" content="#0a0a0a" />
@@ -116,7 +116,7 @@ const html = `<!DOCTYPE html>
         <a class="btn" href="/">去问 AI</a>
       </div>
     </main>
-    <footer><div class="wrap">情商练习有事问AI · r2i84a.chat</div></footer>
+    <footer><div class="wrap">人小鬼大恋爱助手 · r2i84a.chat</div></footer>
   </body>
 </html>
 `;

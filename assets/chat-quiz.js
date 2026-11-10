@@ -262,7 +262,7 @@
       var lead = el("div", "cq-lead");
       var img = el("img");
       img.src = QR_SRC;
-      img.alt = "情商练习有事问AI 公众号二维码";
+      img.alt = "公众号二维码";
       img.width = 430; img.height = 430;
       img.loading = "lazy";
       lead.appendChild(img);

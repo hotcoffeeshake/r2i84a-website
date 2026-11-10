@@ -6,9 +6,9 @@
   var KINDS = {
     "mp-qr": {
       title: "微信扫码，免费体验",
-      text: "打开「情商练习有事问AI」小程序，上传聊天截图，AI 帮你判断她的意思、给出下一句。",
+      text: "打开「人小鬼大恋爱助手」小程序，上传聊天截图，AI 帮你判断她的意思、给出下一句。",
       img: "/assets/mp-qrcode.jpg",
-      alt: "情商练习有事问AI 小程序码",
+      alt: "人小鬼大恋爱助手 小程序码",
       track: ["miniprogram", "qr_open"]
     },
     "consult-qr": {
