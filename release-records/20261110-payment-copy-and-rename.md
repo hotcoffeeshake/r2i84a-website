@@ -31,3 +31,11 @@
 ## 回滚
 
 `r2i84a.chat` 别名指回 `dpl_7LReFQbBJji2xQB4ZVZJFjN4ACv3`。
+
+## 补发：付款脚本缓存（同日）
+
+- 问题：切换前我在正式域名上请求过 `web-commerce.js?v=20261110` 做对比，旧版本的脚本被 CDN 缓存在了这个新版本号下，切换后弹窗仍显示旧的「同意付款后联系客服人工开通」。`love-train-v12.vercel.app` 也还指向旧部署。
+- 修复：`COMMERCE_VERSION` 改为 `20261110b`（`18102a2`），只替换 `index.html`：`dpl_D1UgK6yjSYgDNFoDL2MJGSyUim4S` → `dpl_2gNamqs88axhFxJA7dys4TVB1JsE`（`love-train-v12-nh2214f6t-flyxqc1s-projects.vercel.app`），`r2i84a.chat` 和 `love-train-v12.vercel.app` 都指过去。
+- 验证：两个域名首页都引用 `?v=20261110b`，脚本内容与仓库一致，旧文案 0 处；`/api/web/health` 逐字一致。
+- 教训：新版本号在切换前只通过候选 URL 验证，不要在正式域名上请求；项目的两个生产域名都要切。
+- 回滚：两个域名都指回 `dpl_7LReFQbBJji2xQB4ZVZJFjN4ACv3`。
