@@ -5,7 +5,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 // 改了脚本内容就改版本号：.js 缓存一年，只能靠版本号让浏览器拿新文件
-const V = "20261030";
+const V = "20261110";
 const TAGS = [
   { tag: `<script src="/assets/analytics.js?v=${V}" defer></script>`, old: /<script src="\/assets\/analytics\.js\?v=[^"]*" defer><\/script>/ },
   { tag: `<script src="/assets/mp-qr.js?v=${V}" defer></script>`, old: /<script src="\/assets\/mp-qr\.js\?v=[^"]*" defer><\/script>/ },

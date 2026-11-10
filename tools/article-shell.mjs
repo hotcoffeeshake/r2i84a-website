@@ -129,10 +129,10 @@ export function ctaSection() {
         <div class="cta-text">
           <span class="cta-kicker">立即体验 · 免费</span>
           <h3>你们的情况不一样？</h3>
-          <p>微信扫码打开「情商练习有事问AI」小程序，上传你们的聊天截图，AI 先判断她现在的状态，再给适合你们的下一句。</p>
+          <p>微信扫码打开「人小鬼大恋爱助手」小程序，上传你们的聊天截图，AI 先判断她现在的状态，再给适合你们的下一句。</p>
           <ol class="cta-steps"><li>扫码打开小程序</li><li>上传聊天截图</li><li>拿到判断和回复</li></ol>
         </div>
-        ${qrFigure({ src: MINI_QR, alt: "情商练习有事问AI 小程序码", caption: "微信扫码<br>手机长按识别" })}
+        ${qrFigure({ src: MINI_QR, alt: "人小鬼大恋爱助手 小程序码", caption: "微信扫码<br>手机长按识别" })}
       </section>`;
 }
 

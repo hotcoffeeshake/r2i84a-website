@@ -126,7 +126,7 @@
     if (code === 'JSAPI_UNAVAILABLE') return '微信支付组件暂不可用，请关闭页面后从服务号菜单重新进入。';
     if (code === 'ORDER_EXPIRED') return '付款码已过期，订单记录仍保留。如已付款请查询到账；确认未付款后才可生成新订单。';
     if (code === 'IDEMPOTENCY_CONFLICT') return '请先恢复之前的订单，确认支付结果后再购买其他套餐。';
-    if (error && error.status === 401) return '这个浏览器里的订单记录已失效。如果已经付款，用付款的微信打开「练爱导师」小程序即可自动到账；仍未到账请联系客服并提供微信支付凭证。请勿重复购买。';
+    if (error && error.status === 401) return '这个浏览器里的订单记录已失效。如果已经付款，用付款的微信打开「人小鬼大恋爱助手」小程序即可自动到账；仍未到账请联系客服并提供微信支付凭证。请勿重复购买。';
     return '暂时无法完成操作，请稍后重试；如已付款，请勿重复购买，可重新查询到账状态。';
   }
   async function api(path, options) {
@@ -310,7 +310,7 @@
     order.status = 'paid_pending_manual'; save('order', order); save('attempt', null);
     document.getElementById('r2content').innerHTML = '';
     orderDetails(order);
-    message('付款成功！用付款的这个微信打开「练爱导师」小程序，发一条消息，会员就会自动到账，这个页面也会同步显示。');
+    message('付款成功！用付款的这个微信打开「人小鬼大恋爱助手」小程序，发一条消息，会员就会自动到账，这个页面也会同步显示。');
     button('我已打开小程序，查询到账', function () { resume(order); });
     awaitClaim(order, g);
     var content = document.getElementById('r2content');
@@ -417,7 +417,7 @@
       var identity = await ensureGuest(g, true);
       if (g !== generation) return;
       var manual = identity.fulfillment === 'manual';
-      message(manual ? '请用你平时登录「练爱导师」小程序的那个微信扫码付款。付款后用这个微信打开小程序，会员自动到账。' : '已关联小程序账号，付款确认后将自动开通会员。');
+      message(manual ? '请用你平时登录「人小鬼大恋爱助手」小程序的那个微信扫码付款。付款后用这个微信打开小程序，会员自动到账。' : '已关联小程序账号，付款确认后将自动开通会员。');
       button('微信支付 ¥' + p.price, function (event) { pay(plan, g, event.currentTarget, null, manual); });
     } catch (error) { if (g === generation) message(errorText(error)); }
     finally { busy = false; }
@@ -443,7 +443,7 @@
       var needsManual = identity.fulfillment === 'manual';
       var previous = read('attempt');
       if (needsManual && !manualAccepted && !(previous && previous.manualFulfillmentAccepted)) {
-        message('会员会开到「付款的这个微信」对应的练爱导师账号上。请用你平时登录小程序的微信付款。');
+        message('会员会开到「付款的这个微信」对应的「人小鬼大恋爱助手」账号上。请用你平时登录小程序的微信付款。');
         document.getElementById('r2content').innerHTML = '';
         button('好的，继续支付', function (event) { pay(plan, g, event.currentTarget, existingOrder, true); });
         return;
@@ -469,7 +469,7 @@
       if (data.paymentExpired) { showExpired(order); return; }
       var payment = data.pay || {};
       if (payment.channel === 'native') {
-        if (typeof payment.qrDataUrl === 'string' && /^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(payment.qrDataUrl)) { image(payment.qrDataUrl, '微信扫码支付'); message(needsManual ? '请用你登录小程序的那个微信扫码付款。付款成功后打开「练爱导师」小程序，会员自动到账。手机上可保存二维码后用微信识别，或用另一台设备扫描。' : '请用微信扫码付款；服务端确认收款后会员将自动到账。'); }
+        if (typeof payment.qrDataUrl === 'string' && /^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(payment.qrDataUrl)) { image(payment.qrDataUrl, '微信扫码支付'); message(needsManual ? '请用你登录小程序的那个微信扫码付款。付款成功后打开「人小鬼大恋爱助手」小程序，会员自动到账。手机上可保存二维码后用微信识别，或用另一台设备扫描。' : '请用微信扫码付款；服务端确认收款后会员将自动到账。'); }
         else { message('扫码支付二维码暂不可用，请稍后恢复原订单。原订单已保留，请勿重复购买。'); }
       } else if (payment.channel === 'jsapi') {
         message('正在调起微信支付…');
