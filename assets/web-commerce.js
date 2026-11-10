@@ -103,7 +103,7 @@
     area.appendChild(copy);
   }
   function mergeSummary(order, data) {
-    ['sku', 'amount', 'status', 'createdAt', 'expiresAt', 'paidAt', 'paymentExpired', 'fulfillment'].forEach(function (key) { if (data[key] !== undefined) order[key] = data[key]; });
+    ['sku', 'amount', 'status', 'createdAt', 'expiresAt', 'paidAt', 'paymentExpired', 'fulfillment', 'autoClaim'].forEach(function (key) { if (data[key] !== undefined) order[key] = data[key]; });
     if (order.status === 'fulfilled' || order.status === 'paid_pending_manual') { order.expired = false; order.paymentExpired = false; }
     var active = read('order'); if (active && active.id === order.id) save('order', order);
     var history = read('pastOrders') || [];
@@ -310,7 +310,8 @@
     order.status = 'paid_pending_manual'; save('order', order); save('attempt', null);
     document.getElementById('r2content').innerHTML = '';
     orderDetails(order);
-    message('已核实付款，会员待人工开通。请向客服提供上方订单号，并核验需要升级的小程序账号，请勿重复购买。');
+    if (order.autoClaim === true) message('已核实付款。请用付款的这个微信打开「练爱导师」小程序，发一条消息，会员会自动开通；开通后回到这里点「查询开通状态」。没有自动开通可联系客服并提供上方订单号，请勿重复购买。');
+    else message('已核实付款，会员待人工开通。请向客服提供上方订单号，并核验需要升级的小程序账号，请勿重复购买。');
     try {
       var support = await api('/api/web/orders/' + encodeURIComponent(order.id) + '/support');
       if (g !== generation) return;
