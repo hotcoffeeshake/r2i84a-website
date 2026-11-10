@@ -39,3 +39,11 @@
 - 验证：两个域名首页都引用 `?v=20261110b`，脚本内容与仓库一致，旧文案 0 处；`/api/web/health` 逐字一致。
 - 教训：新版本号在切换前只通过候选 URL 验证，不要在正式域名上请求；项目的两个生产域名都要切。
 - 回滚：两个域名都指回 `dpl_7LReFQbBJji2xQB4ZVZJFjN4ACv3`。
+
+## 补发：去掉订单列表、只保留一个域名（同日）
+
+- 付款区下面原来会列出「这个浏览器里买过的订单」（只是本地记录，不是别人的订单）。按要求不再展示（`42ad493`，`COMMERCE_VERSION` 改为 `20261110c`）。本地记录仍保留，购买流程用它区分已完成的订单和未完成的订单。部署：`dpl_2gNamqs88axhFxJA7dys4TVB1JsE` → `dpl_CjnWmYVieYdYgdFqbZ6C1rM7GWxx`，只替换 2 个文件，只切 `r2i84a.chat`。
+- `love-train-v12.vercel.app` 改为项目域名层面的 308 永久跳转到 `r2i84a.chat`（保留路径），对外只有一个网站。每次部署的预览地址自带 `x-robots-tag: noindex`。仓库和支付配置里都没有引用这个域名；今天的真实付款回调走的是 `r2i84a.chat`。
+- 验证：首页引用 `?v=20261110c`，脚本和仓库一致，里面没有订单列表；`/api/web/health` 逐字一致。
+- 真实订单：13:15 有一笔月卡 ¥12（订单尾号 `22b05ed843`）付款后 10 秒，由付款人打开小程序自动开通，这是第一次完整的线上验证。
+- 回滚：`r2i84a.chat` 指回 `dpl_2gNamqs88axhFxJA7dys4TVB1JsE`（只回退订单列表）或 `dpl_7LReFQbBJji2xQB4ZVZJFjN4ACv3`（全部回退）。如需恢复 vercel.app 域名，在 Vercel 项目的 Domains 里去掉跳转。
