@@ -8,7 +8,7 @@ import { STYLE_VERSION, escapeHtml, siteHeader, siteFooter } from "./article-she
 
 const ROOT = process.cwd();
 const FILE = path.join(ROOT, "index.html");
-const COMMERCE_VERSION = "20261105";
+const COMMERCE_VERSION = "20261110";
 
 // 首屏视频：原标题一字不改；播放量为 2026-10-30 的 B 站数据，更新时改这里
 const VIDEOS = [
@@ -43,7 +43,7 @@ const TOTAL_PLAYS = "330 万+"; // 172.4 + 147.6 + 19.8
 // 常见问题：页面和结构化数据（FAQPage）共用，保证一致
 const FAQS = [
   ["免费和会员有什么区别？", "免费每天 6 次；会员每天 30 次，并且可以用许跃腾 Skill，按小腾哥的思路判断和回复。"],
-  ["付款后多久能用？", "微信支付后 2 小时内开通会员，开通后回到小程序就能用。"],
+  ["付款后多久能用？", "不用注册登录，用微信扫码付款即可。付款后用付款的这个微信打开练爱导师小程序，会员自动到账。万一没到账（比如用别的微信付的款），联系客服人工开通，不用重复付款。"],
   ["我的聊天截图会被保存吗？", "截图只用于本次分析。"],
   ["和童锦程 Skill 是什么关系？", "童锦程 Skill 是我们开源的项目；小程序在它的基础上做了优化，手机上直接用，还能记住你们的聊天背景。本站不代表童锦程本人或官方。"],
 ];
@@ -150,7 +150,7 @@ ${VIDEOS.map(videoCard).join("\n")}
         </div>
         <div class="assure">
           <span>微信支付</span>
-          <span>付款后 2 小时内开通</span>
+          <span>付款后打开小程序自动到账</span>
           <span>聊天截图只用于本次分析</span>
         </div>
       </div>

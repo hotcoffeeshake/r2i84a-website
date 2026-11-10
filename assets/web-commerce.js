@@ -81,7 +81,7 @@
   function image(src, alt) { var img = document.createElement('img'); img.src = src; img.alt = alt; img.width = 200; img.height = 200; img.style.cssText = 'display:block;margin:16px auto;background:white'; document.getElementById('r2content').appendChild(img); }
   function orderStatus(order) {
     if (order.status === 'fulfilled') return '会员已开通';
-    if (order.status === 'paid_pending_manual') return '已付款，待人工开通';
+    if (order.status === 'paid_pending_manual') return '已付款，打开小程序即到账';
     if (order.paymentExpired || order.expired) return '付款码已过期，订单保留';
     if (order.status === 'pending') return '待付款';
     return '状态待查询';
@@ -97,13 +97,13 @@
     area.appendChild(text);
     var copy = document.createElement('button'); copy.type = 'button'; copy.className = 'r2pay-btn ghost'; copy.textContent = '复制订单号';
     copy.addEventListener('click', async function () {
-      try { if (!navigator.clipboard || !navigator.clipboard.writeText) throw new Error('unsupported'); await navigator.clipboard.writeText(order.id); toast('订单号已复制，可提供给客服核验小程序账号。'); }
+      try { if (!navigator.clipboard || !navigator.clipboard.writeText) throw new Error('unsupported'); await navigator.clipboard.writeText(order.id); toast('订单号已复制。'); }
       catch (_) { toast('请长按或选中上方订单号复制。'); }
     });
     area.appendChild(copy);
   }
   function mergeSummary(order, data) {
-    ['sku', 'amount', 'status', 'createdAt', 'expiresAt', 'paidAt', 'paymentExpired', 'fulfillment', 'autoClaim'].forEach(function (key) { if (data[key] !== undefined) order[key] = data[key]; });
+    ['sku', 'amount', 'status', 'createdAt', 'expiresAt', 'paidAt', 'paymentExpired', 'fulfillment'].forEach(function (key) { if (data[key] !== undefined) order[key] = data[key]; });
     if (order.status === 'fulfilled' || order.status === 'paid_pending_manual') { order.expired = false; order.paymentExpired = false; }
     var active = read('order'); if (active && active.id === order.id) save('order', order);
     var history = read('pastOrders') || [];
@@ -120,13 +120,13 @@
     if (code === 'NOT_SUBSCRIBED' || code === 'SUBSCRIBE_REQUIRED' || code === 'FOLLOW_REQUIRED') return '请先关注服务号，再重新登录。';
     if (code === 'ACCOUNT_AMBIGUOUS') return '当前微信关联了多个账号，请联系客服核对账号后再购买。';
     if (code === 'ACCOUNT_NOT_LINKED' || code === 'MINIPROGRAM_ACCOUNT_REQUIRED' || code === 'UNIONID_REQUIRED') return '请用同一微信先打开小程序完成登录，再返回网页重新登录。';
-    if (code === 'MANUAL_FULFILLMENT_UNAVAILABLE') return '人工开通暂不可用，请稍后购买。';
-    if (code === 'MANUAL_FULFILLMENT_CONFIRM_REQUIRED') return '请先确认同意付款后联系客服人工开通，再继续支付。';
+    if (code === 'MANUAL_FULFILLMENT_UNAVAILABLE') return '购买暂不可用，请稍后再试。';
+    if (code === 'MANUAL_FULFILLMENT_CONFIRM_REQUIRED') return '请先确认用哪个微信付款，再继续支付。';
     if (code === 'CHANNEL_DISABLED') return '当前微信支付方式暂不可用，请稍后重试。';
     if (code === 'JSAPI_UNAVAILABLE') return '微信支付组件暂不可用，请关闭页面后从服务号菜单重新进入。';
     if (code === 'ORDER_EXPIRED') return '付款码已过期，订单记录仍保留。如已付款请查询到账；确认未付款后才可生成新订单。';
     if (code === 'IDEMPOTENCY_CONFLICT') return '请先恢复之前的订单，确认支付结果后再购买其他套餐。';
-    if (error && error.status === 401) return '浏览器购买凭据已失效，请保留微信支付凭证，通过小程序客服申请人工核验。仅凭订单号无法恢复查询，请勿重复购买。';
+    if (error && error.status === 401) return '这个浏览器里的订单记录已失效。如果已经付款，用付款的微信打开「练爱导师」小程序即可自动到账；仍未到账请联系客服并提供微信支付凭证。请勿重复购买。';
     return '暂时无法完成操作，请稍后重试；如已付款，请勿重复购买，可重新查询到账状态。';
   }
   async function api(path, options) {
@@ -194,7 +194,7 @@
     webSessionChecked = true;
     updateNav();
     document.getElementById('r2content').innerHTML = '';
-    message('微信登录成功。' + (webUser.fulfillment === 'manual' ? '当前微信尚未自动关联小程序账号，购买后需要人工核验开通。' : '已关联同一微信下的小程序账号。'));
+    message('微信登录成功。' + (webUser.fulfillment === 'manual' ? '付款后用付款的微信打开小程序，会员自动到账。' : '已关联同一微信下的小程序账号。'));
     button('查看会员套餐', function () { checkout(null); });
   }
   async function startQrLogin() {
@@ -268,7 +268,7 @@
   }
   function showLogin() {
     if (webUser) {
-      view('微信账号', '已登录：' + webUser.nickname + (webUser.fulfillment === 'manual' ? '；尚未自动关联小程序账号。' : '；已关联小程序账号。'));
+      view('微信账号', '已登录：' + webUser.nickname + (webUser.fulfillment === 'manual' ? '。付款后用付款的微信打开小程序，会员自动到账。' : '；已关联小程序账号。'));
       button('购买 / 查询订单', function () { checkout(null); });
       button('退出登录', async function () { try { await api('/api/web/auth/logout', { body: {} }); } finally { webUser = null; webSessionChecked = true; updateNav(); showLogin(); } });
       return;
@@ -310,8 +310,13 @@
     order.status = 'paid_pending_manual'; save('order', order); save('attempt', null);
     document.getElementById('r2content').innerHTML = '';
     orderDetails(order);
-    if (order.autoClaim === true) message('已核实付款。请用付款的这个微信打开「练爱导师」小程序，发一条消息，会员会自动开通；开通后回到这里点「查询开通状态」。没有自动开通可联系客服并提供上方订单号，请勿重复购买。');
-    else message('已核实付款，会员待人工开通。请向客服提供上方订单号，并核验需要升级的小程序账号，请勿重复购买。');
+    message('付款成功！用付款的这个微信打开「练爱导师」小程序，发一条消息，会员就会自动到账，这个页面也会同步显示。');
+    button('我已打开小程序，查询到账', function () { resume(order); });
+    awaitClaim(order, g);
+    var content = document.getElementById('r2content');
+    var fallback = document.createElement('p'); fallback.className = 'r2pay-msub';
+    fallback.textContent = '没到账？比如用别的微信付的款，加客服微信并发送上方订单号，我们人工开通。无需再次付款。';
+    content.appendChild(fallback);
     try {
       var support = await api('/api/web/orders/' + encodeURIComponent(order.id) + '/support');
       if (g !== generation) return;
@@ -319,17 +324,30 @@
       var hasWechat = typeof support.wechat === 'string' && !!support.wechat.trim();
       if (hasWechat) {
         var contact = document.createElement('p'); contact.className = 'r2pay-msub'; contact.textContent = '客服微信：' + support.wechat;
-        document.getElementById('r2content').appendChild(contact);
+        content.appendChild(contact);
       }
       var hasQr = typeof support.qrDataUrl === 'string' && /^data:image\/(?:png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/.test(support.qrDataUrl);
-      if (hasQr) image(support.qrDataUrl, '付款后联系客服人工开通');
+      if (hasQr) image(support.qrDataUrl, '客服微信二维码');
       if (!hasWechat && !hasQr) throw new Error('客服资料暂不可用');
-      button('查询开通状态', function () { resume(order); });
     } catch (error) {
       if (g !== generation) return;
-      message(error.status === 401 ? '已核实付款，会员待人工开通。' + errorText(error) : '已核实付款，会员待人工开通。客服资料暂时无法获取，请重试；无需再次付款。');
-      button('重新获取客服资料', function () { resume(order); });
+      fallback.textContent = error.status === 401 ? errorText(error) : '没到账？客服资料暂时无法获取，可稍后重试；无需再次付款。';
+      if (error.status !== 401) button('重新获取客服资料', function () { resume(order); });
     }
+  }
+  // After payment, keep checking so the page flips to "到账" as soon as the buyer opens the miniapp.
+  function awaitClaim(order, g) {
+    var until = Date.now() + 600000;
+    async function poll() {
+      if (g !== generation || Date.now() >= until) return;
+      try {
+        var state = await api('/api/web/orders/' + encodeURIComponent(order.id));
+        if (g !== generation) return;
+        if (state.status === 'fulfilled') { mergeSummary(order, state); completeOrder(order); document.getElementById('r2content').innerHTML = ''; message('会员已到账，请回到小程序查看会员权益。'); return; }
+      } catch (_) { /* keep the paid view; the buttons still work */ }
+      timer = setTimeout(poll, 4000);
+    }
+    timer = setTimeout(poll, 4000);
   }
   async function track(order, g) {
     var until = Date.now() + 180000;
@@ -388,7 +406,7 @@
     var p = PLANS.find(function (p) { return p.id === plan && p.id !== 'free'; });
     if (!p) {
       var linked = webUser && webUser.fulfillment !== 'manual';
-      view('购买 / 查询订单', linked ? '已关联同一微信下的小程序账号，微信支付确认后会员自动到账。' : '选择会员套餐。账号未自动关联时，付款后需联系客服核验开通。');
+      view('购买 / 查询订单', linked ? '已关联同一微信下的小程序账号，微信支付确认后会员自动到账。' : '选择会员套餐。无需注册登录，用微信扫码付款，会员自动开到付款的这个微信上。');
       PLANS.filter(function (item) { return item.id !== 'free'; }).forEach(function (item) { button(item.name + ' ¥' + item.price, function () { checkout(item.id); }); });
       return;
     }
@@ -399,8 +417,8 @@
       var identity = await ensureGuest(g, true);
       if (g !== generation) return;
       var manual = identity.fulfillment === 'manual';
-      message(manual ? '当前为访客或未关联账号购买。付款后需联系客服人工开通，请保留购买凭据及微信支付凭证。' : '已关联小程序账号，付款确认后将自动开通会员。');
-      button(manual ? '同意付款后联系客服人工开通，支付 ¥' + p.price : '微信支付 ¥' + p.price, function (event) { pay(plan, g, event.currentTarget, null, manual); });
+      message(manual ? '请用你平时登录「练爱导师」小程序的那个微信扫码付款。付款后用这个微信打开小程序，会员自动到账。' : '已关联小程序账号，付款确认后将自动开通会员。');
+      button('微信支付 ¥' + p.price, function (event) { pay(plan, g, event.currentTarget, null, manual); });
     } catch (error) { if (g === generation) message(errorText(error)); }
     finally { busy = false; }
   }
@@ -425,9 +443,9 @@
       var needsManual = identity.fulfillment === 'manual';
       var previous = read('attempt');
       if (needsManual && !manualAccepted && !(previous && previous.manualFulfillmentAccepted)) {
-        message('此订单付款后需联系客服人工开通，付款不会立即开通。请确认后继续。');
+        message('会员会开到「付款的这个微信」对应的练爱导师账号上。请用你平时登录小程序的微信付款。');
         document.getElementById('r2content').innerHTML = '';
-        button('同意付款后联系客服人工开通并继续支付', function (event) { pay(plan, g, event.currentTarget, existingOrder, true); });
+        button('好的，继续支付', function (event) { pay(plan, g, event.currentTarget, existingOrder, true); });
         return;
       }
       var channel = !needsManual && isWechatBrowser() ? 'jsapi' : 'native';
@@ -451,7 +469,7 @@
       if (data.paymentExpired) { showExpired(order); return; }
       var payment = data.pay || {};
       if (payment.channel === 'native') {
-        if (typeof payment.qrDataUrl === 'string' && /^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(payment.qrDataUrl)) { image(payment.qrDataUrl, '微信扫码支付'); message(needsManual ? '请用微信扫码付款，收款确认后联系客服人工开通会员。手机上可保存二维码后尝试识别，或用另一台设备扫描。' : '请用微信扫码付款；服务端确认收款后会员将自动到账。'); }
+        if (typeof payment.qrDataUrl === 'string' && /^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(payment.qrDataUrl)) { image(payment.qrDataUrl, '微信扫码支付'); message(needsManual ? '请用你登录小程序的那个微信扫码付款。付款成功后打开「练爱导师」小程序，会员自动到账。手机上可保存二维码后用微信识别，或用另一台设备扫描。' : '请用微信扫码付款；服务端确认收款后会员将自动到账。'); }
         else { message('扫码支付二维码暂不可用，请稍后恢复原订单。原订单已保留，请勿重复购买。'); }
       } else if (payment.channel === 'jsapi') {
         message('正在调起微信支付…');
