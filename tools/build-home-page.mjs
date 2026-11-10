@@ -8,7 +8,7 @@ import { STYLE_VERSION, escapeHtml, siteHeader, siteFooter } from "./article-she
 
 const ROOT = process.cwd();
 const FILE = path.join(ROOT, "index.html");
-const COMMERCE_VERSION = "20261110b";
+const COMMERCE_VERSION = "20261110c";
 
 // 首屏视频：原标题一字不改；播放量为 2026-10-30 的 B 站数据，更新时改这里
 const VIDEOS = [

@@ -31,11 +31,6 @@
   function render() {
     updateNav();
     grid.innerHTML = PLANS.filter(function (p) { return p.id !== 'free'; }).map(cardHtml).join('');
-    (read('pastOrders') || []).forEach(function (order, index) {
-      var link = document.createElement('button'); link.type = 'button'; link.className = 'r2pay-btn ghost';
-      link.textContent = '订单 …' + order.id.slice(-10) + ' · ' + orderStatus(order);
-      link.addEventListener('click', function () { resume(order); }); grid.appendChild(link);
-    });
   }
 
   var API = location.origin;
